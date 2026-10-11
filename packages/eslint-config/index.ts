@@ -19,6 +19,7 @@ const config: Config[] = [
       "**/dist-ssr/**",
       "**/coverage/**",
       "**/_generated/**",
+      "**/routeTree.gen.ts",
     ],
   },
   eslint.configs.recommended,

@@ -1,12 +1,11 @@
 # Disposabl kit
 
-Shared shadcn components, hooks, and Tailwind styles. Apps bundle the TypeScript source directly.
+Shared default routes, authentication providers, dashboard layouts, shadcn components, and Tailwind styles. Apps bundle the TypeScript source directly.
 
-```tsx
-import "disposabl-kit/styles.css";
-import { Button } from "disposabl-kit/components/ui/button";
-```
+`src/routes/__public` owns the public layout, sign-in, sign-up, callback, and API reference. TanStack's Vite plugin merges these defaults with each app's route files. App `routes/__root.tsx` re-exports the shared root route; configure the app name, deployment query, and API reference in the router's `context`.
 
-Consumer Vite apps use `@tailwindcss/vite`. Add primitives with the shadcn CLI from this package directory using `components.json`.
+The dashboard layout keeps organization and user controls in the kit. Apps supply business navigation and content.
 
-Run `bun run lint`, `bun run typecheck`, and `bun run format` here or from the repository root.
+The provider stack lives in `src/providers/index.ts`. Add shared primitives here with `bun run shadcn add <component>`.
+
+Run `bun run format`, `bun run lint`, `bun run typecheck`, and `bun run test` here or from the root.

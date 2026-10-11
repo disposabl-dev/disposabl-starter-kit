@@ -8,3 +8,4 @@
 **/.env
 **/.env.*
 bun.lock
+**/routeTree.gen.ts

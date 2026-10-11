@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "bun check && vite build",
+    "build": "vite build && bun check",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "typecheck": "bun check"
@@ -14,7 +14,9 @@
     "disposabl-kit": "workspace:*",
     "@tanstack/react-router": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "disposabl-backend": "workspace:*",
+    "convex": "catalog:"
   },
   "devDependencies": {
     "@babel/core": "catalog:",
@@ -32,7 +34,8 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "shadcn": "catalog:"
+    "shadcn": "catalog:",
+    "@tanstack/router-plugin": "catalog:"
   },
   "imports": {
     "#components/*": "./src/components/*.tsx",

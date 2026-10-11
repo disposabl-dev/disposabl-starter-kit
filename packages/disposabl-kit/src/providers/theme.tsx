@@ -24,10 +24,14 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
-    const stored = localStorage.getItem(storageKey);
-    return stored === "light" || stored === "dark" || stored === "system"
-      ? stored
-      : defaultTheme;
+    try {
+      const stored = localStorage.getItem(storageKey);
+      return stored === "light" || stored === "dark" || stored === "system"
+        ? stored
+        : defaultTheme;
+    } catch {
+      return defaultTheme;
+    }
   });
 
   useEffect(() => {
@@ -50,7 +54,11 @@ export function ThemeProvider({
       value={{
         theme,
         setTheme: (theme: Theme) => {
-          localStorage.setItem(storageKey, theme);
+          try {
+            localStorage.setItem(storageKey, theme);
+          } catch {
+            // Restricted browser storage should not prevent theme changes.
+          }
           setTheme(theme);
         },
       }}

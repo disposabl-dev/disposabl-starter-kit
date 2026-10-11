@@ -1,7 +1,8 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "disposabl-kit/components/ui/button";
 
-export default function App() {
+function Home() {
   const [count, setCount] = useState(0);
 
   return (
@@ -12,3 +13,5 @@ export default function App() {
     </main>
   );
 }
+
+export const Route = createFileRoute("/__public/")({ component: Home });

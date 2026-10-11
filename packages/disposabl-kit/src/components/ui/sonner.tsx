@@ -1,4 +1,4 @@
-import { useTheme } from "disposabl-kit/components/theme-provider";
+import { useTheme } from "../../providers/theme";
 import { Toaster as Sonner, type ToasterProps } from "sonner";
 import {
   CircleCheckIcon,

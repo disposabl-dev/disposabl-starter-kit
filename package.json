@@ -6,10 +6,14 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "turbo run format",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test"
   },
   "devDependencies": {
     "turbo": "2.11.7"
+  },
+  "overrides": {
+    "@ai-sdk/provider-utils": "4.0.57"
   },
   "catalog": {
     "@babel/core": "8.0.7",
@@ -29,7 +33,14 @@
     "shadcn": "4.21.4",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2",
-    "vite": "8.3.4"
+    "vite": "8.3.4",
+    "@types/node": "26.6.5",
+    "convex": "1.46.0",
+    "lucide-react": "1.55.0",
+    "@workos-inc/authkit-react": "0.16.3",
+    "vitest": "5.0.3",
+    "@convex-dev/static-hosting": "0.2.1",
+    "@tanstack/router-plugin": "1.168.43"
   },
   "devEngines": {
     "packageManager": {
