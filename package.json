@@ -1,7 +1,47 @@
 {
   "name": "disposabl-starter-kit",
   "private": true,
-  "packageManager": "bun@1.4.3",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "2.11.7"
+  },
+  "overrides": {
+    "@ai-sdk/provider-utils": "4.0.57"
+  },
+  "catalog": {
+    "@babel/core": "8.0.7",
+    "@rolldown/plugin-babel": "0.2.4",
+    "@tailwindcss/vite": "4.3.3",
+    "@tanstack/react-router": "1.170.42",
+    "@types/bun": "1.4.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "10.12.0",
+    "prettier": "3.9.10",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-is": "19.3.0",
+    "shadcn": "4.21.4",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vite": "8.3.4",
+    "@types/node": "26.6.5",
+    "convex": "1.46.0",
+    "lucide-react": "1.55.0",
+    "@workos-inc/authkit-react": "0.16.3",
+    "vitest": "5.0.3",
+    "@convex-dev/static-hosting": "0.2.1",
+    "@tanstack/router-plugin": "1.168.43"
+  },
   "devEngines": {
     "packageManager": {
       "name": "bun",
@@ -12,15 +52,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint"
-  },
-  "devDependencies": {
-    "eslint": "10.12.0",
-    "prettier": "3.9.10",
-    "turbo": "2.11.7"
-  }
+  ]
 }

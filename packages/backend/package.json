@@ -1,4 +1,44 @@
 {
-  "name": "backend",
-  "private": true
+  "name": "disposabl-backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "convex dev",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write .",
+    "typecheck": "bun check",
+    "test": "vitest run",
+    "codegen": "convex codegen",
+    "deploy": "convex deploy"
+  },
+  "dependencies": {
+    "@convex-dev/static-hosting": "catalog:",
+    "@convex-dev/workos-authkit": "0.2.10",
+    "@disposabl/convex-platforms": "0.2.2",
+    "@workos-inc/node": "10.14.0",
+    "convex": "catalog:",
+    "convex-helpers": "0.1.128",
+    "hono": "4.13.13"
+  },
+  "devDependencies": {
+    "@convex-dev/eslint-plugin": "5.0.0",
+    "@edge-runtime/vm": "5.0.0",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "convex-test": "0.0.61",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
+  "exports": {
+    "./api": {
+      "types": "./convex/_generated/api.d.ts",
+      "default": "./convex/_generated/api.js"
+    }
+  }
 }

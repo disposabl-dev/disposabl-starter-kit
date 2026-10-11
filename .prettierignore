@@ -1,0 +1,11 @@
+**/node_modules/**
+**/.turbo/**
+**/.cache/**
+**/dist/**
+**/dist-ssr/**
+**/coverage/**
+**/_generated/**
+**/.env
+**/.env.*
+bun.lock
+**/routeTree.gen.ts

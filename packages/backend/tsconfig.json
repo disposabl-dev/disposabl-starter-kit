@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "references": [{ "path": "./convex" }, { "path": "./tsconfig.tooling.json" }]
+}
