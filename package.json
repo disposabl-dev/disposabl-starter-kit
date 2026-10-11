@@ -11,6 +11,13 @@
   "devDependencies": {
     "turbo": "2.11.7"
   },
+  "catalog": {
+    "@types/react": "19.3.0",
+    "eslint": "10.12.0",
+    "prettier": "3.9.10",
+    "react": "19.3.0",
+    "typescript": "7.0.2"
+  },
   "devEngines": {
     "packageManager": {
       "name": "bun",
