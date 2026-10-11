@@ -10,7 +10,17 @@ type Config = Linter.Config & {
 };
 
 const config: Config[] = [
-  { ignores: ["**/node_modules/**", "**/dist/**", "**/.turbo/**"] },
+  {
+    ignores: [
+      "**/node_modules/**",
+      "**/.turbo/**",
+      "**/.cache/**",
+      "**/dist/**",
+      "**/dist-ssr/**",
+      "**/coverage/**",
+      "**/_generated/**",
+    ],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
