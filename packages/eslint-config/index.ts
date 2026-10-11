@@ -30,7 +30,7 @@ const config: Config[] = [
   },
   {
     ...reactHooks.configs.flat.recommended,
-    files: ["**/*.{jsx,tsx}"],
+    files: ["**/*.{ts,tsx}"],
   },
   eslintConfigPrettier,
   {
