@@ -3,26 +3,34 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "imports": {
+    "#components/*": "./src/components/*.tsx"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "bun check && vite build",
+    "dev": "gt generate && vite",
+    "build": "gt generate && bun check && vite build",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "check": "bun check"
   },
   "dependencies": {
+    "@fontsource-variable/geist": "5.3.0",
     "gt-react": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "disposabl-kit": "workspace:*",
+    "@tanstack/react-router": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "tailwindcss": "catalog:",
     "gt": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "eslint": "catalog:",
-    "@types/react": "19.3.0",
-    "@types/react-dom": "19.3.0",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "vite": "catalog:"
   }
 }

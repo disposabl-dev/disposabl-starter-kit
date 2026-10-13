@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@convex-dev/static-hosting": "catalog:",
-    "@convex-dev/workos-authkit": "0.2.10",
+    "@convex-dev/workos-authkit": "catalog:",
     "convex": "catalog:",
-    "@workos-inc/node": "catalog:"
+    "disposabl-kit": "workspace:*"
   },
   "devDependencies": {
+    "@workos-inc/node": "catalog:",
     "@convex-dev/eslint-plugin": "5.0.0",
     "@edge-runtime/vm": "5.0.0",
     "@repo/eslint-config": "workspace:*",
