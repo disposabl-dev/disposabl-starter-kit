@@ -2,25 +2,31 @@
     "name": "disposabl-starter-kit",
     "private": true,
     "scripts": {
-      "build": "turbo run build",
-      "dev": "turbo run dev",
-      "lint": "turbo run lint",
-      "format": "turbo run format",
-      "typecheck": "turbo run typecheck",
-      "test": "turbo run test"
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "format": "turbo run format",
+        "typecheck": "turbo run typecheck",
+        "test": "turbo run test"
     },
     "devDependencies": {
-      "turbo": "2.11.7"
+        "turbo": "2.11.7"
     },
     "devEngines": {
-    "packageManager": {
-      "name": "bun",
-      "version": "1.4.3",
-      "onFail": "warn"
+        "packageManager": {
+            "name": "bun",
+            "version": "1.4.3",
+            "onFail": "warn"
+        }
+    },
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "dependencies": {
+        "prettier": "catalog:"
+    },
+    "catalog": {
+        "prettier": "^3.9.10"
     }
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
 }
