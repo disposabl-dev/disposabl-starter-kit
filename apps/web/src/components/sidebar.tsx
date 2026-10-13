@@ -15,7 +15,7 @@ export default function Sidebar() {
         <SidebarMenuItem>
           <SidebarMenuButton asChild tooltip={gt("Dashboard")}>
             <Link
-              to="/dashboard"
+              to="/"
               activeProps={{
                 className: "bg-sidebar-accent text-sidebar-accent-foreground",
               }}

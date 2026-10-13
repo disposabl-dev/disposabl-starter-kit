@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "gt generate && vite",
-    "build": "gt generate && bun check && vite build",
+    "build": "gt generate && vite build && bun check",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "check": "bun check"
@@ -22,15 +22,16 @@
     "@tanstack/react-router": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "catalog:",
-    "tailwindcss": "catalog:",
-    "gt": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@tailwindcss/vite": "catalog:",
+    "@tanstack/router-plugin": "^1.168.45",
     "@types/bun": "catalog:",
-    "eslint": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "gt": "catalog:",
+    "tailwindcss": "catalog:",
     "vite": "catalog:"
   }
 }
