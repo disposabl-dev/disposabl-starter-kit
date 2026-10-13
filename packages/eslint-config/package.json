@@ -1,0 +1,31 @@
+{
+  "name": "@repo/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "check": "bun check"
+  },
+  "dependencies": {
+    "@generaltranslation/react-core-linter": "catalog:",
+    "@eslint/js": "10.0.1",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.13.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript-eslint": "8.71.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:"
+  }
+}

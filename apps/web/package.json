@@ -6,6 +6,12 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
-    "typecheck": "bun check"
+    "check": "bun check"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "catalog:",
+    "eslint": "catalog:"
   }
 }
