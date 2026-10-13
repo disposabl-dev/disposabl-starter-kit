@@ -4,14 +4,25 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "bun check && vite build",
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "check": "bun check"
   },
+  "dependencies": {
+    "gt-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
   "devDependencies": {
+    "gt": "catalog:",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
-    "eslint": "catalog:"
+    "eslint": "catalog:",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "vite": "catalog:"
   }
 }

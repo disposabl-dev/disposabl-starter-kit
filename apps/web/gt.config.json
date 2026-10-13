@@ -1,0 +1,13 @@
+{
+  "$schema": "https://assets.gtx.dev/config-schema.json",
+  "defaultLocale": "en",
+  "locales": ["es", "fr", "ja"],
+  "src": ["src/**/*.{ts,tsx}"],
+  "files": {
+    "gt": {
+      "output": "src/_gt/[locale].json",
+      "exclude": ["src/routeTree.gen.ts", "src/**/*.test.*"],
+      "parsingFlags": { "devHotReload": false }
+    }
+  }
+}
