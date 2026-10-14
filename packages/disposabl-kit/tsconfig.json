@@ -3,9 +3,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ES2023", "DOM"],
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "noEmit": true
   },
-  "include": ["src", "tests", "vitest.config.ts"],
+  "include": ["src"],
   "exclude": ["src/server", "node_modules"]
 }

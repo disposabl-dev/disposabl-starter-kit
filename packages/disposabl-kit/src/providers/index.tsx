@@ -1,79 +1,74 @@
-import { StrictMode, type ComponentProps, type ReactNode } from "react";
-import { AuthKitProvider } from "@workos-inc/authkit-react";
-import { ConvexProviderWithAuth, type ConvexReactClient } from "convex/react";
+import { StrictMode, useEffect, type ReactNode } from "react";
+import { AuthKitProvider, useAuth } from "@workos-inc/authkit-react";
+import { ConvexProviderWithAuthKit } from "@convex-dev/workos";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "../components/ui/tooltip";
-import { useAuthFromAuthKit } from "./auth";
-import { ErrorBoundary } from "./error-boundary";
-import { ThemeProvider } from "./theme";
-import { I18nProvider, type I18nOptions } from "./i18n";
-import {
-  CookieConsentBanner,
-  type CookieConsentOptions,
-} from "../components/cookie-consent";
-import { type useDeploymentUpdates } from "@convex-dev/static-hosting/react";
-import { DeploymentUpdateNotice } from "../components/deployment-update-notice";
+import { Toaster } from "../components/ui/sonner";
+import { DirectionProvider } from "../components/ui/direction";
+import { useGT, useLocale, useLocaleDirection } from "gt-react";
+import { CookieConsentBanner } from "../components/cookie-consent";
+import { UpdateBanner } from "@convex-dev/static-hosting/react";
 
-export {
-  CookieConsentBanner,
-  showCookiePreferences,
-  acceptedCookieCategory,
-  type CookieConsentOptions,
-} from "../components/cookie-consent";
-
-export { ErrorBoundary, RouteErrorBoundary } from "./error-boundary";
-export { ThemeProvider, useTheme } from "./theme";
-export {
-  I18nProvider,
-  type I18nOptions,
-  type TranslationCatalog,
-} from "./i18n";
-
-export type AuthKitOptions = Omit<
-  ComponentProps<typeof AuthKitProvider>,
-  "children"
->;
-export type ProvidersProps = {
-  query: Parameters<typeof useDeploymentUpdates>[0];
-  children: ReactNode;
-  auth: AuthKitOptions & { client: ConvexReactClient };
-  theme?: Omit<ComponentProps<typeof ThemeProvider>, "children">;
-  i18n?: I18nOptions;
-  production?: boolean;
-  consent?: CookieConsentOptions;
-};
+let convexClient: ConvexReactClient | undefined;
 
 export function Providers({
   children,
-  query,
-  auth,
-  theme,
-  i18n,
-  consent,
-  production = process.env.NODE_ENV === "production",
-}: ProvidersProps) {
-  const { client, ...options } = auth;
+  env,
+}: {
+  children: ReactNode;
+  env: {
+    VITE_CONVEX_URL?: string;
+    VITE_WORKOS_CLIENT_ID?: string;
+  };
+}) {
+  const url = env.VITE_CONVEX_URL;
+  if (!url) throw new Error("VITE_CONVEX_URL is not set");
+  const convex = (convexClient ??= new ConvexReactClient(url));
+  const locale = useLocale();
+  const direction = useLocaleDirection();
+  const gt = useGT();
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.documentElement.dir = direction;
+  }, [locale, direction]);
+  const content = (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      storageKey="vite-ui-theme"
+    >
+      <DirectionProvider dir={direction}>
+        <TooltipProvider>
+          {children}
+          <Toaster />
+          <CookieConsentBanner
+            options={{ description: "This is a test", sections: [] }}
+          />
+          <UpdateBanner
+            message={gt("Update available")}
+            buttonText={gt("Reload")}
+            dismissable={true}
+          />
+        </TooltipProvider>
+      </DirectionProvider>
+    </ThemeProvider>
+  );
+  const clientId = env.VITE_WORKOS_CLIENT_ID;
   return (
     <StrictMode>
-      <I18nProvider options={i18n}>
-        <ErrorBoundary production={production}>
-          <ThemeProvider {...theme}>
-            <AuthKitProvider {...options}>
-              <ConvexProviderWithAuth
-                client={client}
-                useAuth={useAuthFromAuthKit}
-              >
-                <TooltipProvider>
-                  {children}
-                  {consent && production && (
-                    <CookieConsentBanner options={consent} />
-                  )}
-                  <DeploymentUpdateNotice query={query} />
-                </TooltipProvider>
-              </ConvexProviderWithAuth>
-            </AuthKitProvider>
-          </ThemeProvider>
-        </ErrorBoundary>
-      </I18nProvider>
+      {clientId ? (
+        <AuthKitProvider
+          clientId={clientId}
+          redirectUri={`${window.location.origin}/callback`}
+        >
+          <ConvexProviderWithAuthKit client={convex} useAuth={useAuth}>
+            {content}
+          </ConvexProviderWithAuthKit>
+        </AuthKitProvider>
+      ) : (
+        <ConvexProvider client={convex}>{content}</ConvexProvider>
+      )}
     </StrictMode>
   );
 }

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ApiReference } from "disposabl-kit/components/api-reference";
+import { ApiReferenceReact } from "@scalar/api-reference-react";
+import "@scalar/api-reference-react/style.css";
 
 const content = JSON.stringify({
   openapi: "3.1.0",
@@ -17,5 +18,5 @@ export const Route = createFileRoute("/api-reference")({
 });
 
 function ApiReferenceRoute() {
-  return <ApiReference content={content} />;
+  return <ApiReferenceReact configuration={{ content }} />;
 }

@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { T } from "gt-react";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_public/")({
   component: Home,
 });
 
 function Home() {
   return (
     <div>
-      <h1>Hello World</h1>
+      <T>Hello World</T>
     </div>
   );
 }

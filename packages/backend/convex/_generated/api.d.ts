@@ -10,6 +10,7 @@
 
 import type * as account_index from "../account/index.js";
 import type * as account_internal from "../account/internal.js";
+import type * as account_validator from "../account/validator.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as staticHosting from "../staticHosting.js";
@@ -23,6 +24,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   "account/index": typeof account_index;
   "account/internal": typeof account_internal;
+  "account/validator": typeof account_validator;
   auth: typeof auth;
   http: typeof http;
   staticHosting: typeof staticHosting;

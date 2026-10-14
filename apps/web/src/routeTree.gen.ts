@@ -9,12 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiReferenceRouteImport } from './routes/api-reference'
+import { Route as AuthPagesRouteRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/route'
+import { Route as AuthenticatedRouteRouteImport } from './../../../packages/disposabl-kit/src/routes/_authenticated/route'
+import { Route as PublicRouteRouteImport } from './../../../packages/disposabl-kit/src/routes/_public/route'
+import { Route as ApiReferenceRouteImport } from './../../../packages/disposabl-kit/src/routes/api-reference'
+import { Route as AuthPagesCallbackRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/callback'
+import { Route as AuthPagesLoginRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/login'
+import { Route as AuthPagesSignInRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/sign-in'
+import { Route as AuthPagesSignUpRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/sign-up'
+import { Route as AuthPagesSigninRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/signin'
+import { Route as AuthPagesSignupRouteImport } from './../../../packages/disposabl-kit/src/routes/_auth-pages/signup'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicLegalPrivacyPolicyRouteImport } from './../../../packages/disposabl-kit/src/routes/_public/_legal/privacy-policy'
+import { Route as PublicLegalTermsAndConditionsRouteImport } from './../../../packages/disposabl-kit/src/routes/_public/_legal/terms-and-conditions'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthPagesRouteRoute = AuthPagesRouteRouteImport.update({
+  id: '/_auth-pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiReferenceRoute = ApiReferenceRouteImport.update({
@@ -22,40 +41,175 @@ const ApiReferenceRoute = ApiReferenceRouteImport.update({
   path: '/api-reference',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthPagesCallbackRoute = AuthPagesCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesLoginRoute = AuthPagesLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSignInRoute = AuthPagesSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSignUpRoute = AuthPagesSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSigninRoute = AuthPagesSigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSignupRoute = AuthPagesSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
+const PublicLegalPrivacyPolicyRoute =
+  PublicLegalPrivacyPolicyRouteImport.update({
+    id: '/_legal/privacy-policy',
+    path: '/privacy-policy',
+    getParentRoute: () => PublicRouteRoute,
+  } as any)
+const PublicLegalTermsAndConditionsRoute =
+  PublicLegalTermsAndConditionsRouteImport.update({
+    id: '/_legal/terms-and-conditions',
+    path: '/terms-and-conditions',
+    getParentRoute: () => PublicRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
   '/api-reference': typeof ApiReferenceRoute
+  '/callback': typeof AuthPagesCallbackRoute
+  '/login': typeof AuthPagesLoginRoute
+  '/sign-in': typeof AuthPagesSignInRoute
+  '/sign-up': typeof AuthPagesSignUpRoute
+  '/signin': typeof AuthPagesSigninRoute
+  '/signup': typeof AuthPagesSignupRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/privacy-policy': typeof PublicLegalPrivacyPolicyRoute
+  '/terms-and-conditions': typeof PublicLegalTermsAndConditionsRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
   '/api-reference': typeof ApiReferenceRoute
+  '/callback': typeof AuthPagesCallbackRoute
+  '/login': typeof AuthPagesLoginRoute
+  '/sign-in': typeof AuthPagesSignInRoute
+  '/sign-up': typeof AuthPagesSignUpRoute
+  '/signin': typeof AuthPagesSigninRoute
+  '/signup': typeof AuthPagesSignupRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/privacy-policy': typeof PublicLegalPrivacyPolicyRoute
+  '/terms-and-conditions': typeof PublicLegalTermsAndConditionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_auth-pages': typeof AuthPagesRouteRouteWithChildren
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_public': typeof PublicRouteRouteWithChildren
   '/api-reference': typeof ApiReferenceRoute
+  '/_auth-pages/callback': typeof AuthPagesCallbackRoute
+  '/_auth-pages/login': typeof AuthPagesLoginRoute
+  '/_auth-pages/sign-in': typeof AuthPagesSignInRoute
+  '/_auth-pages/sign-up': typeof AuthPagesSignUpRoute
+  '/_auth-pages/signin': typeof AuthPagesSigninRoute
+  '/_auth-pages/signup': typeof AuthPagesSignupRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_public/': typeof PublicIndexRoute
+  '/_public/_legal/privacy-policy': typeof PublicLegalPrivacyPolicyRoute
+  '/_public/_legal/terms-and-conditions': typeof PublicLegalTermsAndConditionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api-reference'
+  fullPaths:
+    | '/'
+    | '/api-reference'
+    | '/callback'
+    | '/login'
+    | '/sign-in'
+    | '/sign-up'
+    | '/signin'
+    | '/signup'
+    | '/dashboard'
+    | '/privacy-policy'
+    | '/terms-and-conditions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api-reference'
-  id: '__root__' | '/' | '/api-reference'
+  to:
+    | '/'
+    | '/api-reference'
+    | '/callback'
+    | '/login'
+    | '/sign-in'
+    | '/sign-up'
+    | '/signin'
+    | '/signup'
+    | '/dashboard'
+    | '/privacy-policy'
+    | '/terms-and-conditions'
+  id:
+    | '__root__'
+    | '/_auth-pages'
+    | '/_authenticated'
+    | '/_public'
+    | '/api-reference'
+    | '/_auth-pages/callback'
+    | '/_auth-pages/login'
+    | '/_auth-pages/sign-in'
+    | '/_auth-pages/sign-up'
+    | '/_auth-pages/signin'
+    | '/_auth-pages/signup'
+    | '/_authenticated/dashboard'
+    | '/_public/'
+    | '/_public/_legal/privacy-policy'
+    | '/_public/_legal/terms-and-conditions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AuthPagesRouteRoute: typeof AuthPagesRouteRouteWithChildren
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
   ApiReferenceRoute: typeof ApiReferenceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_auth-pages': {
+      id: '/_auth-pages'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthPagesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api-reference': {
@@ -65,11 +219,132 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiReferenceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth-pages/callback': {
+      id: '/_auth-pages/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof AuthPagesCallbackRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/login': {
+      id: '/_auth-pages/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthPagesLoginRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/sign-in': {
+      id: '/_auth-pages/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof AuthPagesSignInRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/sign-up': {
+      id: '/_auth-pages/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof AuthPagesSignUpRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/signin': {
+      id: '/_auth-pages/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof AuthPagesSigninRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/signup': {
+      id: '/_auth-pages/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthPagesSignupRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/_legal/privacy-policy': {
+      id: '/_public/_legal/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PublicLegalPrivacyPolicyRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
+    '/_public/_legal/terms-and-conditions': {
+      id: '/_public/_legal/terms-and-conditions'
+      path: '/terms-and-conditions'
+      fullPath: '/terms-and-conditions'
+      preLoaderRoute: typeof PublicLegalTermsAndConditionsRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
   }
 }
 
+interface AuthPagesRouteRouteChildren {
+  AuthPagesCallbackRoute: typeof AuthPagesCallbackRoute
+  AuthPagesLoginRoute: typeof AuthPagesLoginRoute
+  AuthPagesSignInRoute: typeof AuthPagesSignInRoute
+  AuthPagesSignUpRoute: typeof AuthPagesSignUpRoute
+  AuthPagesSigninRoute: typeof AuthPagesSigninRoute
+  AuthPagesSignupRoute: typeof AuthPagesSignupRoute
+}
+
+const AuthPagesRouteRouteChildren: AuthPagesRouteRouteChildren = {
+  AuthPagesCallbackRoute: AuthPagesCallbackRoute,
+  AuthPagesLoginRoute: AuthPagesLoginRoute,
+  AuthPagesSignInRoute: AuthPagesSignInRoute,
+  AuthPagesSignUpRoute: AuthPagesSignUpRoute,
+  AuthPagesSigninRoute: AuthPagesSigninRoute,
+  AuthPagesSignupRoute: AuthPagesSignupRoute,
+}
+
+const AuthPagesRouteRouteWithChildren = AuthPagesRouteRoute._addFileChildren(
+  AuthPagesRouteRouteChildren,
+)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface PublicRouteRouteChildren {
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicLegalPrivacyPolicyRoute: typeof PublicLegalPrivacyPolicyRoute
+  PublicLegalTermsAndConditionsRoute: typeof PublicLegalTermsAndConditionsRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicIndexRoute: PublicIndexRoute,
+  PublicLegalPrivacyPolicyRoute: PublicLegalPrivacyPolicyRoute,
+  PublicLegalTermsAndConditionsRoute: PublicLegalTermsAndConditionsRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthPagesRouteRoute: AuthPagesRouteRouteWithChildren,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
   ApiReferenceRoute: ApiReferenceRoute,
 }
 export const routeTree = rootRouteImport

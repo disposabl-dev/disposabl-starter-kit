@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useTheme } from "../providers/theme";
+import { useTheme } from "next-themes";
 import { useGT } from "gt-react";
 
 export function ModeToggle() {
