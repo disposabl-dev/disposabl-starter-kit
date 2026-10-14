@@ -1,8 +1,8 @@
 import { convexTest } from "convex-test";
 import { expect, test, vi } from "vitest";
 import type { WorkOS } from "@workos-inc/node";
-import { createAccountFunctions } from "disposabl-kit/server/account";
-import { internalAction, internalQuery } from "../convex/_generated/server";
+import { createAccountFunctions } from "disposabl-kit/server/account/internal";
+import { internalAction, internalQuery } from "../convex/lib/functions";
 import { internal } from "../convex/_generated/api";
 import schema from "../convex/schema";
 
@@ -28,6 +28,12 @@ test("registers every account operation as internal and returns trusted identity
   for (const fn of Object.values(functions)) {
     expect(fn).toHaveProperty("isInternal", true);
     expect(fn).not.toHaveProperty("isPublic", true);
+    expect(fn).toHaveProperty("platforms", {
+      api: true,
+      cli: true,
+      mcp: true,
+      sdk: true,
+    });
   }
   expect(await t.query(internal.account.internal.getAccount, identity)).toEqual(
     identity,

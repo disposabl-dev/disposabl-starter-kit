@@ -4,13 +4,9 @@ import type {
   Organization,
   OrganizationMembership,
 } from "@workos-inc/node";
-import type {
-  ActionBuilder,
-  QueryBuilder,
-  GenericDataModel,
-} from "convex/server";
+import type { GenericDataModel } from "convex/server";
+import { identityFields, paginateWorkOS, type InternalFunctions } from "../lib";
 import { ConvexError, v } from "convex/values";
-import { identityFields } from "../auth";
 import {
   account,
   accountPage,
@@ -21,7 +17,6 @@ import {
   invitation,
   invitationPage,
 } from "./validators";
-import { paginateWorkOS } from "./lib/paginate-workos";
 
 /** Register with the app's generated internal builders. Identity arguments must come from trusted server entrypoints. */
 export function createAccountFunctions<DataModel extends GenericDataModel>({
@@ -30,8 +25,8 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   authkit,
   teamsEnabled = false,
 }: {
-  internalAction: ActionBuilder<DataModel, "internal">;
-  internalQuery: QueryBuilder<DataModel, "internal">;
+  internalAction: InternalFunctions<DataModel>["internalAction"];
+  internalQuery: InternalFunctions<DataModel>["internalQuery"];
   authkit: () => Pick<AuthKit<DataModel>, "workos">;
   teamsEnabled?: boolean;
 }) {
@@ -41,12 +36,14 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   };
 
   const getAccount = internalQuery({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: identityFields,
     returns: v.object(identityFields),
     handler: (_ctx, { orgId, userId, role }) => ({ orgId, userId, role }),
   });
 
   const updateAccount = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, name: v.string() },
     returns: account,
     handler: async (_ctx, { orgId, role, name }) => {
@@ -93,6 +90,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   }
 
   const listTeams = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, ...pagination.fields },
     returns: accountPage,
     handler: async (_ctx, { userId, paginationOpts }) => {
@@ -113,6 +111,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const createTeam = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, name: v.string(), requestId: v.string() },
     returns: account,
     handler: async (_ctx, { userId, name, requestId }) => {
@@ -149,6 +148,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const listMembers = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, ...pagination.fields },
     returns: memberPage,
     handler: async (_ctx, { orgId, ...args }) => {
@@ -178,6 +178,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const updateMemberRole = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, membershipId: v.string(), roleSlug: role },
     returns: member,
     handler: async (_ctx, { orgId, userId, role, ...args }) => {
@@ -219,6 +220,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const removeMember = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, membershipId: v.string() },
     returns: v.null(),
     handler: async (_ctx, { orgId, userId, role, ...args }) => {
@@ -250,6 +252,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   }
 
   const listInvitations = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, ...pagination.fields },
     returns: invitationPage,
     handler: async (_ctx, { orgId, role, ...args }) => {
@@ -271,6 +274,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const sendInvitation = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, email: v.string(), roleSlug: v.optional(role) },
     returns: invitation,
     handler: async (_ctx, { orgId, userId, role, ...args }) => {
@@ -296,6 +300,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const resendInvitation = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, invitationId: v.string() },
     returns: invitation,
     handler: async (_ctx, { orgId, role, ...args }) => {
@@ -320,6 +325,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const revokeInvitation = internalAction({
+    platforms: { api: true, cli: true, mcp: true, sdk: true },
     args: { ...identityFields, invitationId: v.string() },
     returns: invitation,
     handler: async (_ctx, { orgId, role, ...args }) => {

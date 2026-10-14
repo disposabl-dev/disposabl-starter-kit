@@ -12,7 +12,9 @@
     "./lib/*": "./src/lib/*.ts",
     "./providers": "./src/providers/index.tsx",
     "./server": "./src/server/index.ts",
-    "./server/account": "./src/server/account/index.ts",
+    "./server/account/internal": "./src/server/account/internal.ts",
+    "./server/lib": "./src/server/lib/index.ts",
+    "./server/lib/functions": "./src/server/lib/functions.ts",
     "./styles": "./src/styles/globals.css",
     "./vite": "./src/vite.ts"
   },

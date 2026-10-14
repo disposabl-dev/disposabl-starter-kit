@@ -1,4 +1,4 @@
-import { createAuth } from "disposabl-kit/server";
+import { createAuth } from "disposabl-kit/server/lib";
 import { components } from "./_generated/api";
 import { env } from "./_generated/server";
 import type { DataModel } from "./_generated/dataModel";

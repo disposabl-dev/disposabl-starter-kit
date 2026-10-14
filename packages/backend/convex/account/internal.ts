@@ -1,5 +1,6 @@
-import { createAccountFunctions } from "disposabl-kit/server/account";
-import { env, internalAction, internalQuery } from "../_generated/server";
+import { createAccountFunctions } from "disposabl-kit/server/account/internal";
+import { env } from "../_generated/server";
+import { internalAction, internalQuery } from "../lib/functions";
 import { authkit } from "../auth";
 
 export const {
