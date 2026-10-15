@@ -55,12 +55,14 @@
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
         "@workos-inc/node": "catalog:",
+        "convex-helpers": "0.1.128",
         "convex-test": "0.0.61",
         "eslint": "catalog:",
         "prettier": "catalog:",
         "typescript": "catalog:",
         "vite": "catalog:",
         "vitest": "catalog:",
+        "yaml": "2.9.1",
       },
     },
     "packages/disposabl-kit": {
@@ -104,6 +106,7 @@
       "devDependencies": {
         "@repo/eslint-config": "workspace:*",
         "@repo/typescript-config": "workspace:*",
+        "@types/bun": "catalog:",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
         "eslint": "catalog:",

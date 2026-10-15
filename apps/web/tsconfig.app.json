@@ -6,5 +6,5 @@
     "verbatimModuleSyntax": true
   },
   "files": [],
-  "include": ["src"]
+  "include": ["src", "../../packages/disposabl-kit/src/routes"]
 }

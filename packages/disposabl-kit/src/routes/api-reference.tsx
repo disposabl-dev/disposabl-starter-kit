@@ -1,22 +1,25 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ApiReferenceReact } from "@scalar/api-reference-react";
 import "@scalar/api-reference-react/style.css";
-
-const content = JSON.stringify({
-  openapi: "3.1.0",
-  info: {
-    title: "Starter Kit API",
-    version: "0.0.0",
-    description:
-      "No public API endpoints are configured yet. Replace this starter document with your application's OpenAPI specification.",
-  },
-  paths: {},
-});
+import { T } from "gt-react";
 
 export const Route = createFileRoute("/api-reference")({
+  loader: async () => {
+    const response = await fetch("/api-reference/openapi.yaml");
+    if (!response.ok) throw notFound();
+    const content = await response.text();
+    if (!/^openapi:/m.test(content)) throw notFound();
+    return content;
+  },
   component: ApiReferenceRoute,
+  notFoundComponent: () => (
+    <p>
+      <T>API reference is unavailable.</T>
+    </p>
+  ),
 });
 
 function ApiReferenceRoute() {
+  const content = Route.useLoaderData();
   return <ApiReferenceReact configuration={{ content }} />;
 }

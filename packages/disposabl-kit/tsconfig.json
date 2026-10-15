@@ -3,9 +3,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ES2023", "DOM"],
-    "types": ["node", "vite/client"],
+    "types": ["node", "vite/client", "bun"],
     "noEmit": true
   },
   "include": ["src"],
-  "exclude": ["src/server", "node_modules"]
+  "exclude": ["src/server", "src/routes", "node_modules"]
 }

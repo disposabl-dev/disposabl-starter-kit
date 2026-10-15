@@ -22,7 +22,7 @@ import type {
 
 /** Generation metadata only. These flags do not authorize requests or create routes. */
 export type Platforms =
-  false | Partial<Record<"api" | "cli" | "mcp" | "sdk", boolean>>;
+  boolean | Partial<Record<"api" | "cli" | "mcp" | "sdk", boolean>>;
 
 type Definition<
   Ctx,
