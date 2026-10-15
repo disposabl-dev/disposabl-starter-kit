@@ -1,20 +1,12 @@
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig, loadEnv } from "vite";
-import {
-  kitRoutes,
-  watchKitRoutes,
-  openApiReference,
-} from "disposabl-kit/vite";
-import { parsePlatforms } from "../../packages/backend/platforms.ts";
+import { defineConfig } from "vite";
+import { kitRoutes, watchKitRoutes } from "disposabl-kit/vite";
 import { fileURLToPath } from "node:url";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   const envDir = fileURLToPath(
     new URL("../../packages/backend/", import.meta.url),
-  );
-  const platforms = parsePlatforms(
-    loadEnv(mode, envDir, "DISPOSABL_").DISPOSABL_PLATFORMS,
   );
   return {
     envDir,
@@ -36,10 +28,6 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
-      openApiReference(
-        new URL("../../packages/backend/openapi.yaml", import.meta.url),
-        platforms.has("api"),
-      ),
       watchKitRoutes(),
       tanstackRouter({
         target: "react",

@@ -1,0 +1,1040 @@
+openapi: 3.0.3
+info:
+  title: Convex App - OpenAPI 3.0
+  version: 0.0.0
+servers:
+  - url: https://courteous-marmot-118.convex.site
+security:
+  - bearerAuth: []
+tags:
+  - name: query
+    description: Functions that read data
+  - name: mutation
+    description: Functions that write/update/delete data
+  - name: action
+    description: Functions that can make calls to external APIs
+paths:
+  /api/v1/account/createTeam:
+    post:
+      summary: createTeam
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.createTeam"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.createTeam"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.createTeam
+  /api/v1/account/getAccount:
+    post:
+      summary: getAccount
+      tags:
+        - query
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.getAccount"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.getAccount"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.getAccount
+  /api/v1/account/listInvitations:
+    post:
+      summary: listInvitations
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.listInvitations"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.listInvitations"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.listInvitations
+  /api/v1/account/listMembers:
+    post:
+      summary: listMembers
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.listMembers"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.listMembers"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.listMembers
+  /api/v1/account/listTeams:
+    post:
+      summary: listTeams
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.listTeams"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.listTeams"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.listTeams
+  /api/v1/account/removeMember:
+    post:
+      summary: removeMember
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.removeMember"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.removeMember"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.removeMember
+  /api/v1/account/resendInvitation:
+    post:
+      summary: resendInvitation
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.resendInvitation"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.resendInvitation"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.resendInvitation
+  /api/v1/account/revokeInvitation:
+    post:
+      summary: revokeInvitation
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.revokeInvitation"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.revokeInvitation"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.revokeInvitation
+  /api/v1/account/sendInvitation:
+    post:
+      summary: sendInvitation
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.sendInvitation"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.sendInvitation"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.sendInvitation
+  /api/v1/account/updateAccount:
+    post:
+      summary: updateAccount
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.updateAccount"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.updateAccount"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.updateAccount
+  /api/v1/account/updateMemberRole:
+    post:
+      summary: updateMemberRole
+      tags:
+        - action
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Request_account.internal.updateMemberRole"
+        required: true
+      responses:
+        "200":
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response_account.internal.updateMemberRole"
+        "400":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "401":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "403":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "404":
+          description: Request rejected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+        "500":
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedResponse"
+      operationId: account.internal.updateMemberRole
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: WorkOS session access token
+  schemas:
+    Request_account.internal.createTeam:
+      type: object
+      required:
+        - name
+        - requestId
+      properties:
+        name:
+          type: string
+        requestId:
+          type: string
+      additionalProperties: false
+    Response_account.internal.createTeam:
+      type: object
+      required:
+        - id
+        - name
+        - personal
+        - role
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        personal:
+          type: boolean
+        role:
+          oneOf:
+            - type: string
+              enum:
+                - admin
+            - type: string
+              enum:
+                - member
+    Request_account.internal.getAccount:
+      type: object
+      properties: {}
+      additionalProperties: false
+    Response_account.internal.getAccount:
+      type: object
+      required:
+        - orgId
+        - userId
+        - role
+      properties:
+        orgId:
+          type: string
+        userId:
+          type: string
+        role:
+          oneOf:
+            - type: string
+              enum:
+                - admin
+            - type: string
+              enum:
+                - member
+    Request_account.internal.listInvitations:
+      type: object
+      required:
+        - paginationOpts
+      properties:
+        paginationOpts:
+          type: object
+          required:
+            - numItems
+            - cursor
+          properties:
+            numItems:
+              type: number
+            cursor:
+              type: string
+              nullable: true
+            endCursor:
+              type: string
+              nullable: true
+            id:
+              type: number
+            maximumRowsRead:
+              type: number
+            maximumBytesRead:
+              type: number
+      additionalProperties: false
+    Response_account.internal.listInvitations:
+      type: object
+      required:
+        - page
+        - continueCursor
+        - isDone
+      properties:
+        page:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - email
+              - state
+              - expiresAt
+            properties:
+              id:
+                type: string
+              email:
+                type: string
+              state:
+                oneOf:
+                  - type: string
+                    enum:
+                      - pending
+                  - type: string
+                    enum:
+                      - accepted
+                  - type: string
+                    enum:
+                      - expired
+                  - type: string
+                    enum:
+                      - revoked
+              expiresAt:
+                type: string
+        continueCursor:
+          type: string
+        isDone:
+          type: boolean
+        splitCursor:
+          type: string
+          nullable: true
+        pageStatus:
+          nullable: true
+          oneOf:
+            - type: string
+              enum:
+                - SplitRecommended
+            - type: string
+              enum:
+                - SplitRequired
+    Request_account.internal.listMembers:
+      type: object
+      required:
+        - paginationOpts
+      properties:
+        paginationOpts:
+          type: object
+          required:
+            - numItems
+            - cursor
+          properties:
+            numItems:
+              type: number
+            cursor:
+              type: string
+              nullable: true
+            endCursor:
+              type: string
+              nullable: true
+            id:
+              type: number
+            maximumRowsRead:
+              type: number
+            maximumBytesRead:
+              type: number
+      additionalProperties: false
+    Response_account.internal.listMembers:
+      type: object
+      required:
+        - page
+        - continueCursor
+        - isDone
+      properties:
+        page:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - userId
+              - role
+            properties:
+              id:
+                type: string
+              userId:
+                type: string
+              role:
+                oneOf:
+                  - type: string
+                    enum:
+                      - admin
+                  - type: string
+                    enum:
+                      - member
+        continueCursor:
+          type: string
+        isDone:
+          type: boolean
+        splitCursor:
+          type: string
+          nullable: true
+        pageStatus:
+          nullable: true
+          oneOf:
+            - type: string
+              enum:
+                - SplitRecommended
+            - type: string
+              enum:
+                - SplitRequired
+    Request_account.internal.listTeams:
+      type: object
+      required:
+        - paginationOpts
+      properties:
+        paginationOpts:
+          type: object
+          required:
+            - numItems
+            - cursor
+          properties:
+            numItems:
+              type: number
+            cursor:
+              type: string
+              nullable: true
+            endCursor:
+              type: string
+              nullable: true
+            id:
+              type: number
+            maximumRowsRead:
+              type: number
+            maximumBytesRead:
+              type: number
+      additionalProperties: false
+    Response_account.internal.listTeams:
+      type: object
+      required:
+        - page
+        - continueCursor
+        - isDone
+      properties:
+        page:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - name
+              - personal
+              - role
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              personal:
+                type: boolean
+              role:
+                oneOf:
+                  - type: string
+                    enum:
+                      - admin
+                  - type: string
+                    enum:
+                      - member
+        continueCursor:
+          type: string
+        isDone:
+          type: boolean
+        splitCursor:
+          type: string
+          nullable: true
+        pageStatus:
+          nullable: true
+          oneOf:
+            - type: string
+              enum:
+                - SplitRecommended
+            - type: string
+              enum:
+                - SplitRequired
+    Request_account.internal.removeMember:
+      type: object
+      required:
+        - membershipId
+      properties:
+        membershipId:
+          type: string
+      additionalProperties: false
+    Response_account.internal.removeMember:
+      type: string
+      nullable: true
+    Request_account.internal.resendInvitation:
+      type: object
+      required:
+        - invitationId
+      properties:
+        invitationId:
+          type: string
+      additionalProperties: false
+    Response_account.internal.resendInvitation:
+      type: object
+      required:
+        - id
+        - email
+        - state
+        - expiresAt
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        state:
+          oneOf:
+            - type: string
+              enum:
+                - pending
+            - type: string
+              enum:
+                - accepted
+            - type: string
+              enum:
+                - expired
+            - type: string
+              enum:
+                - revoked
+        expiresAt:
+          type: string
+    Request_account.internal.revokeInvitation:
+      type: object
+      required:
+        - invitationId
+      properties:
+        invitationId:
+          type: string
+      additionalProperties: false
+    Response_account.internal.revokeInvitation:
+      type: object
+      required:
+        - id
+        - email
+        - state
+        - expiresAt
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        state:
+          oneOf:
+            - type: string
+              enum:
+                - pending
+            - type: string
+              enum:
+                - accepted
+            - type: string
+              enum:
+                - expired
+            - type: string
+              enum:
+                - revoked
+        expiresAt:
+          type: string
+    Request_account.internal.sendInvitation:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+        roleSlug:
+          oneOf:
+            - type: string
+              enum:
+                - admin
+            - type: string
+              enum:
+                - member
+      additionalProperties: false
+    Response_account.internal.sendInvitation:
+      type: object
+      required:
+        - id
+        - email
+        - state
+        - expiresAt
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        state:
+          oneOf:
+            - type: string
+              enum:
+                - pending
+            - type: string
+              enum:
+                - accepted
+            - type: string
+              enum:
+                - expired
+            - type: string
+              enum:
+                - revoked
+        expiresAt:
+          type: string
+    Request_account.internal.updateAccount:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties: false
+    Response_account.internal.updateAccount:
+      type: object
+      required:
+        - id
+        - name
+        - personal
+        - role
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        personal:
+          type: boolean
+        role:
+          oneOf:
+            - type: string
+              enum:
+                - admin
+            - type: string
+              enum:
+                - member
+    Request_account.internal.updateMemberRole:
+      type: object
+      required:
+        - membershipId
+        - roleSlug
+      properties:
+        membershipId:
+          type: string
+        roleSlug:
+          oneOf:
+            - type: string
+              enum:
+                - admin
+            - type: string
+              enum:
+                - member
+      additionalProperties: false
+    Response_account.internal.updateMemberRole:
+      type: object
+      required:
+        - id
+        - userId
+        - role
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        role:
+          oneOf:
+            - type: string
+              enum:
+                - admin
+            - type: string
+              enum:
+                - member
+    FailedResponse:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string

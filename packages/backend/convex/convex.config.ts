@@ -5,6 +5,7 @@ import authKit from "@convex-dev/workos-authkit/convex.config";
 
 const app = defineApp({
   env: {
+    DISPOSABL_PLATFORMS: v.optional(v.string()),
     TEAMS_ENABLED: v.optional(v.string()),
     WORKOS_CLIENT_ID: v.string(),
     WORKOS_AUTHKIT_URL: v.optional(v.string()),
