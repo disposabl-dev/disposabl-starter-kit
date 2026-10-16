@@ -1,4 +1,10 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  watchFile,
+  writeFileSync,
+} from "node:fs";
 import { resolve } from "node:path";
 import { runOasdiffBreakingFromSpecs } from "@oasdiff-js/oasdiff-js";
 import { createClient } from "@hey-api/openapi-ts";
@@ -11,10 +17,7 @@ export async function generateApiFunctions(
 ) {
   const source = resolve(dir, "_generated/api.d.ts");
   const target = resolve(dir, "apiFunctions.ts");
-  // Import as text so Bun --watch tracks codegen as well as the modules below.
-  const declarations: string = existsSync(source)
-    ? (await import(source, { with: { type: "text" } })).default
-    : "";
+  const declarations = existsSync(source) ? readFileSync(source, "utf8") : "";
   const imports = declarations
     .split("\n")
     .filter((line) => line.startsWith("import type * as "))
@@ -91,15 +94,27 @@ if (import.meta.main) {
     throw new Error(
       "--accept-breaking requires --once; watch mode must keep checking compatibility.",
     );
-  await generateApiFunctions(dir, outputDir, acceptBreaking);
-  // On a first checkout, let convex dev create its declaration file first.
-  if (
-    !existsSync(resolve(dir, "_generated/api.d.ts")) &&
-    !process.argv.includes("--once")
-  ) {
-    while (!existsSync(resolve(dir, "_generated/api.d.ts")))
-      await Bun.sleep(250);
-    await generateApiFunctions(dir, outputDir);
+  if (process.argv.includes("--once")) {
+    await generateApiFunctions(dir, outputDir, acceptBreaking);
+    console.info("API spec checked.");
+  } else {
+    let generation = Promise.resolve();
+    const regenerate = () => {
+      generation = generation
+        .then(async () => {
+          await generateApiFunctions(dir, outputDir);
+          console.info("API spec checked.");
+        })
+        .catch((error) => console.error(error));
+    };
+    // Codegen replaces this file atomically. Watch its path, not the old inode.
+    // Bun --watch continues to reload imported modules and their dependencies.
+    watchFile(
+      resolve(dir, "_generated/api.d.ts"),
+      { interval: 250 },
+      regenerate,
+    );
+    regenerate();
+    await generation;
   }
-  console.info("API spec checked.");
 }

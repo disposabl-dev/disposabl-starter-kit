@@ -265,6 +265,19 @@ test("Bun watch reloads transitive validators, reports failures, and recovers", 
     () => expect(readFileSync(f.target, "utf8")).toContain('"./other.js"'),
     { timeout: 5000 },
   );
+  // The watch must follow subsequent replacements, not just the first new inode.
+  f.write(
+    "_generated/api.d.ts.tmp",
+    readFileSync(f.source, "utf8").replace(
+      'import type * as other from "../other.js";\n',
+      "",
+    ),
+  );
+  renameSync(`${f.source}.tmp`, f.source);
+  await vi.waitFor(
+    () => expect(readFileSync(f.target, "utf8")).not.toContain('"./other.js"'),
+    { timeout: 5000 },
+  );
 }, 30_000);
 
 test("unchanged generation preserves SDK files and custom SDK code, and recovers missing output", () => {
