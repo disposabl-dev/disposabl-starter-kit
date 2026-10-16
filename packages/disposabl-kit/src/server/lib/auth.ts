@@ -48,5 +48,61 @@ export function createAuth<DataModel extends GenericDataModel>(
     if (!role) throw new ConvexError({ code: "role_required", status: 403 });
     return { orgId, userId, role };
   };
-  return { authkit, requireUser, identityFields };
+  const requireApiKey = async (request: Request) => {
+    const value = request.headers
+      .get("authorization")
+      ?.match(/^Bearer\s+(\S+)$/i)?.[1];
+    if (!value) throw new ConvexError({ code: "unauthenticated", status: 401 });
+
+    try {
+      const workos = authkit().workos;
+      const { apiKey } = await workos.apiKeys.createValidation({ value });
+      if (!apiKey)
+        throw new ConvexError({ code: "invalid_api_key", status: 401 });
+      if (apiKey.owner.type !== "user")
+        throw new ConvexError({ code: "user_api_key_required", status: 403 });
+      if (!apiKey.permissions.includes("api:access"))
+        throw new ConvexError({ code: "api_permission_required", status: 403 });
+
+      const userId = apiKey.owner.id;
+      const orgId = apiKey.owner.organizationId;
+      if (!userId.startsWith("user_") || !orgId.startsWith("org_"))
+        throw new ConvexError({ code: "invalid_api_key", status: 401 });
+      const { data } = await workos.userManagement.listOrganizationMemberships({
+        userId,
+        organizationId: orgId,
+        statuses: ["active"],
+        limit: 1,
+      });
+      const membership = data[0];
+      if (!membership)
+        throw new ConvexError({
+          code: "active_membership_required",
+          status: 403,
+        });
+      const roles = (membership.roles ?? [membership.role]).map(
+        (role) => role.slug,
+      );
+      const role: "admin" | "member" | null = roles.includes("admin")
+        ? "admin"
+        : roles.includes("member")
+          ? "member"
+          : null;
+      if (!role) throw new ConvexError({ code: "role_required", status: 403 });
+      return { orgId, userId, role };
+    } catch (error) {
+      if (error instanceof ConvexError) throw error;
+      const status =
+        error && typeof error === "object" && "status" in error
+          ? error.status
+          : undefined;
+      if (status === 401 || status === 403 || status === 422)
+        throw new ConvexError({ code: "invalid_api_key", status: 401 });
+      throw new ConvexError({
+        code: "identity_provider_unavailable",
+        status: 503,
+      });
+    }
+  };
+  return { authkit, requireUser, requireApiKey, identityFields };
 }

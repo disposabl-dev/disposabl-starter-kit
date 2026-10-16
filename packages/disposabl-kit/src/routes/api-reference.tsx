@@ -8,11 +8,11 @@ export const Route = createFileRoute("/api-reference")({
     const response = await fetch("/openapi.json");
     if (!response.ok) throw notFound();
     const spec = await response.json().catch(() => null);
-  if (!spec?.openapi || !spec?.info || !spec?.paths) {
-    throw notFound();
-  }
+    if (!spec?.openapi || !spec?.info || !spec?.paths) {
+      throw notFound();
+    }
 
-  return {content: JSON.stringify(spec)};
+    return JSON.stringify(spec);
   },
   component: ApiReferenceRoute,
   notFoundComponent: () => (
