@@ -22,7 +22,7 @@ the SDK. Commit regenerated API artifacts too.
 The CLI's `1.0.0` release intentionally replaces the existing `@disposabl/cli`
 package on `latest`, from repository `disposabl-dev/disposabl-starter-kit`. Root
 `platforms.config.ts` still points to a verified development deployment; publishing
-does not promote that deployment to production. The skill source is unconfigured.
+does not promote that deployment to production. Shared skills use the same GitHub repository.
 
 Setup does not publish anything. The workflow runs checks and builds on pull
 requests, pushes to `main`, and manual dispatch. It regenerates API artifacts and

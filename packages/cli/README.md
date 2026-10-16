@@ -10,8 +10,7 @@ The current defaults target the verified development deployment at
 to replace the existing `@disposabl/cli` package on npm's `latest` channel. Its
 repository is `disposabl-dev/disposabl-starter-kit`; this release does not turn the
 configured development deployment into production. Each generated app must choose
-its own deployment and package identity before release. The skill source is
-currently empty, so automatic skill refresh is inactive.
+its own deployment and package identity before release. Shared skills come from that repository and refresh independently of npm releases.
 
 ```sh
 bun run cli --help

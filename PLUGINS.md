@@ -29,3 +29,5 @@ OpenAI discovers root `mcp.json` using the portable schema and `streamable-http`
 After generating, commit `generated/plugin/` along with the marketplace descriptors when publishing the plugin repository. Regenerate after editing root manifests, app-owned skills, or the configured origin. Native clients may require a plugin refresh and a new session or reload to use changed MCP configuration. A generated URL does not prove authentication or tool calls work; verify those against the selected deployment.
 
 Sources: [OpenAI plugin packaging](https://developers.openai.com/plugins/build/plugins), [portable MCP schema](https://agent-plugins.org/schemas/1.0.0/mcp.schema.json), and [Claude MCP configuration](https://code.claude.com/docs/en/mcp).
+
+Install the published marketplace with `codex plugin marketplace add disposabl-dev/disposabl-starter-kit`, then `codex plugin add disposabl@disposabl`. In Claude Code, use `/plugin install disposabl --marketplace disposabl-dev/disposabl-starter-kit`.
