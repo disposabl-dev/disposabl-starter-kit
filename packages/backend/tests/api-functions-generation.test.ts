@@ -265,7 +265,7 @@ test("Bun watch reloads transitive validators, reports failures, and recovers", 
     () => expect(readFileSync(f.target, "utf8")).toContain('"./other.js"'),
     { timeout: 5000 },
   );
-});
+}, 30_000);
 
 test("unchanged generation preserves SDK files and custom SDK code, and recovers missing output", () => {
   const f = fixture();

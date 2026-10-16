@@ -36,8 +36,8 @@ jobs:
       - run: bun run release:build
       - name: Require current generated artifacts
         run: |
-          git diff --exit-code -- generated packages/backend/convex/apiFunctions.ts
-          test -z "$(git ls-files --others --exclude-standard -- generated packages/backend/convex/apiFunctions.ts)"
+          git diff --exit-code -- generated packages/backend/convex/apiFunctions.ts mcp.json .mcp.json
+          test -z "$(git ls-files --others --exclude-standard -- generated packages/backend/convex/apiFunctions.ts mcp.json .mcp.json)"
       - uses: changesets/action/select-mode@v2
         id: plan
         # Keep publishing disabled until package identities and npm publishers are configured.

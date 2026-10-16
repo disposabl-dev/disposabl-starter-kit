@@ -13,7 +13,7 @@
     "test": "turbo run test",
     "cli": "DISPOSABL_CLI_DEV=1 bun packages/cli/index.ts",
     "changeset": "changeset",
-    "release:check": "bun run platforms:generate && bun run --cwd packages/sdk check && bun run --cwd packages/cli check && bun run --cwd packages/cli test && bun run --cwd packages/backend test",
+    "release:check": "bun run platforms:generate && bun run plugins:generate && bun run --cwd packages/sdk check && bun run --cwd packages/cli check && bun run --cwd packages/cli test && bun run --cwd packages/backend test",
     "release:build": "bun run --cwd packages/sdk build && bun run --cwd packages/cli build",
     "release:version": "changeset version && bun install --lockfile-only",
     "platforms:generate": "bun --cwd packages/backend node_modules/disposabl-kit/src/generate-platforms.ts --once",
