@@ -1,0 +1,14 @@
+{
+  "name": "disposabl",
+  "owner": {
+    "name": "Disposabl"
+  },
+  "description": "Disposabl skills maintained separately from the CLI release.",
+  "plugins": [
+    {
+      "name": "disposabl",
+      "description": "Discover and operate Disposabl APIs through the Disposabl CLI.",
+      "source": "./"
+    }
+  ]
+}

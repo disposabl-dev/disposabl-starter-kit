@@ -1,0 +1,17 @@
+{
+  "name": "disposabl",
+  "plugins": [
+    {
+      "name": "disposabl",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer tools"
+    }
+  ]
+}

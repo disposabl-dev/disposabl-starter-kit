@@ -5,6 +5,7 @@ import { createAccountFunctions } from "disposabl-kit/server/account/internal";
 import { internalAction, internalQuery } from "../convex/lib/functions";
 import { internal } from "../convex/_generated/api";
 import schema from "../convex/schema";
+import { getFunctionMetadata } from "../../disposabl-kit/src/server/lib/functions";
 
 const identity = {
   orgId: "org_test",
@@ -28,13 +29,9 @@ test("registers every account operation as internal and returns trusted identity
   for (const fn of Object.values(functions)) {
     expect(fn).toHaveProperty("isInternal", true);
     expect(fn).not.toHaveProperty("isPublic", true);
-    expect(fn).toHaveProperty("platforms", {
-      api: true,
-      cli: true,
-      mcp: true,
-      sdk: true,
-    });
   }
+  for (const fn of Object.values(functions))
+    expect(getFunctionMetadata(fn)?.platforms).toEqual(["api", "mcp"]);
   expect(await t.query(internal.account.internal.getAccount, identity)).toEqual(
     identity,
   );

@@ -1,9 +1,37 @@
 import { AuthKit } from "@convex-dev/workos-authkit";
-import type { GenericDataModel, GenericQueryCtx } from "convex/server";
+import {
+  ConflictException,
+  NotFoundException,
+  SignatureVerificationException,
+  UnprocessableEntityException,
+} from "@workos-inc/node";
+import {
+  httpActionGeneric,
+  type GenericDataModel,
+  type GenericQueryCtx,
+  type HttpRouter,
+} from "convex/server";
 import { ConvexError, v } from "convex/values";
 import { createRemoteJWKSet, errors, jwtVerify } from "jose";
 
 const unavailable = { code: "identity_provider_unavailable", status: 503 };
+
+async function findOrCreate<T>(
+  find: () => Promise<T>,
+  create: () => Promise<T>,
+) {
+  try {
+    return await find();
+  } catch (error) {
+    if (!(error instanceof NotFoundException)) throw error;
+    try {
+      return await create();
+    } catch (error) {
+      if (!(error instanceof ConflictException)) throw error;
+      return find();
+    }
+  }
+}
 
 function requireBearerToken(request: Request) {
   const token = request.headers
@@ -41,6 +69,10 @@ export function createAuth<DataModel extends GenericDataModel>(
     apiKey: string;
     webhookSecret: string;
     siteUrl: string;
+    /** Set false to manage API role permissions yourself. */
+    apiAccess?: false | { roleSlug?: string; permissionSlug?: string };
+    personal?:
+      false | { name?: string; externalIdPrefix?: string; roleSlug?: string };
   },
 ) {
   let authKit: AuthKit<DataModel> | undefined;
@@ -169,7 +201,13 @@ export function createAuth<DataModel extends GenericDataModel>(
         throw new ConvexError({ code: "invalid_api_key", status: 401 });
       if (apiKey.owner.type !== "user")
         throw new ConvexError({ code: "user_api_key_required", status: 403 });
-      if (!apiKey.permissions.includes("api:access"))
+      if (
+        !apiKey.permissions.includes(
+          options.apiAccess === false
+            ? "api:access"
+            : (options.apiAccess?.permissionSlug ?? "api:access"),
+        )
+      )
         throw new ConvexError({ code: "api_permission_required", status: 403 });
       const userId = apiKey.owner.id;
       const orgId = apiKey.owner.organizationId;
@@ -193,5 +231,123 @@ export function createAuth<DataModel extends GenericDataModel>(
     requireApiUser,
     getAuthKitIssuer,
     identityFields,
+    siteUrl: options.siteUrl,
+    registerRoutes(http: HttpRouter) {
+      const { workos } = authkit();
+      const { personal = {}, apiAccess = {} } = options;
+      http.route({
+        path: options.webhookPath ?? "/workos/webhook",
+        method: "POST",
+        handler: httpActionGeneric(async (ctx, request) => {
+          let event;
+          try {
+            event = await workos.webhooks.constructEvent({
+              payload: await request.text(),
+              sigHeader: request.headers.get("workos-signature") ?? "",
+              secret: options.webhookSecret,
+            });
+          } catch (error) {
+            if (
+              error instanceof SignatureVerificationException ||
+              error instanceof SyntaxError
+            )
+              return new Response("Invalid webhook", { status: 400 });
+            throw error;
+          }
+          if (
+            event.event === "user.created" ||
+            event.event === "user.updated"
+          ) {
+            if (apiAccess) {
+              const roleSlug = apiAccess.roleSlug ?? "admin";
+              const permissionSlug = apiAccess.permissionSlug ?? "api:access";
+              await findOrCreate(
+                () => workos.authorization.getPermission(permissionSlug),
+                () =>
+                  workos.authorization.createPermission({
+                    name: "API access",
+                    slug: permissionSlug,
+                  }),
+              );
+              const role =
+                await workos.authorization.getEnvironmentRole(roleSlug);
+              for (const slug of [permissionSlug, "widgets:api-keys:manage"])
+                if (!role.permissions.includes(slug))
+                  await workos.authorization.addEnvironmentRolePermission(
+                    roleSlug,
+                    { permissionSlug: slug },
+                  );
+            }
+            if (personal) {
+              const userId = event.data.id;
+              const synced = await ctx.runQuery(component.lib.getAuthUser, {
+                id: userId,
+              });
+              if (!synced) {
+                try {
+                  await workos.userManagement.getUser(userId);
+                } catch (error) {
+                  if (error instanceof NotFoundException)
+                    return new Response("OK");
+                  throw error;
+                }
+                const externalId = `${personal.externalIdPrefix ?? "personal:"}${userId}`;
+                const org = await findOrCreate(
+                  () =>
+                    workos.organizations.getOrganizationByExternalId(
+                      externalId,
+                    ),
+                  () =>
+                    workos.organizations.createOrganization({
+                      name: personal.name ?? "Personal",
+                      externalId,
+                    }),
+                );
+                const listMemberships = () =>
+                  workos.userManagement.listOrganizationMemberships({
+                    userId,
+                    organizationId: org.id,
+                    statuses: ["active", "inactive", "pending"],
+                    limit: 1,
+                  });
+                // Replays must not restore revoked access or accept invitations.
+                if (!(await listMemberships()).data.length) {
+                  try {
+                    await workos.userManagement.createOrganizationMembership({
+                      userId,
+                      organizationId: org.id,
+                      roleSlug: personal.roleSlug ?? "admin",
+                    });
+                  } catch (error) {
+                    // Acknowledge a conflict only if membership now exists.
+                    if (
+                      !(
+                        error instanceof ConflictException ||
+                        error instanceof UnprocessableEntityException
+                      ) ||
+                      !(await listMemberships()).data.length
+                    )
+                      throw error;
+                  }
+                }
+              }
+            }
+          }
+          // Synchronize after provisioning so failed deliveries retry.
+          await ctx.runMutation(component.lib.onWebhookEvent, {
+            event: {
+              id: event.id,
+              event: event.event,
+              data: event.data,
+              createdAt: event.createdAt,
+            },
+          });
+          return new Response("OK");
+        }),
+      });
+    },
   };
 }
+
+export type Auth<DataModel extends GenericDataModel = GenericDataModel> =
+  ReturnType<typeof createAuth<DataModel>>;

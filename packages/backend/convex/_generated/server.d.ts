@@ -33,7 +33,6 @@ type Env = {
   readonly DISPOSABL_PLATFORMS: string | undefined;
   readonly TEAMS_ENABLED: string | undefined;
   readonly WORKOS_API_KEY: string;
-  readonly WORKOS_AUTHKIT_URL: string | undefined;
   readonly WORKOS_CLIENT_ID: string;
   readonly WORKOS_WEBHOOK_SECRET: string;
 };

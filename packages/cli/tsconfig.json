@@ -1,0 +1,11 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM"],
+    "types": ["bun", "node"],
+    "noEmit": true,
+    "resolveJsonModule": true
+  },
+  "include": ["index.ts", "tests"]
+}

@@ -36,14 +36,14 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   };
 
   const getAccount = internalQuery({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: identityFields,
     returns: v.object(identityFields),
     handler: (_ctx, { orgId, userId, role }) => ({ orgId, userId, role }),
   });
 
   const updateAccount = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, name: v.string() },
     returns: account,
     handler: async (_ctx, { orgId, role, name }) => {
@@ -90,7 +90,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   }
 
   const listTeams = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, ...pagination.fields },
     returns: accountPage,
     handler: async (_ctx, { userId, paginationOpts }) => {
@@ -111,7 +111,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const createTeam = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, name: v.string(), requestId: v.string() },
     returns: account,
     handler: async (_ctx, { userId, name, requestId }) => {
@@ -148,7 +148,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const listMembers = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, ...pagination.fields },
     returns: memberPage,
     handler: async (_ctx, { orgId, ...args }) => {
@@ -178,7 +178,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const updateMemberRole = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, membershipId: v.string(), roleSlug: role },
     returns: member,
     handler: async (_ctx, { orgId, userId, role, ...args }) => {
@@ -220,7 +220,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const removeMember = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, membershipId: v.string() },
     returns: v.null(),
     handler: async (_ctx, { orgId, userId, role, ...args }) => {
@@ -252,7 +252,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   }
 
   const listInvitations = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, ...pagination.fields },
     returns: invitationPage,
     handler: async (_ctx, { orgId, role, ...args }) => {
@@ -274,7 +274,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const sendInvitation = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, email: v.string(), roleSlug: v.optional(role) },
     returns: invitation,
     handler: async (_ctx, { orgId, userId, role, ...args }) => {
@@ -300,7 +300,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const resendInvitation = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, invitationId: v.string() },
     returns: invitation,
     handler: async (_ctx, { orgId, role, ...args }) => {
@@ -325,7 +325,7 @@ export function createAccountFunctions<DataModel extends GenericDataModel>({
   });
 
   const revokeInvitation = internalAction({
-    platforms: { api: true, cli: true, mcp: true, sdk: true },
+    platforms: ["api", "mcp"],
     args: { ...identityFields, invitationId: v.string() },
     returns: invitation,
     handler: async (_ctx, { orgId, role, ...args }) => {

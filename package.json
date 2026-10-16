@@ -2,6 +2,7 @@
   "name": "disposabl-starter-kit",
   "private": true,
   "scripts": {
+    "sdk:build": "bun --cwd packages/backend node_modules/disposabl-kit/src/generate-platforms.ts --once && bun run --cwd packages/sdk build",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "eslint . --max-warnings 0",
@@ -9,7 +10,14 @@
     "check": "bun --check && turbo run check",
     "check-types": "bun run check",
     "typecheck": "bun run check",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "cli": "DISPOSABL_CLI_DEV=1 bun packages/cli/index.ts",
+    "changeset": "changeset",
+    "release:check": "bun run platforms:generate && bun run --cwd packages/sdk check && bun run --cwd packages/cli check && bun run --cwd packages/cli test && bun run --cwd packages/backend test",
+    "release:build": "bun run --cwd packages/sdk build && bun run --cwd packages/cli build",
+    "release:version": "changeset version && bun install --lockfile-only",
+    "platforms:generate": "bun --cwd packages/backend node_modules/disposabl-kit/src/generate-platforms.ts --once",
+    "plugins:generate": "bun packages/disposabl-kit/src/generate-plugins.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -17,7 +25,8 @@
     "@types/bun": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
-    "turbo": "2.11.7"
+    "turbo": "2.11.7",
+    "@changesets/cli": "3.0.3"
   },
   "devEngines": {
     "packageManager": {

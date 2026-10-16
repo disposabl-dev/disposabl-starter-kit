@@ -3,7 +3,7 @@ import { identityFields } from "../auth";
 import { internalMutation, internalQuery } from "../lib/functions";
 
 export const createTodo = internalMutation({
-  platforms: { api: true },
+  platforms: ["api"],
   args: { ...identityFields, text: v.string() },
   returns: v.id("todos"),
   handler: async (ctx, { text, userId, orgId }) => {
@@ -12,7 +12,7 @@ export const createTodo = internalMutation({
 });
 
 export const getTodo = internalQuery({
-  platforms: { api: true },
+  platforms: ["mcp"],
   args: { ...identityFields, id: v.id("todos") },
   returns: v.union(
     v.null(),

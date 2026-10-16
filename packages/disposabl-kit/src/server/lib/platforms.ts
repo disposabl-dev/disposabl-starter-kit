@@ -1,4 +1,14 @@
-/** Parse DISPOSABL_PLATFORMS once for generators and servers. */
+/**
+ * Functions select their additional exposure through API and MCP.
+ * Web and mobile already access public Convex functions directly.
+ * CLI/SDK are global API clients; OpenAI/Claude are global MCP integrations.
+ * Keeping those clients global prevents selecting a function for a client
+ * without exposing the API or MCP transport that client needs.
+ * This metadata guides generation; it does not authorize requests.
+ */
+export type Platforms = readonly ("api" | "mcp")[];
+
+/** Parse global DISPOSABL_PLATFORMS and enable required transports. */
 export function getPlatforms(value?: string) {
   const enabled = new Set(
     (value ?? process.env.DISPOSABL_PLATFORMS ?? "")
@@ -26,7 +36,8 @@ export function getPlatforms(value?: string) {
       throw new Error(`Invalid DISPOSABL_PLATFORMS platform: ${name}`);
   }
   return {
-    isApiEnabled: enabled.has("api"),
+    isApiEnabled:
+      enabled.has("api") || enabled.has("cli") || enabled.has("sdk"),
     isCliEnabled: enabled.has("cli"),
     isMcpEnabled:
       enabled.has("mcp") ||
