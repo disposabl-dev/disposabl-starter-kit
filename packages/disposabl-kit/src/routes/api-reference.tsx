@@ -5,7 +5,7 @@ import { T } from "gt-react";
 
 export const Route = createFileRoute("/api-reference")({
   loader: async () => {
-    const response = await fetch("/openapi.yaml");
+    const response = await fetch("/openapi.json");
     if (!response.ok) throw notFound();
     const content = await response.text();
     if (!/^openapi:/m.test(content)) throw notFound();
