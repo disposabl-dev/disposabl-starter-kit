@@ -60,7 +60,11 @@ export function Providers({
       {clientId ? (
         <AuthKitProvider
           clientId={clientId}
-          redirectUri={`${window.location.origin}/callback`}
+          redirectUri={
+            typeof window === "undefined"
+              ? undefined
+              : `${window.location.origin}/callback`
+          }
         >
           <ConvexProviderWithAuthKit client={convex} useAuth={useAuth}>
             {content}

@@ -5,6 +5,14 @@ import { createRemoteJWKSet, errors, jwtVerify } from "jose";
 
 const unavailable = { code: "identity_provider_unavailable", status: 503 };
 
+function requireBearerToken(request: Request) {
+  const token = request.headers
+    .get("authorization")
+    ?.match(/^Bearer\s+(\S+)$/i)?.[1];
+  if (!token) throw new ConvexError({ code: "unauthenticated", status: 401 });
+  return token;
+}
+
 // Only authenticated entrypoints supply these fields to internal functions.
 export const identityFields = {
   orgId: v.string(),
@@ -101,11 +109,7 @@ export function createAuth<DataModel extends GenericDataModel>(
     source: Pick<GenericQueryCtx<DataModel>, "auth"> | Request,
   ) => {
     if (!("auth" in source)) {
-      const token = source.headers
-        .get("authorization")
-        ?.match(/^Bearer\s+(\S+)$/i)?.[1];
-      if (!token)
-        throw new ConvexError({ code: "unauthenticated", status: 401 });
+      const token = requireBearerToken(source);
       const issuer = await getAuthKitIssuer();
       let payload;
       try {
@@ -156,10 +160,7 @@ export function createAuth<DataModel extends GenericDataModel>(
   };
 
   const requireApiUser = async (request: Request) => {
-    const value = request.headers
-      .get("authorization")
-      ?.match(/^Bearer\s+(\S+)$/i)?.[1];
-    if (!value) throw new ConvexError({ code: "unauthenticated", status: 401 });
+    const value = requireBearerToken(request);
     try {
       const { apiKey } = await authkit().workos.apiKeys.createValidation({
         value,
