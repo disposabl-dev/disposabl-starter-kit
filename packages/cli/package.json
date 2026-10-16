@@ -1,0 +1,36 @@
+{
+  "name": "@disposabl/cli",
+  "version": "1.0.0",
+  "description": "Command-line client for the Disposabl API",
+  "type": "module",
+  "bin": {
+    "disposabl": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown index.ts --format esm --target node22",
+    "check": "bun --check",
+    "test": "bun test tests"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "disposabl-kit": "workspace:*",
+    "tsdown": "0.23.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/disposabl-dev/disposabl-starter-kit.git",
+    "directory": "packages/cli"
+  }
+}

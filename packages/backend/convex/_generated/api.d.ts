@@ -8,12 +8,15 @@
  * @module
  */
 
+import type * as account_index from "../account/index.js";
+import type * as account_internal from "../account/internal.js";
+import type * as account_validator from "../account/validator.js";
+import type * as apiFunctions from "../apiFunctions.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as lib_functions from "../lib/functions.js";
 import type * as staticHosting from "../staticHosting.js";
-import type * as todos_index from "../todos/index.js";
-import type * as todos_internal from "../todos/internal.js";
+import type * as todo_internal from "../todo/internal.js";
 
 import type {
   ApiFromModules,
@@ -22,12 +25,15 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  "account/index": typeof account_index;
+  "account/internal": typeof account_internal;
+  "account/validator": typeof account_validator;
+  apiFunctions: typeof apiFunctions;
   auth: typeof auth;
   http: typeof http;
   "lib/functions": typeof lib_functions;
   staticHosting: typeof staticHosting;
-  "todos/index": typeof todos_index;
-  "todos/internal": typeof todos_internal;
+  "todo/internal": typeof todo_internal;
 }>;
 
 /**

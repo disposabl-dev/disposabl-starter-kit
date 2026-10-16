@@ -2,45 +2,31 @@
   "name": "disposabl-starter-kit",
   "private": true,
   "scripts": {
+    "sdk:build": "bun --cwd packages/backend node_modules/disposabl-kit/src/generate-platforms.ts --once && bun run --cwd packages/sdk build",
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
-    "typecheck": "turbo run typecheck",
-    "test": "turbo run test"
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "check": "bun --check && turbo run check",
+    "check-types": "bun run check",
+    "typecheck": "bun run check",
+    "test": "turbo run test",
+    "cli": "DISPOSABL_CLI_DEV=1 bun packages/cli/index.ts",
+    "changeset": "changeset",
+    "release:check": "bun run platforms:generate && bun run plugins:generate && bun run --cwd packages/sdk check && bun run --cwd packages/cli check && bun run --cwd packages/cli test && bun run --cwd packages/backend test",
+    "release:build": "bun run --cwd packages/sdk build && bun run --cwd packages/cli build",
+    "release:version": "changeset version && bun install --lockfile-only",
+    "platforms:generate": "bun --cwd packages/backend node_modules/disposabl-kit/src/generate-platforms.ts --once",
+    "plugins:generate": "bun packages/disposabl-kit/src/generate-plugins.ts"
   },
   "devDependencies": {
-    "turbo": "2.11.7"
-  },
-  "overrides": {
-    "@ai-sdk/provider-utils": "4.0.57"
-  },
-  "catalog": {
-    "@babel/core": "8.0.7",
-    "@rolldown/plugin-babel": "0.2.4",
-    "@tailwindcss/vite": "4.3.3",
-    "@tanstack/react-router": "1.170.42",
-    "@types/bun": "1.4.2",
-    "@types/react": "19.3.0",
-    "@types/react-dom": "19.3.0",
-    "@vitejs/plugin-react": "6.1.2",
-    "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "10.12.0",
-    "prettier": "3.9.10",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "react-is": "19.3.0",
-    "shadcn": "4.21.4",
-    "tailwindcss": "4.3.3",
-    "typescript": "7.0.2",
-    "vite": "8.3.4",
-    "@types/node": "26.6.5",
-    "convex": "1.46.0",
-    "lucide-react": "1.55.0",
-    "@workos-inc/authkit-react": "0.16.3",
-    "vitest": "5.0.3",
-    "@convex-dev/static-hosting": "0.2.1",
-    "@tanstack/router-plugin": "1.168.43"
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/bun": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "turbo": "2.11.7",
+    "@changesets/cli": "3.0.3"
   },
   "devEngines": {
     "packageManager": {
@@ -52,5 +38,32 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "catalog": {
+    "@convex-dev/static-hosting": "0.2.1",
+    "@convex-dev/workos-authkit": "0.2.10",
+    "@generaltranslation/react-core-linter": "0.1.15",
+    "@tailwindcss/vite": "4.3.3",
+    "@tanstack/react-router": "1.170.44",
+    "@types/bun": "1.4.3",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@workos-inc/authkit-react": "0.16.3",
+    "@workos-inc/node": "10.14.0",
+    "convex": "1.46.0",
+    "eslint": "10.12.0",
+    "gt": "2.26.3",
+    "gt-react": "11.4.11",
+    "lucide-react": "1.56.0",
+    "prettier": "^3.9.10",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-is": "19.3.0",
+    "shadcn": "^4.21.4",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.3"
+  }
 }

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useGT } from "gt-react";
 import {
   SidebarGroup,
   SidebarMenu,
@@ -7,18 +8,19 @@ import {
 } from "disposabl-kit/components/ui/sidebar";
 
 export default function Sidebar() {
+  const gt = useGT();
   return (
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton asChild tooltip="Dashboard">
+          <SidebarMenuButton asChild tooltip={gt("Dashboard")}>
             <Link
-              to="/dashboard"
+              to="/"
               activeProps={{
                 className: "bg-sidebar-accent text-sidebar-accent-foreground",
               }}
             >
-              Dashboard
+              {gt("Dashboard")}
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

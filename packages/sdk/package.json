@@ -1,0 +1,34 @@
+{
+  "name": "@disposabl/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for the Disposabl API",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown index.ts --format esm --dts --target es2022",
+    "check": "bun --check"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "tsdown": "0.23.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/disposabl-dev/disposabl-starter-kit.git",
+    "directory": "packages/sdk"
+  }
+}

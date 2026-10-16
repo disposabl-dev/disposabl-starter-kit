@@ -7,12 +7,14 @@ import {
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
+import { useGT } from "gt-react";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  const gt = useGT();
   return (
     <nav
       role="navigation"
-      aria-label="pagination"
+      aria-label={gt("pagination")}
       data-slot="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
@@ -67,35 +69,37 @@ function PaginationLink({
 
 function PaginationPrevious({
   className,
-  text = "Previous",
+  text,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const gt = useGT();
   return (
     <PaginationLink
-      aria-label="Go to previous page"
+      aria-label={gt("Go to previous page")}
       size="default"
       className={cn("pl-1.5!", className)}
       {...props}
     >
       <ChevronLeftIcon data-icon="inline-start" />
-      <span className="hidden sm:block">{text}</span>
+      <span className="hidden sm:block">{text ?? gt("Previous")}</span>
     </PaginationLink>
   );
 }
 
 function PaginationNext({
   className,
-  text = "Next",
+  text,
   ...props
 }: React.ComponentProps<typeof PaginationLink> & { text?: string }) {
+  const gt = useGT();
   return (
     <PaginationLink
-      aria-label="Go to next page"
+      aria-label={gt("Go to next page")}
       size="default"
       className={cn("pr-1.5!", className)}
       {...props}
     >
-      <span className="hidden sm:block">{text}</span>
+      <span className="hidden sm:block">{text ?? gt("Next")}</span>
       <ChevronRightIcon data-icon="inline-end" />
     </PaginationLink>
   );
@@ -105,6 +109,7 @@ function PaginationEllipsis({
   className,
   ...props
 }: React.ComponentProps<"span">) {
+  const gt = useGT();
   return (
     <span
       aria-hidden
@@ -116,7 +121,7 @@ function PaginationEllipsis({
       {...props}
     >
       <MoreHorizontalIcon />
-      <span className="sr-only">More pages</span>
+      <span className="sr-only">{gt("More pages")}</span>
     </span>
   );
 }

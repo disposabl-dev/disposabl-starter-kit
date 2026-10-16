@@ -5,6 +5,7 @@
 **/dist-ssr/**
 **/coverage/**
 **/_generated/**
+**/_gt/**
 **/.env
 **/.env.*
 bun.lock

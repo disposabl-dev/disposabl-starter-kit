@@ -1,0 +1,13 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "types": ["bun", "vite/client"],
+    "noEmit": true
+  },
+  "include": [
+    "eslint.config.ts",
+    "vitest.config.ts",
+    "tests"
+  ]
+}

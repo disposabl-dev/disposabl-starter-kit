@@ -1,25 +1,23 @@
 {
-  "name": "disposabl-backend",
+  "name": "backend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "convex dev",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "dev": "bun run --parallel dev:convex generate-platforms",
+    "dev:convex": "convex dev",
+    "generate-platforms": "bun --watch --no-clear-screen node_modules/disposabl-kit/src/generate-platforms.ts",
+    "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
-    "typecheck": "bun check",
     "test": "vitest run",
-    "codegen": "convex codegen",
-    "deploy": "convex deploy"
+    "check": "bun check"
   },
   "dependencies": {
     "@convex-dev/static-hosting": "catalog:",
-    "@convex-dev/workos-authkit": "0.2.10",
-    "@disposabl/convex-platforms": "0.2.2",
-    "@workos-inc/node": "10.14.0",
+    "@convex-dev/workos-authkit": "catalog:",
     "convex": "catalog:",
-    "convex-helpers": "0.1.128",
-    "hono": "4.13.13"
+    "disposabl-kit": "workspace:*",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@convex-dev/eslint-plugin": "5.0.0",
@@ -28,12 +26,14 @@
     "@repo/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
+    "@workos-inc/node": "catalog:",
     "convex-test": "0.0.61",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "yaml": "2.9.1"
   },
   "exports": {
     "./api": {

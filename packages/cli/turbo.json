@@ -1,0 +1,19 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/generated/openapi.json",
+        "$TURBO_ROOT$/platforms.config.ts"
+      ]
+    },
+    "check": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/generated/openapi.json",
+        "$TURBO_ROOT$/platforms.config.ts"
+      ]
+    }
+  }
+}

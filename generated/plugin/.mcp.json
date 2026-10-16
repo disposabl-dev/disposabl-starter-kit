@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "disposabl": {
+      "type": "http",
+      "url": "https://courteous-marmot-118.convex.site/mcp"
+    }
+  }
+}

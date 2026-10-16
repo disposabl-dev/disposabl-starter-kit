@@ -4,6 +4,7 @@ import { Dialog as SheetPrimitive } from "radix-ui";
 
 import { Button } from "disposabl-kit/components/ui/button";
 import { XIcon } from "lucide-react";
+import { useGT } from "gt-react";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
@@ -53,6 +54,7 @@ function SheetContent({
   side?: "top" | "right" | "bottom" | "left";
   showCloseButton?: boolean;
 }) {
+  const gt = useGT();
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -74,7 +76,7 @@ function SheetContent({
               size="icon-sm"
             >
               <XIcon />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">{gt("Close")}</span>
             </Button>
           </SheetPrimitive.Close>
         )}

@@ -6,6 +6,7 @@ import useEmblaCarousel, {
 
 import { Button } from "disposabl-kit/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useGT } from "gt-react";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -49,6 +50,7 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
+  const gt = useGT();
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -124,7 +126,7 @@ function Carousel({
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
         role="region"
-        aria-roledescription="carousel"
+        aria-roledescription={gt("carousel")}
         data-slot="carousel"
         {...props}
       >
@@ -156,12 +158,13 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
+  const gt = useGT();
   const { orientation } = useCarousel();
 
   return (
     <div
       role="group"
-      aria-roledescription="slide"
+      aria-roledescription={gt("slide")}
       data-slot="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
@@ -179,6 +182,7 @@ function CarouselPrevious({
   size = "icon-sm",
   ...props
 }: React.ComponentProps<typeof Button>) {
+  const gt = useGT();
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
   return (
@@ -198,7 +202,7 @@ function CarouselPrevious({
       {...props}
     >
       <ChevronLeftIcon />
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">{gt("Previous slide")}</span>
     </Button>
   );
 }
@@ -209,6 +213,7 @@ function CarouselNext({
   size = "icon-sm",
   ...props
 }: React.ComponentProps<typeof Button>) {
+  const gt = useGT();
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
@@ -228,7 +233,7 @@ function CarouselNext({
       {...props}
     >
       <ChevronRightIcon />
-      <span className="sr-only">Next slide</span>
+      <span className="sr-only">{gt("Next slide")}</span>
     </Button>
   );
 }

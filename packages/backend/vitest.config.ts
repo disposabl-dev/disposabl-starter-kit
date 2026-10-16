@@ -5,14 +5,5 @@ export default defineConfig({
     name: "backend",
     environment: "edge-runtime",
     include: ["tests/**/*.test.ts"],
-    server: {
-      deps: {
-        inline: [
-          "@convex-dev/workos-authkit",
-          "@convex-dev/workflow",
-          "@convex-dev/workpool",
-        ],
-      },
-    },
   },
 });

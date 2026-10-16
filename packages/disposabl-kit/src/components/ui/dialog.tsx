@@ -6,6 +6,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { Button } from "disposabl-kit/components/ui/button";
 import { XIcon } from "lucide-react";
+import { useGT } from "gt-react";
 
 function Dialog({
   ...props
@@ -55,6 +56,7 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
 }) {
+  const gt = useGT();
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -75,7 +77,7 @@ function DialogContent({
               size="icon-sm"
             >
               <XIcon />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">{gt("Close")}</span>
             </Button>
           </DialogPrimitive.Close>
         )}
@@ -102,6 +104,7 @@ function DialogFooter({
 }: React.ComponentProps<"div"> & {
   showCloseButton?: boolean;
 }) {
+  const gt = useGT();
   return (
     <div
       data-slot="dialog-footer"
@@ -114,7 +117,7 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close asChild>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{gt("Close")}</Button>
         </DialogPrimitive.Close>
       )}
     </div>

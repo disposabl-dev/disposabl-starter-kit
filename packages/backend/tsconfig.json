@@ -1,4 +1,4 @@
 {
   "files": [],
-  "references": [{ "path": "./convex" }, { "path": "./tsconfig.tooling.json" }]
+  "references": [{ "path": "./convex" }, { "path": "./tsconfig.bun.json" }]
 }
