@@ -5,7 +5,7 @@
       "name": "disposabl",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./generated/plugin"
       },
       "policy": {
         "installation": "AVAILABLE",

@@ -1,4 +1,11 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
@@ -35,6 +42,13 @@ if (
   );
 const url = new URL("/mcp", origin).href;
 const root = dirname(configPath);
+const plugin = resolve(root, "generated/plugin");
+mkdirSync(resolve(plugin, ".claude-plugin"), { recursive: true });
+for (const file of ["plugin.json", ".claude-plugin/plugin.json"])
+  cpSync(resolve(root, file), resolve(plugin, file));
+// Only this generated copy is replaced; app-owned skills remain the source.
+rmSync(resolve(plugin, "skills"), { recursive: true, force: true });
+cpSync(resolve(root, "skills"), resolve(plugin, "skills"), { recursive: true });
 for (const [file, type] of [
   ["mcp.json", "streamable-http"],
   [".mcp.json", "http"],
@@ -53,8 +67,11 @@ for (const [file, type] of [
       null,
       2,
     ) + "\n";
-  const target = resolve(root, file);
-  if (existsSync(target) && readFileSync(target, "utf8") === content) continue;
-  writeFileSync(target, content);
-  console.log(`Generated ${target}`);
+  for (const directory of [root, plugin]) {
+    const target = resolve(directory, file);
+    if (existsSync(target) && readFileSync(target, "utf8") === content)
+      continue;
+    writeFileSync(target, content);
+    console.log(`Generated ${target}`);
+  }
 }

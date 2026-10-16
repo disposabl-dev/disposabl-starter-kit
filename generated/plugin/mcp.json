@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "disposabl": {
+      "type": "streamable-http",
+      "url": "https://courteous-marmot-118.convex.site/mcp"
+    }
+  }
+}

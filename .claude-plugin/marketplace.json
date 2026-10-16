@@ -8,7 +8,7 @@
     {
       "name": "disposabl",
       "description": "Discover and operate Disposabl APIs through the Disposabl CLI.",
-      "source": "./"
+      "source": "./generated/plugin"
     }
   ]
 }
