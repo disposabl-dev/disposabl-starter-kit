@@ -13,23 +13,30 @@
   "dependencies": {
     "@convex-dev/static-hosting": "catalog:",
     "@convex-dev/workos-authkit": "catalog:",
+    "@hono/standard-validator": "^0.4.0",
+    "@modelcontextprotocol/server": "^2.3.1",
     "convex": "catalog:",
-    "disposabl-kit": "workspace:*"
+    "convex-helpers": "0.1.128",
+    "disposabl-kit": "workspace:*",
+    "hono": "^4.13.13",
+    "hono-openapi": "^1.3.5",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@workos-inc/node": "catalog:",
     "@convex-dev/eslint-plugin": "5.0.0",
     "@edge-runtime/vm": "5.0.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
+    "@workos-inc/node": "catalog:",
     "convex-test": "0.0.61",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "yaml": "2.9.1"
   },
   "exports": {
     "./api": {

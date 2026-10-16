@@ -2,6 +2,7 @@ export { createAuth, identityFields } from "./auth";
 export { getPlatforms } from "./platforms";
 export {
   createFunctions,
+  getFunctionMetadata,
   type InternalFunctions,
   type Platforms,
 } from "./functions";

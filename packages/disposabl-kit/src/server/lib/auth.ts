@@ -1,6 +1,9 @@
 import { AuthKit } from "@convex-dev/workos-authkit";
 import type { GenericDataModel, GenericQueryCtx } from "convex/server";
 import { ConvexError, v } from "convex/values";
+import { createRemoteJWKSet, errors, jwtVerify } from "jose";
+
+const unavailable = { code: "identity_provider_unavailable", status: 503 };
 
 // Only authenticated entrypoints supply these fields to internal functions.
 export const identityFields = {
@@ -9,19 +12,133 @@ export const identityFields = {
   role: v.union(v.literal("admin"), v.literal("member")),
 };
 
+function userIdentity(userId: unknown, orgId: unknown, roles: unknown[]) {
+  if (typeof userId !== "string" || !userId.startsWith("user_"))
+    throw new ConvexError({ code: "user_required", status: 403 });
+  if (typeof orgId !== "string" || !orgId.startsWith("org_"))
+    throw new ConvexError({ code: "organization_required", status: 403 });
+  const role = roles.includes("admin")
+    ? ("admin" as const)
+    : roles.includes("member")
+      ? ("member" as const)
+      : null;
+  if (!role) throw new ConvexError({ code: "role_required", status: 403 });
+  return { orgId, userId, role };
+}
+
 export function createAuth<DataModel extends GenericDataModel>(
   component: AuthKit<DataModel>["component"],
   options: NonNullable<ConstructorParameters<typeof AuthKit<DataModel>>[1]> & {
     clientId: string;
     apiKey: string;
     webhookSecret: string;
+    siteUrl: string;
   },
 ) {
   let authKit: AuthKit<DataModel> | undefined;
   const authkit = () =>
     (authKit ??= new AuthKit<DataModel>(component, options));
-  const requireUser = async (ctx: Pick<GenericQueryCtx<DataModel>, "auth">) => {
-    const identity = await ctx.auth.getUserIdentity().catch(() => null);
+  let issuer: string | undefined;
+  let keys: ReturnType<typeof createRemoteJWKSet> | undefined;
+  const getAuthKitIssuer = async () => {
+    if (issuer) return issuer;
+    try {
+      const authorizationUrl =
+        authkit().workos.userManagement.getAuthorizationUrl({
+          clientId: options.clientId,
+          provider: "authkit",
+          redirectUri: new URL("/callback", options.siteUrl).href,
+        });
+      const response = await fetch(authorizationUrl, {
+        redirect: "manual",
+        signal: AbortSignal.timeout(10_000),
+      });
+      const location = response.headers.get("location");
+      if (response.status !== 302 || !location)
+        throw new Error("AuthKit discovery failed");
+      const url = new URL(location);
+      if (
+        url.protocol !== "https:" ||
+        !url.hostname.endsWith(".authkit.app") ||
+        url.username ||
+        url.password ||
+        url.port
+      )
+        throw new Error("Invalid AuthKit origin");
+      return (issuer = url.origin);
+    } catch {
+      throw new ConvexError(unavailable);
+    }
+  };
+  const requireMembership = async (userId: string, orgId: string) => {
+    try {
+      const { data } =
+        await authkit().workos.userManagement.listOrganizationMemberships({
+          userId,
+          organizationId: orgId,
+          statuses: ["active"],
+          limit: 1,
+        });
+      const member = data[0];
+      if (!member)
+        throw new ConvexError({
+          code: "active_membership_required",
+          status: 403,
+        });
+      return userIdentity(
+        userId,
+        orgId,
+        (member.roles ?? [member.role]).map((role) => role.slug),
+      );
+    } catch (error) {
+      if (error instanceof ConvexError) throw error;
+      throw new ConvexError(unavailable);
+    }
+  };
+
+  // Public Convex functions pass ctx; MCP HTTP handlers pass the request.
+  const requireUser = async (
+    source: Pick<GenericQueryCtx<DataModel>, "auth"> | Request,
+  ) => {
+    if (!("auth" in source)) {
+      const token = source.headers
+        .get("authorization")
+        ?.match(/^Bearer\s+(\S+)$/i)?.[1];
+      if (!token)
+        throw new ConvexError({ code: "unauthenticated", status: 401 });
+      const issuer = await getAuthKitIssuer();
+      let payload;
+      try {
+        ({ payload } = await jwtVerify(
+          token,
+          (keys ??= createRemoteJWKSet(new URL(`${issuer}/oauth2/jwks`), {
+            timeoutDuration: 10_000,
+          })),
+          {
+            issuer,
+            audience: new URL("/mcp", options.siteUrl).href,
+            algorithms: ["RS256"],
+            requiredClaims: ["exp", "sub"],
+          },
+        ));
+      } catch (error) {
+        if (
+          error instanceof errors.JOSEError &&
+          !(error instanceof errors.JWKSTimeout)
+        )
+          throw new ConvexError({ code: "invalid_access_token", status: 401 });
+        throw new ConvexError(unavailable);
+      }
+      if (typeof payload.sub !== "string" || !payload.sub.startsWith("user_"))
+        throw new ConvexError({ code: "user_required", status: 403 });
+      if (
+        typeof payload.org_id !== "string" ||
+        !payload.org_id.startsWith("org_")
+      )
+        throw new ConvexError({ code: "organization_required", status: 403 });
+      return requireMembership(payload.sub, payload.org_id);
+    }
+    const identity = await source.auth.getUserIdentity().catch(() => null);
     if (!identity)
       throw new ConvexError({ code: "unauthenticated", status: 401 });
     if (
@@ -31,65 +148,33 @@ export function createAuth<DataModel extends GenericDataModel>(
       ].includes(identity.issuer)
     )
       throw new ConvexError({ code: "session_required", status: 403 });
-    const userId = identity.subject;
-    const orgId = identity.org_id;
-    if (typeof userId !== "string" || !userId.startsWith("user_"))
-      throw new ConvexError({ code: "user_required", status: 403 });
-    if (typeof orgId !== "string" || !orgId.startsWith("org_"))
-      throw new ConvexError({ code: "organization_required", status: 403 });
-    const roles = Array.isArray(identity.roles)
-      ? identity.roles
-      : [identity.role];
-    const role: "admin" | "member" | null = roles.includes("admin")
-      ? "admin"
-      : roles.includes("member")
-        ? "member"
-        : null;
-    if (!role) throw new ConvexError({ code: "role_required", status: 403 });
-    return { orgId, userId, role };
+    return userIdentity(
+      identity.subject,
+      identity.org_id,
+      Array.isArray(identity.roles) ? identity.roles : [identity.role],
+    );
   };
-  const requireApiKey = async (request: Request) => {
+
+  const requireApiUser = async (request: Request) => {
     const value = request.headers
       .get("authorization")
       ?.match(/^Bearer\s+(\S+)$/i)?.[1];
     if (!value) throw new ConvexError({ code: "unauthenticated", status: 401 });
-
     try {
-      const workos = authkit().workos;
-      const { apiKey } = await workos.apiKeys.createValidation({ value });
+      const { apiKey } = await authkit().workos.apiKeys.createValidation({
+        value,
+      });
       if (!apiKey)
         throw new ConvexError({ code: "invalid_api_key", status: 401 });
       if (apiKey.owner.type !== "user")
         throw new ConvexError({ code: "user_api_key_required", status: 403 });
       if (!apiKey.permissions.includes("api:access"))
         throw new ConvexError({ code: "api_permission_required", status: 403 });
-
       const userId = apiKey.owner.id;
       const orgId = apiKey.owner.organizationId;
       if (!userId.startsWith("user_") || !orgId.startsWith("org_"))
         throw new ConvexError({ code: "invalid_api_key", status: 401 });
-      const { data } = await workos.userManagement.listOrganizationMemberships({
-        userId,
-        organizationId: orgId,
-        statuses: ["active"],
-        limit: 1,
-      });
-      const membership = data[0];
-      if (!membership)
-        throw new ConvexError({
-          code: "active_membership_required",
-          status: 403,
-        });
-      const roles = (membership.roles ?? [membership.role]).map(
-        (role) => role.slug,
-      );
-      const role: "admin" | "member" | null = roles.includes("admin")
-        ? "admin"
-        : roles.includes("member")
-          ? "member"
-          : null;
-      if (!role) throw new ConvexError({ code: "role_required", status: 403 });
-      return { orgId, userId, role };
+      return await requireMembership(userId, orgId);
     } catch (error) {
       if (error instanceof ConvexError) throw error;
       const status =
@@ -98,11 +183,14 @@ export function createAuth<DataModel extends GenericDataModel>(
           : undefined;
       if (status === 401 || status === 403 || status === 422)
         throw new ConvexError({ code: "invalid_api_key", status: 401 });
-      throw new ConvexError({
-        code: "identity_provider_unavailable",
-        status: 503,
-      });
+      throw new ConvexError(unavailable);
     }
   };
-  return { authkit, requireUser, requireApiKey, identityFields };
+  return {
+    authkit,
+    requireUser,
+    requireApiUser,
+    getAuthKitIssuer,
+    identityFields,
+  };
 }

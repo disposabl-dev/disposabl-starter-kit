@@ -38,6 +38,24 @@ type Definition<
   ) => Infer<Returns> | Promise<Infer<Returns>>;
 };
 
+type PlatformMetadata = {
+  platforms: Platforms;
+  validators: { args: PropertyValidators; returns: GenericValidator };
+};
+
+/** Read metadata attached by createFunctions without changing Convex reference types. */
+export function getFunctionMetadata(fn: object): PlatformMetadata {
+  const metadata = fn as Partial<PlatformMetadata>;
+  if (!metadata.validators)
+    throw new Error(
+      "Function must be defined with createFunctions to expose its validators.",
+    );
+  return {
+    platforms: metadata.platforms ?? false,
+    validators: metadata.validators,
+  };
+}
+
 /** Bind native internal builders to the app's generated DataModel. */
 export function createFunctions<DataModel extends GenericDataModel>() {
   const query = internalQueryGeneric as QueryBuilder<DataModel, "internal">;
@@ -54,7 +72,11 @@ export function createFunctions<DataModel extends GenericDataModel>() {
       "internal",
       ObjectType<A>,
       Infer<R>
-    > => Object.assign(query(definition), { platforms }),
+    > =>
+      Object.assign(query(definition), {
+        platforms,
+        validators: { args: definition.args, returns: definition.returns },
+      }),
     internalMutation: <
       A extends PropertyValidators,
       R extends GenericValidator,
@@ -65,7 +87,11 @@ export function createFunctions<DataModel extends GenericDataModel>() {
       "internal",
       ObjectType<A>,
       Infer<R>
-    > => Object.assign(mutation(definition), { platforms }),
+    > =>
+      Object.assign(mutation(definition), {
+        platforms,
+        validators: { args: definition.args, returns: definition.returns },
+      }),
     internalAction: <A extends PropertyValidators, R extends GenericValidator>({
       platforms = false,
       ...definition
@@ -73,7 +99,11 @@ export function createFunctions<DataModel extends GenericDataModel>() {
       "internal",
       ObjectType<A>,
       Infer<R>
-    > => Object.assign(action(definition), { platforms }),
+    > =>
+      Object.assign(action(definition), {
+        platforms,
+        validators: { args: definition.args, returns: definition.returns },
+      }),
   };
 }
 
