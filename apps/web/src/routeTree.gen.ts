@@ -81,8 +81,8 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
 const DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute =
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRouteImport.update(
     {
-      id: '/docs/$',
-      path: '/docs/$',
+      id: '/{-$lang}/docs/$',
+      path: '/{-$lang}/docs/$',
       getParentRoute: () => rootRouteImport,
     } as any,
   )
@@ -97,7 +97,7 @@ export interface FileRoutesByFullPath {
   '/signin': typeof AuthPagesSigninRoute
   '/signup': typeof AuthPagesSignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/docs/$': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
+  '/{-$lang}/docs/$': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -109,7 +109,7 @@ export interface FileRoutesByTo {
   '/signin': typeof AuthPagesSigninRoute
   '/signup': typeof AuthPagesSignupRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/docs/$': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
+  '/{-$lang}/docs/$': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -123,8 +123,8 @@ export interface FileRoutesById {
   '/_auth-pages/signin': typeof AuthPagesSigninRoute
   '/_auth-pages/signup': typeof AuthPagesSignupRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/docs/$': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
   '/_public/': typeof PublicIndexRoute
+  '/{-$lang}/docs/$': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -138,7 +138,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/dashboard'
-    | '/docs/$'
+    | '/{-$lang}/docs/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -150,7 +150,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/dashboard'
-    | '/docs/$'
+    | '/{-$lang}/docs/$'
   id:
     | '__root__'
     | '/_auth-pages'
@@ -163,16 +163,16 @@ export interface FileRouteTypes {
     | '/_auth-pages/signin'
     | '/_auth-pages/signup'
     | '/_authenticated/dashboard'
-    | '/docs/$'
     | '/_public/'
+    | '/{-$lang}/docs/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthPagesRouteRoute: typeof AuthPagesRouteRouteWithChildren
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute
-  DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
   PublicIndexRoute: typeof PublicIndexRoute
+  DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -254,10 +254,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/docs/$': {
-      id: '/docs/$'
-      path: '/docs/$'
-      fullPath: '/docs/$'
+    '/{-$lang}/docs/$': {
+      id: '/{-$lang}/docs/$'
+      path: '/{-$lang}/docs/$'
+      fullPath: '/{-$lang}/docs/$'
       preLoaderRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -302,9 +302,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute:
     DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute,
+  PublicIndexRoute: PublicIndexRoute,
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute:
     DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute,
-  PublicIndexRoute: PublicIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

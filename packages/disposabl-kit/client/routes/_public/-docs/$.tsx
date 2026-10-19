@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
@@ -12,13 +12,25 @@ import { Suspense } from "react";
 import collections from "../../../.source/browser";
 import { useMDXComponents } from "../../../components/mdx";
 import { source } from "../../../lib/source";
+import { i18n } from "../../../lib/i18n";
 import fumadocsCss from "../../../styles/fumadocs.css?url";
 
-export const Route = createFileRoute("/docs/$")({
+export const Route = createFileRoute("/{-$lang}/docs/$")({
   component: Page,
+  beforeLoad: ({ params }) => {
+    if (params.lang && !i18n.languages.includes(params.lang)) throw notFound();
+    if (params.lang === i18n.defaultLanguage)
+      throw redirect({
+        to: "/{-$lang}/docs/$",
+        params: { lang: undefined, _splat: params._splat },
+        replace: true,
+      });
+  },
   loader: async ({ params }) => {
     const slugs = params._splat?.split("/").filter(Boolean) ?? [];
-    const data = await serverLoader({ data: slugs });
+    const data = await serverLoader({
+      data: { slugs, lang: params.lang ?? i18n.defaultLanguage },
+    });
     await clientLoader.preload(data.path);
     return data;
   },
@@ -26,18 +38,22 @@ export const Route = createFileRoute("/docs/$")({
 });
 
 const serverLoader = createServerFn({ method: "GET" })
-  .validator((slugs: string[]) => slugs)
-  .handler(async ({ data: slugs }) => {
-    const page = source.getPage(slugs);
+  .validator((data: { slugs: string[]; lang: string }) => {
+    if (!i18n.languages.includes(data.lang)) throw notFound();
+    return data;
+  })
+  .handler(async ({ data: { slugs, lang } }) => {
+    const page = source.getPage(slugs, lang);
     if (!page) throw notFound();
 
     return {
       path: page.path,
-      pageTree: await source.serializePageTree(source.getPageTree()),
+      pageTree: await source.serializePageTree(source.getPageTree(lang)),
     };
   });
 
 const clientLoader = collections.docs.createClientLoader({
+  /** Render a Markdown module with its page metadata and shared MDX components. */
   component: function Content({ toc, frontmatter, default: MDX }) {
     return (
       <DocsPage toc={toc}>
@@ -51,6 +67,7 @@ const clientLoader = collections.docs.createClientLoader({
   },
 });
 
+/** Render the requested locale's navigation tree and lazy-loaded Markdown content. */
 function Page() {
   const data = useFumadocsLoader(Route.useLoaderData());
 

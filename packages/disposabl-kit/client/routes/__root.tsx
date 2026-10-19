@@ -10,10 +10,15 @@ import {
   getTranslationsSnapshot,
   GTProvider,
   useGT,
+  useLocale,
+  useSetLocale,
 } from "gt-tanstack-start";
 import { getLocaleDirection } from "generaltranslation";
 import appCss from "#app/index.css?url";
 import { RootProvider } from "fumadocs-ui/provider/tanstack";
+import { i18nProvider } from "fumadocs-ui/i18n";
+import { i18n } from "../lib/i18n";
+import { useFumadocsTranslations } from "../lib/layout.shared";
 import { TooltipProvider } from "@disposabl/disposabl-kit/client/components/ui/tooltip";
 import { Toaster } from "@disposabl/disposabl-kit/client/components/ui/sonner";
 import { AuthKitProvider, useAuth } from "@workos-inc/authkit-react";
@@ -25,11 +30,19 @@ import { UpdateBanner } from "@convex-dev/static-hosting/react";
 declare const __DOCS_ENABLED__: boolean;
 
 export const Route = createRootRoute({
-  loader: async (): Promise<{
+  /** Resolve the URL locale before cookie preferences and load matching GT translations. */
+  loader: async ({
+    location,
+  }): Promise<{
     locale: string;
     translations: Awaited<ReturnType<typeof getTranslationsSnapshot>>;
   }> => {
-    const locale = getLocale();
+    const prefix = location.pathname.split("/")[1] ?? "";
+    const locale = i18n.languages.includes(prefix)
+      ? prefix
+      : /^\/docs(?:\/|$)/.test(location.pathname)
+        ? i18n.defaultLanguage
+        : getLocale();
     return { locale, translations: await getTranslationsSnapshot(locale) };
   },
   head: () => ({
@@ -44,6 +57,7 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 });
 
+/** Render the document with GT translations and locale-specific text direction. */
 function RootDocument({ children }: { children: ReactNode }) {
   const { locale, translations } = Route.useLoaderData();
   const direction = getLocaleDirection(locale);
@@ -65,6 +79,7 @@ function RootDocument({ children }: { children: ReactNode }) {
   );
 }
 
+/** Connect shared UI and authentication providers to the active GT locale. */
 function AppProviders({
   children,
   direction,
@@ -73,6 +88,9 @@ function AppProviders({
   direction: "ltr" | "rtl";
 }) {
   const gt = useGT();
+  const locale = useLocale();
+  const setLocale = useSetLocale();
+  const fumadocsTranslations = useFumadocsTranslations();
   const clientId = import.meta.env.VITE_WORKOS_CLIENT_ID;
   const [convex] = useState(() => {
     const url = import.meta.env.VITE_CONVEX_URL;
@@ -81,6 +99,10 @@ function AppProviders({
   });
   const content = (
     <RootProvider
+      i18n={{
+        ...i18nProvider(fumadocsTranslations, locale),
+        onLocaleChange: setLocale,
+      }}
       theme={{ enabled: true, enableSystem: true }}
       search={{
         enabled: __DOCS_ENABLED__,
