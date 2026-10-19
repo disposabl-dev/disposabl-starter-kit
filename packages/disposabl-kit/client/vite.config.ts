@@ -11,6 +11,7 @@ const clientOnlyPaths = [
   "/dashboard{,/**}",
   "/{callback,login,sign-in,signin,sign-up,signup}",
 ];
+/** Resolve a kit-relative path independently of the consuming app's directory. */
 const clientPath = (path: string) =>
   fileURLToPath(new URL(path, import.meta.url));
 

@@ -53,6 +53,7 @@ const serverLoader = createServerFn({ method: "GET" })
   });
 
 const clientLoader = collections.docs.createClientLoader({
+  /** Render a Markdown module with its page metadata and shared MDX components. */
   component: function Content({ toc, frontmatter, default: MDX }) {
     return (
       <DocsPage toc={toc}>
@@ -66,6 +67,7 @@ const clientLoader = collections.docs.createClientLoader({
   },
 });
 
+/** Render the requested locale's navigation tree and lazy-loaded Markdown content. */
 function Page() {
   const data = useFumadocsLoader(Route.useLoaderData());
 

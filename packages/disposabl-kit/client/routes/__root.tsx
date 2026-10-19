@@ -30,6 +30,7 @@ import { UpdateBanner } from "@convex-dev/static-hosting/react";
 declare const __DOCS_ENABLED__: boolean;
 
 export const Route = createRootRoute({
+  /** Resolve the URL locale before cookie preferences and load matching GT translations. */
   loader: async ({
     location,
   }): Promise<{
@@ -56,6 +57,7 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 });
 
+/** Render the document with GT translations and locale-specific text direction. */
 function RootDocument({ children }: { children: ReactNode }) {
   const { locale, translations } = Route.useLoaderData();
   const direction = getLocaleDirection(locale);
