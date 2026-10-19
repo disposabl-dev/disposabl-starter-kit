@@ -4,5 +4,36 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "devEngines": {
+    "packageManager": {
+      "name": "bun",
+      "version": "1.4.4-canary.1",
+      "onFail": "warn"
+    }
+  },
+  "scripts": {
+    "check": "bun check .",
+    "fmt": "bun fmt",
+    "lint": "bun lint",
+    "validate": "bun run lint --fix --max-warnings 0 && bun run fmt && bun run check",
+    "validate:check": "bun run lint --max-warnings 0 && bun run fmt --check && bun run check",
+    "prepare": "git config --local core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "@disposabl/typescript-config": "workspace:*",
+    "@types/bun": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:"
+  },
+  "catalog": {
+    "@types/bun": "1.4.3",
+    "turbo": "2.11.9",
+    "typescript": "7.0.2"
+  },
+  "catalogs": {
+    "typescript6": {
+      "typescript": "6.0.3"
+    }
+  }
 }

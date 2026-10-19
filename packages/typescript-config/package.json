@@ -1,3 +1,9 @@
 {
-  "name": "@disposabl/typescript-config"
+  "name": "@disposabl/typescript-config",
+  "private": true,
+  "exports": {
+    "./base.json": "./base.json",
+    "./browser.json": "./browser.json",
+    "./bun.json": "./bun.json"
+  }
 }

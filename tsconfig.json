@@ -1,0 +1,4 @@
+{
+  "extends": "@disposabl/typescript-config/bun.json",
+  "include": ["*.ts", "*.mts", "*.cts"]
+}

@@ -1,3 +1,9 @@
 {
-  "name": "@disposabl/sdk"
+  "name": "@disposabl/sdk",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@disposabl/typescript-config": "workspace:*",
+    "typescript": "catalog:"
+  }
 }

@@ -1,3 +1,10 @@
 {
-  "name": "@disposabl/cli"
+  "name": "@disposabl/cli",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@disposabl/typescript-config": "workspace:*",
+    "typescript": "catalog:",
+    "@types/bun": "catalog:"
+  }
 }

@@ -1,3 +1,4 @@
 {
-  "name": "@disposabl/blog"
+  "name": "@disposabl/blog",
+  "private": true
 }

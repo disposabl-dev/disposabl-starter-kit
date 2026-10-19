@@ -1,3 +1,4 @@
 {
-  "name": "@disposabl/changelog"
+  "name": "@disposabl/changelog",
+  "private": true
 }
