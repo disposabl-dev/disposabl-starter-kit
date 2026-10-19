@@ -58,6 +58,9 @@
     },
     "packages/backend": {
       "name": "@disposabl/backend",
+      "dependencies": {
+        "convex": "catalog:",
+      },
       "devDependencies": {
         "@disposabl/typescript-config": "workspace:*",
         "@types/bun": "catalog:",
@@ -81,6 +84,7 @@
         "@tanstack/react-router": "catalog:",
         "@tanstack/react-start": "catalog:",
         "@workos-inc/authkit-react": "catalog:",
+        "@workos-inc/node": "catalog:",
         "class-variance-authority": "catalog:",
         "cmdk": "catalog:",
         "cn": "catalog:",
@@ -148,6 +152,7 @@
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "@workos-inc/authkit-react": "0.16.3",
+    "@workos-inc/node": "10.14.0",
     "class-variance-authority": "0.7.1",
     "cmdk": "1.1.1",
     "cn": "0.5.0",
@@ -756,6 +761,8 @@
     "@workos-inc/authkit-js": ["@workos-inc/authkit-js@0.20.4", "", {}, "sha512-hr6umahJXM8bQ+cxC0Li9MIgBlzZCQwWGxINWC1j51Bj/l/6rl0VNnyuTkeHZsKpwk0i0goE128ooAGJ6Y/3OQ=="],
 
     "@workos-inc/authkit-react": ["@workos-inc/authkit-react@0.16.3", "", { "dependencies": { "@workos-inc/authkit-js": "^0.20.4" }, "peerDependencies": { "react": ">=17" } }, "sha512-0dBvUp/ZEF/yrojfDHK9T/eMmNxMtH7HbWZvA8Aum5wRn874Yr0wraAFr/wAKBRJYoYLCcfYwSEDlYTjKTk2sQ=="],
+
+    "@workos-inc/node": ["@workos-inc/node@10.14.0", "", {}, "sha512-SnY9OHTzTyOmgJQj9+/6x116m+d+zJoQw5e8teNWKUuGe8FOKngVdBXRvZgdFxaL+3UfQbMlp95V67t43VYOWQ=="],
 
     "@yuku-core/binding-android-arm64": ["@yuku-core/binding-android-arm64@0.17.0", "", { "os": "android", "cpu": "arm64" }, "sha512-Uge3U7s9vdCcYb9IiIWBIQmGEttlvWkvWYb9Qu6iUNS2IhAu4/D/g4ucbEmjemkflWYGpWsKZlX+JxcacIlR+g=="],
 

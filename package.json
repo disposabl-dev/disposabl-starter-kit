@@ -67,6 +67,7 @@
     "fumadocs-ui": "16.17.6",
     "fumadocs-core": "16.17.6",
     "@workos-inc/authkit-react": "0.16.3",
+    "@workos-inc/node": "10.14.0",
     "@convex-dev/workos": "0.0.3",
     "convex": "1.47.0",
     "@convex-dev/static-hosting": "0.2.1",

@@ -11,7 +11,10 @@
     "./client/hooks/*": "./client/hooks/*.ts",
     "./client/lib/*": "./client/lib/*.ts",
     "./client/styles/*": "./client/styles/*",
-    "./client/vite.config": "./client/vite.config.ts"
+    "./client/vite.config": "./client/vite.config.ts",
+    "./server": "./server/index.ts",
+    "./server/account/validators": "./server/account/validators.ts",
+    "./server/lib": "./server/lib/index.ts"
   },
   "dependencies": {
     "@shadcn/react": "catalog:",
@@ -36,6 +39,7 @@
     "vanilla-cookieconsent": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@workos-inc/authkit-react": "catalog:",
+    "@workos-inc/node": "catalog:",
     "gt-tanstack-start": "catalog:",
     "generaltranslation": "catalog:",
     "fumadocs-ui": "catalog:",
