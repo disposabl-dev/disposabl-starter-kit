@@ -1,2 +1,2 @@
-export { withPlatforms } from "./functions";
+export { identityFields, withPlatforms } from "./functions";
 export { paginateWorkOS } from "./paginate-workos";
