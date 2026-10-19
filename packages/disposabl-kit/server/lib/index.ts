@@ -1,6 +1,2 @@
-export {
-  accountIdentity,
-  identityFields,
-  type AccountIdentity,
-} from "./identity";
+export { withPlatforms } from "./functions";
 export { paginateWorkOS } from "./paginate-workos";

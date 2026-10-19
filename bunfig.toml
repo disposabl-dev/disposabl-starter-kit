@@ -1,5 +1,9 @@
 [lint]
-ignorePatterns = ["**/routeTree.gen.ts"]
+ignorePatterns = ["**/routeTree.gen.ts", "**/convex/_generated/**"]
 
 [fmt]
-ignorePatterns = ["**/routeTree.gen.ts", "apps/web/src/_gt/**"]
+ignorePatterns = [
+  "**/routeTree.gen.ts",
+  "**/convex/_generated/**",
+  "apps/web/src/_gt/**",
+]
