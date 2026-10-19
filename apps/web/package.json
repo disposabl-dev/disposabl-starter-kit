@@ -22,7 +22,13 @@
     "@tanstack/react-router": "catalog:",
     "gt-tanstack-start": "catalog:",
     "gt-react": "catalog:",
-    "generaltranslation": "catalog:"
+    "generaltranslation": "catalog:",
+    "fumadocs-ui": "catalog:",
+    "fumadocs-core": "catalog:",
+    "@workos-inc/authkit-react": "catalog:",
+    "@convex-dev/workos": "catalog:",
+    "convex": "catalog:",
+    "@convex-dev/static-hosting": "catalog:"
   },
   "imports": {
     "#components/*": "./src/components/*.tsx"

@@ -14,6 +14,17 @@ A monorepo for web, mobile, backend, and shared packages.
 
 Bun and TypeScript are configured. App integrations are being migrated.
 
+## Cookie preferences
+
+`CookieConsentBanner` is mounted in the web root and takes no props. It uses the
+app's translations and light/dark theme. Saving preferences hides the banner,
+including on later visits while the saved preference remains valid. Apps can
+provide their own link using `showCookiePreferences()` if needed.
+
+The banner describes essential cookies only. It does not load analytics, scan
+cookies, or manage optional trackers. Add explicit consent handling before adding
+any optional tracking service.
+
 ## Setup
 
 ```sh

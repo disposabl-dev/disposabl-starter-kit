@@ -1,5 +1,6 @@
 {
   "extends": "@disposabl/typescript-config/browser.json",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist"]
+  // Route files are checked by apps/web against its generated TanStack types.
+  "exclude": ["node_modules", "dist", "client/routes"]
 }

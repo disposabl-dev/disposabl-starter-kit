@@ -8,17 +8,19 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "vite": "catalog:",
+    "@tanstack/virtual-file-routes": "catalog:"
   },
   "exports": {
     "./client": "./client/index.ts",
     "./client/components/*": "./client/components/*.tsx",
     "./client/hooks/*": "./client/hooks/*.ts",
     "./client/lib/*": "./client/lib/*.ts",
-    "./client/styles/*": "./client/styles/*"
+    "./client/styles/*": "./client/styles/*",
+    "./client/vite.config": "./client/vite.config.ts"
   },
   "dependencies": {
-    "@base-ui/react": "catalog:",
     "@shadcn/react": "catalog:",
     "class-variance-authority": "catalog:",
     "cmdk": "catalog:",
@@ -37,7 +39,10 @@
     "sonner": "catalog:",
     "tw-animate-css": "catalog:",
     "vaul": "catalog:",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "vanilla-cookieconsent": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "@workos-inc/authkit-react": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:",
