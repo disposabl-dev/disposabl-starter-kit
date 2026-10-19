@@ -13,7 +13,7 @@ export function withPlatforms<A, R extends object>(
 ) {
   return (
     definition: A & { args: typeof identityFields; platforms?: Platforms },
-  ) => {
+  ): R => {
     for (const field of ["orgId", "userId", "role"] as const) {
       if (definition.args?.[field]?.isOptional !== "required") {
         throw new Error(

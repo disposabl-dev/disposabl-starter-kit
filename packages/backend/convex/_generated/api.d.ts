@@ -8,8 +8,11 @@
  * @module
  */
 
+import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as lib_functions from "../lib/functions.js";
 import type * as staticHosting from "../staticHosting.js";
+import type * as todo_index from "../todo/index.js";
 import type * as todo_internal from "../todo/internal.js";
 
 import type {
@@ -19,8 +22,11 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  auth: typeof auth;
   http: typeof http;
+  "lib/functions": typeof lib_functions;
   staticHosting: typeof staticHosting;
+  "todo/index": typeof todo_index;
   "todo/internal": typeof todo_internal;
 }>;
 

@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
@@ -17,15 +17,6 @@ import fumadocsCss from "../../../styles/fumadocs.css?url";
 
 export const Route = createFileRoute("/{-$lang}/docs/$")({
   component: Page,
-  beforeLoad: ({ params }) => {
-    if (params.lang && !i18n.languages.includes(params.lang)) throw notFound();
-    if (params.lang === i18n.defaultLanguage)
-      throw redirect({
-        to: "/{-$lang}/docs/$",
-        params: { lang: undefined, _splat: params._splat },
-        replace: true,
-      });
-  },
   loader: async ({ params }) => {
     const slugs = params._splat?.split("/").filter(Boolean) ?? [];
     const data = await serverLoader({

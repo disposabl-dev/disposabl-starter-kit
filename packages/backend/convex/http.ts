@@ -1,3 +1,12 @@
-import { httpRouter } from "convex/server";
+import { http } from "@disposabl/disposabl-kit/server";
+import { httpActionGeneric } from "convex/server";
 
-export default httpRouter();
+http.route({
+  path: "/ping",
+  method: "GET",
+  handler: httpActionGeneric(async () => {
+    return new Response("OK");
+  }),
+});
+
+export default http;

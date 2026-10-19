@@ -14,7 +14,8 @@
     "./client/vite.config": "./client/vite.config.ts",
     "./server": "./server/index.ts",
     "./server/account/validators": "./server/account/validators.ts",
-    "./server/lib": "./server/lib/index.ts"
+    "./server/lib": "./server/lib/index.ts",
+    "./server/http": "./server/http.ts"
   },
   "dependencies": {
     "@shadcn/react": "catalog:",
@@ -45,6 +46,7 @@
     "fumadocs-ui": "catalog:",
     "@convex-dev/workos": "catalog:",
     "convex": "catalog:",
+    "convex-helpers": "catalog:",
     "@convex-dev/static-hosting": "catalog:",
     "fumadocs-core": "catalog:",
     "fumadocs-mdx": "catalog:",
