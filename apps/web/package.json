@@ -2,6 +2,27 @@
   "name": "@disposabl/web",
   "private": true,
   "type": "module",
+  "scripts": {
+    "dev": "gt generate && vite --port 3000",
+    "build": "gt generate && vite build"
+  },
+  "imports": {
+    "#components/*": "./src/components/*.tsx"
+  },
+  "dependencies": {
+    "@tanstack/react-start": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@disposabl/disposabl-kit": "workspace:*",
+    "@tanstack/react-router": "catalog:",
+    "gt-tanstack-start": "catalog:",
+    "gt-react": "catalog:",
+    "generaltranslation": "catalog:",
+    "@workos-inc/authkit-react": "catalog:",
+    "@convex-dev/workos": "catalog:",
+    "convex": "catalog:",
+    "@convex-dev/static-hosting": "catalog:"
+  },
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
     "typescript": "catalog:",
@@ -13,28 +34,5 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "gt": "catalog:"
-  },
-  "dependencies": {
-    "@tanstack/react-start": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "@disposabl/disposabl-kit": "workspace:*",
-    "@tanstack/react-router": "catalog:",
-    "gt-tanstack-start": "catalog:",
-    "gt-react": "catalog:",
-    "generaltranslation": "catalog:",
-    "fumadocs-ui": "catalog:",
-    "fumadocs-core": "catalog:",
-    "@workos-inc/authkit-react": "catalog:",
-    "@convex-dev/workos": "catalog:",
-    "convex": "catalog:",
-    "@convex-dev/static-hosting": "catalog:"
-  },
-  "imports": {
-    "#components/*": "./src/components/*.tsx"
-  },
-  "scripts": {
-    "dev": "gt generate && vite --port 3000",
-    "build": "gt generate && vite build"
   }
 }

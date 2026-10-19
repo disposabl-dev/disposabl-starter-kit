@@ -1,6 +1,16 @@
 {
   "name": "disposabl-starter-kit",
   "private": true,
+  "scripts": {
+    "check": "bun check .",
+    "fmt": "bun fmt",
+    "lint": "bun lint",
+    "validate": "bun run lint --fix --max-warnings 0 && bun run fmt && bun run check",
+    "validate:check": "bun run lint --max-warnings 0 && bun run fmt --check && bun run check",
+    "prepare": "git config --local core.hooksPath .githooks",
+    "dev": "turbo dev",
+    "build": "turbo build"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -11,16 +21,6 @@
       "version": "1.4.4-canary.1",
       "onFail": "warn"
     }
-  },
-  "scripts": {
-    "check": "bun check .",
-    "fmt": "bun fmt",
-    "lint": "bun lint",
-    "validate": "bun run lint --fix --max-warnings 0 && bun run fmt && bun run check",
-    "validate:check": "bun run lint --max-warnings 0 && bun run fmt --check && bun run check",
-    "prepare": "git config --local core.hooksPath .githooks",
-    "dev": "turbo dev",
-    "build": "turbo build"
   },
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
@@ -71,7 +71,9 @@
     "convex": "1.47.0",
     "@convex-dev/static-hosting": "0.2.1",
     "vanilla-cookieconsent": "3.1.0",
-    "@tanstack/virtual-file-routes": "1.162.0"
+    "@tanstack/virtual-file-routes": "1.162.0",
+    "fumadocs-mdx": "15.4.7",
+    "@types/mdx": "2.0.14"
   },
   "catalogs": {
     "typescript6": {

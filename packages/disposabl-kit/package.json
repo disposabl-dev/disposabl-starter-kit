@@ -2,15 +2,8 @@
   "name": "@disposabl/disposabl-kit",
   "private": true,
   "type": "module",
-  "devDependencies": {
-    "@disposabl/typescript-config": "workspace:*",
-    "typescript": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "vite": "catalog:",
-    "@tanstack/virtual-file-routes": "catalog:"
+  "scripts": {
+    "postinstall": "fumadocs-mdx client/source.config.ts client/.source"
   },
   "exports": {
     "./client": "./client/index.ts",
@@ -42,7 +35,27 @@
     "tailwindcss": "catalog:",
     "vanilla-cookieconsent": "catalog:",
     "@tanstack/react-router": "catalog:",
-    "@workos-inc/authkit-react": "catalog:"
+    "@workos-inc/authkit-react": "catalog:",
+    "gt-tanstack-start": "catalog:",
+    "generaltranslation": "catalog:",
+    "fumadocs-ui": "catalog:",
+    "@convex-dev/workos": "catalog:",
+    "convex": "catalog:",
+    "@convex-dev/static-hosting": "catalog:",
+    "fumadocs-core": "catalog:",
+    "fumadocs-mdx": "catalog:",
+    "@tanstack/react-start": "catalog:"
+  },
+  "devDependencies": {
+    "@disposabl/typescript-config": "workspace:*",
+    "typescript": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "vite": "catalog:",
+    "@tanstack/virtual-file-routes": "catalog:",
+    "@types/mdx": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:",
