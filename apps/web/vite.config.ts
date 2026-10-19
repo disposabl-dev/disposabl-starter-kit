@@ -5,11 +5,13 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import { fileURLToPath } from "node:url";
 import gtConfig from "./gt.config.json" with { type: "json" };
-// import { kitRoutes, watchKitRoutes, kitContent } from "disposabl-kit/vite";
-// import siteConfig from "./site.config.ts";
-// import kitConfig from "./kit.config.ts";
+import {
+  kitRoutes,
+  watchKitRoutes,
+} from "@disposabl/disposabl-kit/client/vite.config";
 
 export default defineConfig(() => {
+  const appRoutes = new URL("./src/routes/", import.meta.url);
   const envDir = fileURLToPath(
     new URL("../../packages/backend/", import.meta.url),
   );
@@ -19,6 +21,7 @@ export default defineConfig(() => {
       rolldownOptions: { output: { strictExecutionOrder: true } },
     },
     plugins: [
+      watchKitRoutes(),
       nitro({
         rollupConfig: { external: [/^@sentry\//] },
         rolldownConfig: {
@@ -35,6 +38,7 @@ export default defineConfig(() => {
         },
       }),
       tanstackStart({
+        router: kitRoutes(appRoutes),
         prerender: {
           enabled: true,
           headers: { "Accept-Language": gtConfig.defaultLocale },

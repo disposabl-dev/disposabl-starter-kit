@@ -9,8 +9,49 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthPagesRouteRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/route'
+import { Route as AuthPagesCallbackRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/callback'
+import { Route as AuthPagesLoginRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/login'
+import { Route as AuthPagesSignInRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/sign-in'
+import { Route as AuthPagesSignUpRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/sign-up'
+import { Route as AuthPagesSigninRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/signin'
+import { Route as AuthPagesSignupRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/signup'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 
+const AuthPagesRouteRoute = AuthPagesRouteRouteImport.update({
+  id: '/_auth-pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthPagesCallbackRoute = AuthPagesCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesLoginRoute = AuthPagesLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSignInRoute = AuthPagesSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSignUpRoute = AuthPagesSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSigninRoute = AuthPagesSigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
+const AuthPagesSignupRoute = AuthPagesSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthPagesRouteRoute,
+} as any)
 const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/_public/',
   path: '/',
@@ -19,28 +60,120 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/callback': typeof AuthPagesCallbackRoute
+  '/login': typeof AuthPagesLoginRoute
+  '/sign-in': typeof AuthPagesSignInRoute
+  '/sign-up': typeof AuthPagesSignUpRoute
+  '/signin': typeof AuthPagesSigninRoute
+  '/signup': typeof AuthPagesSignupRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/callback': typeof AuthPagesCallbackRoute
+  '/login': typeof AuthPagesLoginRoute
+  '/sign-in': typeof AuthPagesSignInRoute
+  '/sign-up': typeof AuthPagesSignUpRoute
+  '/signin': typeof AuthPagesSigninRoute
+  '/signup': typeof AuthPagesSignupRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_auth-pages': typeof AuthPagesRouteRouteWithChildren
+  '/_auth-pages/callback': typeof AuthPagesCallbackRoute
+  '/_auth-pages/login': typeof AuthPagesLoginRoute
+  '/_auth-pages/sign-in': typeof AuthPagesSignInRoute
+  '/_auth-pages/sign-up': typeof AuthPagesSignUpRoute
+  '/_auth-pages/signin': typeof AuthPagesSigninRoute
+  '/_auth-pages/signup': typeof AuthPagesSignupRoute
   '/_public/': typeof PublicIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/callback'
+    | '/login'
+    | '/sign-in'
+    | '/sign-up'
+    | '/signin'
+    | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_public/'
+  to:
+    | '/'
+    | '/callback'
+    | '/login'
+    | '/sign-in'
+    | '/sign-up'
+    | '/signin'
+    | '/signup'
+  id:
+    | '__root__'
+    | '/_auth-pages'
+    | '/_auth-pages/callback'
+    | '/_auth-pages/login'
+    | '/_auth-pages/sign-in'
+    | '/_auth-pages/sign-up'
+    | '/_auth-pages/signin'
+    | '/_auth-pages/signup'
+    | '/_public/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AuthPagesRouteRoute: typeof AuthPagesRouteRouteWithChildren
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_auth-pages': {
+      id: '/_auth-pages'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthPagesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth-pages/callback': {
+      id: '/_auth-pages/callback'
+      path: '/callback'
+      fullPath: '/callback'
+      preLoaderRoute: typeof AuthPagesCallbackRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/login': {
+      id: '/_auth-pages/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthPagesLoginRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/sign-in': {
+      id: '/_auth-pages/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof AuthPagesSignInRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/sign-up': {
+      id: '/_auth-pages/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof AuthPagesSignUpRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/signin': {
+      id: '/_auth-pages/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof AuthPagesSigninRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
+    '/_auth-pages/signup': {
+      id: '/_auth-pages/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthPagesSignupRouteImport
+      parentRoute: typeof AuthPagesRouteRoute
+    }
     '/_public/': {
       id: '/_public/'
       path: '/'
@@ -51,7 +184,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthPagesRouteRouteChildren {
+  AuthPagesCallbackRoute: typeof AuthPagesCallbackRoute
+  AuthPagesLoginRoute: typeof AuthPagesLoginRoute
+  AuthPagesSignInRoute: typeof AuthPagesSignInRoute
+  AuthPagesSignUpRoute: typeof AuthPagesSignUpRoute
+  AuthPagesSigninRoute: typeof AuthPagesSigninRoute
+  AuthPagesSignupRoute: typeof AuthPagesSignupRoute
+}
+
+const AuthPagesRouteRouteChildren: AuthPagesRouteRouteChildren = {
+  AuthPagesCallbackRoute: AuthPagesCallbackRoute,
+  AuthPagesLoginRoute: AuthPagesLoginRoute,
+  AuthPagesSignInRoute: AuthPagesSignInRoute,
+  AuthPagesSignUpRoute: AuthPagesSignUpRoute,
+  AuthPagesSigninRoute: AuthPagesSigninRoute,
+  AuthPagesSignupRoute: AuthPagesSignupRoute,
+}
+
+const AuthPagesRouteRouteWithChildren = AuthPagesRouteRoute._addFileChildren(
+  AuthPagesRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
+  AuthPagesRouteRoute: AuthPagesRouteRouteWithChildren,
   PublicIndexRoute: PublicIndexRoute,
 }
 export const routeTree = rootRouteImport
