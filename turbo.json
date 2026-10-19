@@ -8,6 +8,15 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".output/**"]
+    },
+    "@disposabl/web#build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/apps/docs/**",
+        "!$TURBO_ROOT$/apps/docs/.turbo/**"
+      ],
+      "outputs": [".output/**"]
     }
   }
 }

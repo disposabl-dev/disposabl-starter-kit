@@ -7,6 +7,8 @@
   "86d287aa1993a091": "Cerrar",
   "34eaf5040074d164": "Cookies esenciales",
   "faefc5d2db9695cf": "Estas cookies permiten las funciones básicas del sitio, el inicio de sesión y guardar tus preferencias. Siempre están activadas.",
+  "2ee2077700686fbb": "Actualización disponible",
+  "573a9e6b17f4e9e3": "Recargar",
   "b25d4b60151d5958": "ruta de navegación",
   "bda5af471ef547e0": "Más",
   "6236f9151a62a026": "carrusel",
@@ -27,7 +29,6 @@
   "c557090df5722838": "Alternar barra lateral",
   "dfcce8b35ce4fb90": "Cargando",
   "be1da3273ffdb5bd": "Inténtalo de nuevo",
-  "2ee2077700686fbb": "Actualización disponible",
-  "573a9e6b17f4e9e3": "Recargar",
+  "c96cb444dd0e86ff": "Hello from the authenticated route!",
   "af92bbb2cba39ea9": "Hola mundo"
 }

@@ -7,6 +7,8 @@
   "86d287aa1993a091": "Close",
   "34eaf5040074d164": "Essential cookies",
   "faefc5d2db9695cf": "These cookies support core site functions, sign-in, and your saved preferences. They are always enabled.",
+  "2ee2077700686fbb": "Update available",
+  "573a9e6b17f4e9e3": "Reload",
   "b25d4b60151d5958": "breadcrumb",
   "bda5af471ef547e0": "More",
   "6236f9151a62a026": "carousel",
@@ -27,7 +29,6 @@
   "c557090df5722838": "Toggle Sidebar",
   "dfcce8b35ce4fb90": "Loading",
   "be1da3273ffdb5bd": "Try again",
-  "2ee2077700686fbb": "Update available",
-  "573a9e6b17f4e9e3": "Reload",
+  "c96cb444dd0e86ff": "Hello from the authenticated route!",
   "af92bbb2cba39ea9": "Hello World"
 }

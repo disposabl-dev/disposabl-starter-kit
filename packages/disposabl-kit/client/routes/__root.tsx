@@ -12,7 +12,7 @@ import {
   useGT,
 } from "gt-tanstack-start";
 import { getLocaleDirection } from "generaltranslation";
-import appCss from "../index.css?url";
+import appCss from "#app/index.css?url";
 import { RootProvider } from "fumadocs-ui/provider/tanstack";
 import { TooltipProvider } from "@disposabl/disposabl-kit/client/components/ui/tooltip";
 import { Toaster } from "@disposabl/disposabl-kit/client/components/ui/sonner";
@@ -21,6 +21,8 @@ import { ConvexProviderWithAuthKit } from "@convex-dev/workos";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { CookieConsentBanner } from "@disposabl/disposabl-kit/client/components/cookie-consent";
 import { UpdateBanner } from "@convex-dev/static-hosting/react";
+
+declare const __DOCS_ENABLED__: boolean;
 
 export const Route = createRootRoute({
   loader: async (): Promise<{
@@ -78,7 +80,14 @@ function AppProviders({
     return new ConvexReactClient(url);
   });
   const content = (
-    <RootProvider theme={{ enabled: true, enableSystem: true }} dir={direction}>
+    <RootProvider
+      theme={{ enabled: true, enableSystem: true }}
+      search={{
+        enabled: __DOCS_ENABLED__,
+        options: { type: "static", api: "/docs-search" },
+      }}
+      dir={direction}
+    >
       <TooltipProvider>
         {children}
         <Toaster dir={direction} />
