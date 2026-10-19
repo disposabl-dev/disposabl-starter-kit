@@ -18,7 +18,9 @@
     "lint": "bun lint",
     "validate": "bun run lint --fix --max-warnings 0 && bun run fmt && bun run check",
     "validate:check": "bun run lint --max-warnings 0 && bun run fmt --check && bun run check",
-    "prepare": "git config --local core.hooksPath .githooks"
+    "prepare": "git config --local core.hooksPath .githooks",
+    "dev": "turbo dev",
+    "build": "turbo build"
   },
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
@@ -58,7 +60,11 @@
     "shadcn": "4.22.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "react-is": "19.3.0"
+    "react-is": "19.3.0",
+    "@tanstack/react-router": "1.170.45",
+    "gt-tanstack-start": "11.4.12",
+    "gt": "2.26.5",
+    "generaltranslation": "9.5.7"
   },
   "catalogs": {
     "typescript6": {

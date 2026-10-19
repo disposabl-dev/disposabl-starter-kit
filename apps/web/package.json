@@ -11,15 +11,24 @@
     "tailwindcss": "catalog:",
     "vite": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:"
+    "@types/react-dom": "catalog:",
+    "gt": "catalog:"
   },
   "dependencies": {
     "@tanstack/react-start": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "@disposabl/disposabl-kit": "workspace:*"
+    "@disposabl/disposabl-kit": "workspace:*",
+    "@tanstack/react-router": "catalog:",
+    "gt-tanstack-start": "catalog:",
+    "gt-react": "catalog:",
+    "generaltranslation": "catalog:"
   },
   "imports": {
     "#components/*": "./src/components/*.tsx"
+  },
+  "scripts": {
+    "dev": "gt generate && vite --port 3000",
+    "build": "gt generate && vite build"
   }
 }
