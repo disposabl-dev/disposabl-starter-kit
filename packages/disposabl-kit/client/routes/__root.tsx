@@ -26,6 +26,7 @@ import { ConvexProviderWithAuthKit } from "@convex-dev/workos";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { CookieConsentBanner } from "@disposabl/disposabl-kit/client/components/cookie-consent";
 import { UpdateBanner } from "@convex-dev/static-hosting/react";
+import { DirectionProvider } from "../components/ui/direction";
 
 declare const __DOCS_ENABLED__: boolean;
 
@@ -110,16 +111,18 @@ function AppProviders({
       }}
       dir={direction}
     >
-      <TooltipProvider>
-        {children}
-        <Toaster dir={direction} />
-        <CookieConsentBanner />
-        <UpdateBanner
-          message={gt("Update available")}
-          buttonText={gt("Reload")}
-          dismissable
-        />
-      </TooltipProvider>
+      <DirectionProvider dir={direction}>
+        <TooltipProvider>
+          {children}
+          <Toaster dir={direction} />
+          <CookieConsentBanner />
+          <UpdateBanner
+            message={gt("Update available")}
+            buttonText={gt("Reload")}
+            dismissable
+          />
+        </TooltipProvider>
+      </DirectionProvider>
     </RootProvider>
   );
 

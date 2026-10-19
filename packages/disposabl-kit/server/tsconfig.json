@@ -1,4 +1,7 @@
 {
   "extends": "@disposabl/typescript-config/base.json",
+  "compilerOptions": {
+    "types": ["bun"]
+  },
   "include": ["**/*.ts"]
 }
