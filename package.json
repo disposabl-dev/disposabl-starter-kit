@@ -69,6 +69,7 @@
     "@workos-inc/authkit-react": "0.16.3",
     "@workos-inc/node": "10.14.0",
     "@convex-dev/workos": "0.0.3",
+    "@convex-dev/workos-authkit": "0.2.10",
     "convex": "1.47.0",
     "@convex-dev/static-hosting": "0.2.1",
     "vanilla-cookieconsent": "3.1.0",
