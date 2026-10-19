@@ -1,6 +1,8 @@
 import type { AuthConfig } from "convex/server";
+import { env } from "../../backend/convex/_generated/server";
 
-export function createAuthConfig(clientId: string): AuthConfig {
+export function createAuthConfig(): AuthConfig {
+  const clientId = env.WORKOS_CLIENT_ID;
   const issuers = [
     "https://api.workos.com/",
     `https://api.workos.com/user_management/${clientId}`,

@@ -1,4 +1,6 @@
+import { registerStaticRoutes } from "@convex-dev/static-hosting";
 import { httpRouter, httpActionGeneric } from "convex/server";
+import { components } from "../../backend/convex/_generated/api";
 
 const http = httpRouter();
 
@@ -11,6 +13,11 @@ http.route({
     console.log(body);
     return new Response("OK");
   }),
+});
+
+registerStaticRoutes(http, components.staticHosting, {
+  pathPrefix: "/",
+  spaFallback: true,
 });
 
 export { http };

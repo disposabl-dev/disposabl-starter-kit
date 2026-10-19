@@ -83,6 +83,7 @@
       "dependencies": {
         "@convex-dev/static-hosting": "catalog:",
         "@convex-dev/workos": "catalog:",
+        "@convex-dev/workos-authkit": "catalog:",
         "@shadcn/react": "catalog:",
         "@tanstack/react-router": "catalog:",
         "@tanstack/react-start": "catalog:",

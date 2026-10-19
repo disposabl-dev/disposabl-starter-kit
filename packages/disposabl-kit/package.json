@@ -45,6 +45,7 @@
     "generaltranslation": "catalog:",
     "fumadocs-ui": "catalog:",
     "@convex-dev/workos": "catalog:",
+    "@convex-dev/workos-authkit": "catalog:",
     "convex": "catalog:",
     "convex-helpers": "catalog:",
     "@convex-dev/static-hosting": "catalog:",
