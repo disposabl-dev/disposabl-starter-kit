@@ -77,6 +77,7 @@ function RootDocument({ children }: { children: ReactNode }) {
   );
 }
 
+/** Connect shared UI and authentication providers to the active GT locale. */
 function AppProviders({
   children,
   direction,

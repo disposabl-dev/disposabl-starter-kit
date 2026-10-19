@@ -12,6 +12,7 @@ const languageNames = Object.fromEntries(
   ]),
 );
 
+/** Translate Fumadocs labels with GT while preserving Fumadocs interpolation tokens. */
 export function useFumadocsTranslations() {
   const gt = useGT();
   const locale = useLocale();

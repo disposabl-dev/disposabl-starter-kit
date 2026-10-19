@@ -14,6 +14,7 @@ const clientOnlyPaths = [
 const clientPath = (path: string) =>
   fileURLToPath(new URL(path, import.meta.url));
 
+/** Build shared routes, optional docs plugins, and public prerender settings for an app. */
 export function createKitConfig(appRoutes: URL) {
   const shared = relative(fileURLToPath(appRoutes), clientPath("./routes/"));
   const canPrerender = createFilter(undefined, clientOnlyPaths, {
