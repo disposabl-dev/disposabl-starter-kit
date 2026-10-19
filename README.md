@@ -25,6 +25,17 @@ The banner describes essential cookies only. It does not load analytics, scan
 cookies, or manage optional trackers. Add explicit consent handling before adding
 any optional tracking service.
 
+## Content languages
+
+Fumadocs reads the default language and supported languages from
+`apps/web/gt.config.json`. Keep docs in `apps/docs/<locale>/` and use the same
+directory convention for blog content in `apps/blog/<locale>/`.
+
+The default-language docs use `/docs`; other languages use `/<locale>/docs`.
+Missing pages fall back to the default language. Fumadocs UI labels use the
+existing GT dictionaries, while page content comes from each language's Markdown
+files. Search is a static index at `/docs-search`, filtered by the active language.
+
 ## Setup
 
 ```sh
