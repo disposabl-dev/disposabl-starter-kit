@@ -1,6 +1,8 @@
-import { identityFields } from "@disposabl/disposabl-kit/server/lib";
+import {
+  identityFields,
+  internalMutation,
+} from "@disposabl/disposabl-kit/server/lib";
 import { v } from "convex/values";
-import { internalMutation } from "../lib/functions";
 
 export const createTodo = internalMutation({
   platforms: ["api", "mcp"],

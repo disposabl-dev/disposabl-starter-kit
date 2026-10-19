@@ -2,6 +2,11 @@ import { validate } from "convex-helpers/validators";
 import { ConvexError, v } from "convex/values";
 import { identityFields } from "./lib/functions";
 import type { Auth } from "convex/server";
+import { AuthKit } from "@convex-dev/workos-authkit";
+import { components } from "../../backend/convex/_generated/api";
+import type { DataModel } from "../../backend/convex/_generated/dataModel";
+
+export const authKit = new AuthKit<DataModel>(components.workOSAuthKit);
 
 const identityValidator = v.object(identityFields);
 

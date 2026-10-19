@@ -1,2 +1,7 @@
-export { identityFields, withPlatforms } from "./functions";
+export {
+  identityFields,
+  internalQuery,
+  internalMutation,
+  internalAction,
+} from "./functions";
 export { paginateWorkOS } from "./paginate-workos";
