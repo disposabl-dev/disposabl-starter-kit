@@ -4,6 +4,43 @@
   "type": "module",
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "exports": {
+    "./client": "./client/index.ts",
+    "./client/components/*": "./client/components/*.tsx",
+    "./client/hooks/*": "./client/hooks/*.ts",
+    "./client/lib/*": "./client/lib/*.ts",
+    "./client/styles/*": "./client/styles/*"
+  },
+  "dependencies": {
+    "@base-ui/react": "catalog:",
+    "@shadcn/react": "catalog:",
+    "class-variance-authority": "catalog:",
+    "cmdk": "catalog:",
+    "cn": "catalog:",
+    "embla-carousel-react": "catalog:",
+    "gt-react": "catalog:",
+    "input-otp": "catalog:",
+    "lucide-react": "catalog:",
+    "next-themes": "catalog:",
+    "radix-ui": "catalog:",
+    "react-day-picker": "catalog:",
+    "react-is": "catalog:",
+    "react-resizable-panels": "catalog:",
+    "recharts": "catalog:",
+    "shadcn": "catalog:",
+    "sonner": "catalog:",
+    "tw-animate-css": "catalog:",
+    "vaul": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
   }
 }

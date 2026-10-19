@@ -1,8 +1,5 @@
 {
-  "extends": "@disposabl/typescript-config/base.json",
+  "extends": "@disposabl/typescript-config/browser.json",
   "include": ["**/*.ts", "**/*.tsx"],
-  "compilerOptions": {
-    "jsx": "react-jsx"
-  },
   "exclude": ["node_modules", "dist"]
 }

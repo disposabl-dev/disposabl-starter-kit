@@ -4,7 +4,7 @@
   "locales": ["es", "fr", "ja", "ar"],
   "src": [
     "src/**/*.{ts,tsx}",
-    "../../packages/disposabl-kit/src/**/*.{ts,tsx}",
+    "../../packages/disposabl-kit/client/**/*.{ts,tsx}",
     "!src/routeTree.gen.ts",
     "!src/**/*.test.*"
   ],
