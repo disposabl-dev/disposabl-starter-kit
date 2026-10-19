@@ -2,14 +2,28 @@ import { createFilter, type PluginOption } from "vite";
 import { fumadocsMdx } from "fumadocs-mdx/vite";
 import { fileURLToPath } from "node:url";
 import { relative } from "node:path";
-import { physical, rootRoute, route } from "@tanstack/virtual-file-routes";
+import {
+  layout,
+  physical,
+  rootRoute,
+  route,
+} from "@tanstack/virtual-file-routes";
 import { i18n } from "./lib/i18n.ts";
 
 const docs = true;
 const docsSearch = "/docs-search";
+const authRoutes = [
+  "callback",
+  "login",
+  "sign-in",
+  "signin",
+  "sign-up",
+  "signup",
+];
+const localePrefix = `{,/{${i18n.languages.join(",")}}}`;
 const clientOnlyPaths = [
-  "/dashboard{,/**}",
-  "/{callback,login,sign-in,signin,sign-up,signup}",
+  `${localePrefix}/dashboard{,/**}`,
+  `/{${authRoutes.join(",")}}`,
 ];
 /** Resolve a kit-relative path independently of the consuming app's directory. */
 const clientPath = (path: string) =>
@@ -50,14 +64,23 @@ export function createKitConfig(appRoutes: URL) {
   return {
     plugins,
     router: {
+      // Root and auth routes are mounted outside the localized subtree.
+      routeFileIgnorePattern: "^(__root\\.tsx|_auth-pages)$",
       virtualRouteConfig: rootRoute(`${shared}/__root.tsx`, [
-        physical("."),
-        physical(shared),
+        layout(
+          "_auth-pages",
+          `${shared}/_auth-pages/route.tsx`,
+          authRoutes.map((path) =>
+            route(`/${path}`, `${shared}/_auth-pages/${path}.tsx`),
+          ),
+        ),
+        route("/{-$lang}", [
+          physical("."),
+          physical(shared),
+          ...(docs ? [route("/docs/$", `${shared}/_public/-docs/$.tsx`)] : []),
+        ]),
         ...(docs
-          ? [
-              route("/{-$lang}/docs/$", `${shared}/_public/-docs/$.tsx`),
-              route(docsSearch, `${shared}/_public/-docs-search.ts`),
-            ]
+          ? [route(docsSearch, `${shared}/_public/-docs-search.ts`)]
           : []),
       ]),
     },

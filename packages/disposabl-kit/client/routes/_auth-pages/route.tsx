@@ -1,5 +1,6 @@
 import {
   createFileRoute,
+  Link,
   Navigate,
   notFound,
   useLocation,
@@ -36,12 +37,12 @@ function AuthPages() {
     }
   }, [isLoading, user, pathname, signIn, signUp]);
 
-  if (!isLoading && user) return <Navigate to="/" replace />;
+  if (!isLoading && user) return <Navigate to="/{-$lang}" replace />;
   if (!isLoading && (failed || pathname === "/callback"))
     return (
-      <a href="/sign-in">
+      <Link to="/sign-in">
         <T>Try again</T>
-      </a>
+      </Link>
     );
   return (
     <Skeleton

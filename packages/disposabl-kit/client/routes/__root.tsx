@@ -2,11 +2,12 @@ import { StrictMode, useState, type ReactNode } from "react";
 import {
   createRootRoute,
   HeadContent,
+  notFound,
   Outlet,
+  redirect,
   Scripts,
 } from "@tanstack/react-router";
 import {
-  getLocale,
   getTranslationsSnapshot,
   GTProvider,
   useGT,
@@ -31,19 +32,36 @@ import { DirectionProvider } from "../components/ui/direction";
 declare const __DOCS_ENABLED__: boolean;
 
 export const Route = createRootRoute({
-  /** Resolve the URL locale before cookie preferences and load matching GT translations. */
+  /** Validate locale URLs once for every UI route. */
+  beforeLoad: ({ params, location }) => {
+    const lang =
+      "lang" in params && typeof params.lang === "string"
+        ? params.lang
+        : undefined;
+
+    if (lang && !i18n.languages.includes(lang)) throw notFound();
+
+    if (lang === i18n.defaultLanguage) {
+      const url = new URL(location.href, "https://routing.invalid");
+      const remainder = url.pathname.split("/").slice(2).join("/");
+      const pathname = `/${remainder.replace(/^\/+/, "")}`;
+      throw redirect({
+        href: `${pathname}${url.search}${url.hash}`,
+        statusCode: 308,
+        replace: true,
+      });
+    }
+
+    return { locale: lang ?? i18n.defaultLanguage };
+  },
+  /** Use the URL locale for both server rendering and client hydration. */
   loader: async ({
-    location,
+    context,
   }): Promise<{
     locale: string;
     translations: Awaited<ReturnType<typeof getTranslationsSnapshot>>;
   }> => {
-    const prefix = location.pathname.split("/")[1] ?? "";
-    const locale = i18n.languages.includes(prefix)
-      ? prefix
-      : /^\/docs(?:\/|$)/.test(location.pathname)
-        ? i18n.defaultLanguage
-        : getLocale();
+    const { locale } = context;
     return { locale, translations: await getTranslationsSnapshot(locale) };
   },
   head: () => ({
@@ -60,7 +78,9 @@ export const Route = createRootRoute({
 
 /** Render the document with GT translations and locale-specific text direction. */
 function RootDocument({ children }: { children: ReactNode }) {
-  const { locale, translations } = Route.useLoaderData();
+  const data = Route.useLoaderData();
+  const locale = data?.locale ?? i18n.defaultLanguage;
+  const translations = data?.translations;
   const direction = getLocaleDirection(locale);
 
   return (

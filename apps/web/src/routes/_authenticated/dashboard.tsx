@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { T } from "gt-react";
 
-export const Route = createFileRoute("/_authenticated/dashboard")({
+export const Route = createFileRoute("/{-$lang}/_authenticated/dashboard")({
   component: RouteComponent,
 });
 
