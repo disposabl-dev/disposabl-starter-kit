@@ -1,0 +1,8 @@
+{
+  "name": "disposabl-starter-kit",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

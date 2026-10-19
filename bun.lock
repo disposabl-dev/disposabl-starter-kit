@@ -1,0 +1,60 @@
+{
+  "lockfileVersion": 2,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "disposabl-starter-kit",
+    },
+    "apps/blog": {
+      "name": "@disposabl/blog",
+    },
+    "apps/changelog": {
+      "name": "@disposabl/changelog",
+    },
+    "apps/docs": {
+      "name": "@disposabl/docs",
+    },
+    "apps/mobile": {
+      "name": "@disposabl/mobile",
+    },
+    "apps/web": {
+      "name": "@disposabl/web",
+    },
+    "packages/backend": {
+      "name": "@disposabl/backend",
+    },
+    "packages/cli": {
+      "name": "@disposabl/cli",
+    },
+    "packages/disposabl-kit": {
+      "name": "@disposabl/disposabl-kit",
+    },
+    "packages/sdk": {
+      "name": "@disposabl/sdk",
+    },
+    "packages/typescript-config": {
+      "name": "@disposabl/typescript-config",
+    },
+  },
+  "packages": {
+    "@disposabl/backend": ["@disposabl/backend@workspace:packages/backend"],
+
+    "@disposabl/blog": ["@disposabl/blog@workspace:apps/blog"],
+
+    "@disposabl/changelog": ["@disposabl/changelog@workspace:apps/changelog"],
+
+    "@disposabl/cli": ["@disposabl/cli@workspace:packages/cli"],
+
+    "@disposabl/disposabl-kit": ["@disposabl/disposabl-kit@workspace:packages/disposabl-kit"],
+
+    "@disposabl/docs": ["@disposabl/docs@workspace:apps/docs"],
+
+    "@disposabl/mobile": ["@disposabl/mobile@workspace:apps/mobile"],
+
+    "@disposabl/sdk": ["@disposabl/sdk@workspace:packages/sdk"],
+
+    "@disposabl/typescript-config": ["@disposabl/typescript-config@workspace:packages/typescript-config"],
+
+    "@disposabl/web": ["@disposabl/web@workspace:apps/web"],
+  }
+}
