@@ -2,6 +2,12 @@
   "name": "@disposabl/backend",
   "private": true,
   "type": "module",
+  "scripts": {
+    "dev": "convex dev"
+  },
+  "dependencies": {
+    "convex": "catalog:"
+  },
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
     "typescript": "catalog:",
