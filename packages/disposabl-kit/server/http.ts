@@ -1,19 +1,11 @@
 import { registerStaticRoutes } from "@convex-dev/static-hosting";
-import { httpRouter, httpActionGeneric } from "convex/server";
-import { components } from "../../backend/convex/_generated/api";
+import { httpRouter } from "convex/server";
+import { components } from "@disposabl/backend/_generated/api";
+import { authKit } from "@disposabl/disposabl-kit/server/auth";
 
 const http = httpRouter();
 
-http.route({
-  path: "/workos/webhook",
-  method: "POST",
-  // Logging-only placeholder. No signature verification or event processing yet.
-  handler: httpActionGeneric(async (_ctx, request) => {
-    const body = await request.json();
-    console.log(body);
-    return new Response("OK");
-  }),
-});
+authKit.registerRoutes(http);
 
 registerStaticRoutes(http, components.staticHosting, {
   pathPrefix: "/",

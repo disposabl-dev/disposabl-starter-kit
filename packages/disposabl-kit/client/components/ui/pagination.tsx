@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "cn";
 
-import { Button } from "@disposabl/disposabl-kit/client/components/ui/button";
+import { Button } from "./button";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,

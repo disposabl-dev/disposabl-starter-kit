@@ -28,5 +28,6 @@ bun run check           # TypeScript checks across workspaces
 - App code in `apps/`; shared code in `packages/`.
 - Blog, changelog, and docs contain Markdown only.
 - Shared dependency versions belong in root catalogs.
+- Use package exports for cross-package imports and shared components. Relative imports are fine within the same package; leave generated imports alone.
 - Use Radix UI for UI primitives. Compose the combobox from the shared Popover and Command components.
 - Keep changes scoped. Run `bun run validate:check` before handing off.

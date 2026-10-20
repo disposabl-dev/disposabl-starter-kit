@@ -31,7 +31,12 @@ type Env = {
   readonly CONVEX_CLOUD_URL: string;
   readonly CONVEX_SITE_URL: string;
   readonly DISPOSABL_PLATFORMS: string | undefined;
+  readonly R2_ACCESS_KEY_ID: string | undefined;
+  readonly R2_BUCKET: string | undefined;
+  readonly R2_ENDPOINT: string | undefined;
+  readonly R2_SECRET_ACCESS_KEY: string | undefined;
   readonly TEAMS_ENABLED: string | undefined;
+  readonly TINIFY_API_KEY: string | undefined;
   readonly WORKOS_API_KEY: string;
   readonly WORKOS_CLIENT_ID: string;
   readonly WORKOS_WEBHOOK_SECRET: string;

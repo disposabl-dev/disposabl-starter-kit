@@ -1,3 +1,3 @@
-import { createAuthConfig } from "@disposabl/disposabl-kit/server";
+import { createAuthConfig } from "@disposabl/disposabl-kit/server/auth.config";
 
 export default createAuthConfig();

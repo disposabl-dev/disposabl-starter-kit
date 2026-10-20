@@ -3,8 +3,8 @@ import {
   internalQuery as nativeQuery,
   internalMutation as nativeMutation,
   internalAction as nativeAction,
-} from "../../../backend/convex/_generated/server";
-import type { Platforms } from "./platforms";
+} from "@disposabl/backend/_generated/server";
+import type { Platforms } from "@disposabl/disposabl-kit/server/lib/platforms";
 
 // Trusted server entrypoints must supply these values after authentication.
 export const identityFields = {

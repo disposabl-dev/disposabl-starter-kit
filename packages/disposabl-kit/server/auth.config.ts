@@ -1,5 +1,5 @@
 import type { AuthConfig } from "convex/server";
-import { env } from "../../backend/convex/_generated/server";
+import { env } from "@disposabl/backend/_generated/server";
 
 export function createAuthConfig(): AuthConfig {
   const clientId = env.WORKOS_CLIENT_ID;

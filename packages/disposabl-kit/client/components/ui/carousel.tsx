@@ -4,7 +4,7 @@ import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 
-import { Button } from "@disposabl/disposabl-kit/client/components/ui/button";
+import { Button } from "./button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useGT } from "gt-react";
 

@@ -21,7 +21,8 @@
     "@workos-inc/authkit-react": "catalog:",
     "@convex-dev/workos": "catalog:",
     "convex": "catalog:",
-    "@convex-dev/static-hosting": "catalog:"
+    "@convex-dev/static-hosting": "catalog:",
+    "@disposabl/backend": "workspace:*"
   },
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
@@ -34,5 +35,8 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "gt": "catalog:"
+  },
+  "exports": {
+    "./gt.config": "./gt.config.json"
   }
 }

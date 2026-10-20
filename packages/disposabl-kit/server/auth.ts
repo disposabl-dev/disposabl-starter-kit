@@ -1,12 +1,24 @@
 import { validate } from "convex-helpers/validators";
 import { ConvexError, v } from "convex/values";
-import { identityFields } from "./lib/functions";
+import { identityFields } from "@disposabl/disposabl-kit/server/lib/functions";
 import type { Auth } from "convex/server";
 import { AuthKit } from "@convex-dev/workos-authkit";
-import { components } from "../../backend/convex/_generated/api";
-import type { DataModel } from "../../backend/convex/_generated/dataModel";
+import { start } from "@convex-dev/workflow";
+import { components, internal } from "@disposabl/backend/_generated/api";
+import type { DataModel } from "@disposabl/backend/_generated/dataModel";
 
-export const authKit = new AuthKit<DataModel>(components.workOSAuthKit);
+export const authKit: AuthKit<DataModel> = new AuthKit<DataModel>(
+  components.workOSAuthKit,
+  { authFunctions: internal.disposabl },
+);
+
+export const { authKitEvent } = authKit.events({
+  "user.created": async (ctx, event) => {
+    await start(ctx, internal.disposabl.provisionPersonalOrganization, {
+      userId: event.data.id,
+    });
+  },
+});
 
 const identityValidator = v.object(identityFields);
 

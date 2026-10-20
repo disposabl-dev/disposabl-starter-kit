@@ -6,8 +6,10 @@
     "dev": "convex dev"
   },
   "dependencies": {
+    "@convex-dev/r2": "catalog:",
     "@convex-dev/static-hosting": "catalog:",
     "@convex-dev/workos-authkit": "catalog:",
+    "@convex-dev/workflow": "catalog:",
     "@disposabl/disposabl-kit": "workspace:*",
     "convex": "catalog:"
   },
@@ -15,5 +17,9 @@
     "@disposabl/typescript-config": "workspace:*",
     "typescript": "catalog:",
     "@types/bun": "catalog:"
+  },
+  "exports": {
+    "./_generated/*": "./convex/_generated/*.js",
+    "./*": "./convex/*.ts"
   }
 }

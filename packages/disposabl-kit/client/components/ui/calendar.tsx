@@ -9,10 +9,7 @@ import {
   type Locale,
 } from "react-day-picker";
 
-import {
-  Button,
-  buttonVariants,
-} from "@disposabl/disposabl-kit/client/components/ui/button";
+import { Button, buttonVariants } from "./button";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,

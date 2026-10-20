@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as disposabl from "../disposabl.js";
 import type * as http from "../http.js";
 import type * as todo_index from "../todo/index.js";
 import type * as todo_internal from "../todo/internal.js";
@@ -19,6 +20,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  disposabl: typeof disposabl;
   http: typeof http;
   "todo/index": typeof todo_index;
   "todo/internal": typeof todo_internal;
@@ -53,4 +55,6 @@ export declare const internal: FilterApi<
 export declare const components: {
   staticHosting: import("@convex-dev/static-hosting/_generated/component.js").ComponentApi<"staticHosting">;
   workOSAuthKit: import("@convex-dev/workos-authkit/_generated/component.js").ComponentApi<"workOSAuthKit">;
+  workflow: import("@convex-dev/workflow/_generated/component.js").ComponentApi<"workflow">;
+  r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
 };

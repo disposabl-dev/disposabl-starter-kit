@@ -29,6 +29,9 @@
     "typescript": "catalog:"
   },
   "catalog": {
+    "@unpic/react": "1.0.2",
+    "@convex-dev/r2": "0.10.4",
+    "tinify": "1.8.3",
     "@types/bun": "1.4.3",
     "turbo": "2.11.9",
     "typescript": "7.0.2",
@@ -70,6 +73,7 @@
     "@workos-inc/node": "10.14.0",
     "@convex-dev/workos": "0.0.3",
     "@convex-dev/workos-authkit": "0.2.10",
+    "@convex-dev/workflow": "0.4.10",
     "convex": "1.47.0",
     "convex-helpers": "0.1.128",
     "@convex-dev/static-hosting": "0.2.1",

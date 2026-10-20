@@ -1,7 +1,7 @@
 import { v, type Infer } from "convex/values";
-import { env, mutation } from "../_generated/server";
+import { env, mutation } from "@disposabl/backend/_generated/server";
 import { requireUser } from "@disposabl/disposabl-kit/server";
-import { internal } from "../_generated/api";
+import { internal } from "@disposabl/backend/_generated/api";
 
 const createTodoResult = v.object({
   success: v.literal(true),
