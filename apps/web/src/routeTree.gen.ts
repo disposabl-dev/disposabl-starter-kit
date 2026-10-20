@@ -18,6 +18,7 @@ import { Route as DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPa
 import { Route as DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesSigninRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/signin'
 import { Route as DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesSignupRouteImport } from './../../../packages/disposabl-kit/client/routes/_auth-pages/signup'
 import { Route as AuthenticatedRouteRouteImport } from './../../../packages/disposabl-kit/client/routes/_authenticated/route'
+import { Route as PublicRouteRouteImport } from './../../../packages/disposabl-kit/client/routes/_public/route'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRouteImport } from './../../../packages/disposabl-kit/client/routes/_public/-docs/$'
@@ -96,15 +97,20 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   path: '/{-$lang}',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/{-$lang}/_public',
+  path: '/{-$lang}',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const PublicIndexRoute = PublicIndexRouteImport.update({
-  id: '/{-$lang}/_public/',
-  path: '/{-$lang}/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute =
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRouteImport.update(
@@ -118,7 +124,7 @@ const DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRou
 export interface FileRoutesByFullPath {
   '/': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesRouteRouteWithChildren
   '/docs-search': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute
-  '/{-$lang}': typeof AuthenticatedRouteRouteWithChildren
+  '/{-$lang}': typeof PublicRouteRouteWithChildren
   '/callback': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesCallbackRoute
   '/login': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesLoginRoute
   '/sign-in': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesSignInRoute
@@ -147,6 +153,7 @@ export interface FileRoutesById {
   '/_auth-pages': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesRouteRouteWithChildren
   '/docs-search': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute
   '/{-$lang}/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/{-$lang}/_public': typeof PublicRouteRouteWithChildren
   '/_auth-pages/callback': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesCallbackRoute
   '/_auth-pages/login': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesLoginRoute
   '/_auth-pages/sign-in': typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesSignInRoute
@@ -190,6 +197,7 @@ export interface FileRouteTypes {
     | '/_auth-pages'
     | '/docs-search'
     | '/{-$lang}/_authenticated'
+    | '/{-$lang}/_public'
     | '/_auth-pages/callback'
     | '/_auth-pages/login'
     | '/_auth-pages/sign-in'
@@ -205,8 +213,8 @@ export interface RootRouteChildren {
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesRouteRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesRouteRouteWithChildren
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute: typeof DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute
-  PublicIndexRoute: typeof PublicIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -274,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$lang}/_public': {
+      id: '/{-$lang}/_public'
+      path: '/{-$lang}'
+      fullPath: '/{-$lang}'
+      preLoaderRoute: typeof PublicRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/{-$lang}/_authenticated/dashboard': {
       id: '/{-$lang}/_authenticated/dashboard'
       path: '/dashboard'
@@ -283,10 +298,10 @@ declare module '@tanstack/react-router' {
     }
     '/{-$lang}/_public/': {
       id: '/{-$lang}/_public/'
-      path: '/{-$lang}'
+      path: '/'
       fullPath: '/{-$lang}/'
       preLoaderRoute: typeof PublicIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/{-$lang}/docs/$': {
       id: '/{-$lang}/docs/$'
@@ -339,15 +354,27 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface PublicRouteRouteChildren {
+  PublicIndexRoute: typeof PublicIndexRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicIndexRoute: PublicIndexRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesRouteRoute:
     DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesAuthPagesRouteRouteWithChildren,
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute:
     DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSearchRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
   DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute:
     DotDotDotDotDotDotDotDotPackagesDisposablKitClientRoutesPublicDocsSplatRoute,
-  PublicIndexRoute: PublicIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

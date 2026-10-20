@@ -14,6 +14,7 @@ import { useMDXComponents } from "../../../components/mdx";
 import { source } from "../../../lib/source";
 import { i18n } from "../../../lib/i18n";
 import fumadocsCss from "../../../styles/fumadocs.css?url";
+import { Logo } from "../../../components/logo";
 
 export const Route = createFileRoute("/{-$lang}/docs/$")({
   component: Page,
@@ -61,9 +62,13 @@ const clientLoader = collections.docs.createClientLoader({
 /** Render the requested locale's navigation tree and lazy-loaded Markdown content. */
 function Page() {
   const data = useFumadocsLoader(Route.useLoaderData());
+  const { lang } = Route.useParams();
 
   return (
-    <DocsLayout nav={{ title: "" }} tree={data.pageTree}>
+    <DocsLayout
+      nav={{ title: <Logo />, url: lang ? `/${lang}` : "/" }}
+      tree={data.pageTree}
+    >
       <Suspense>{clientLoader.useContent(data.path)}</Suspense>
     </DocsLayout>
   );
