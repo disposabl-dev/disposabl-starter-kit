@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "cn";
 import { Dialog as SheetPrimitive } from "radix-ui";
 
-import { Button } from "@disposabl/disposabl-kit/client/components/ui/button";
+import { Button } from "./button";
 import { XIcon } from "lucide-react";
 import { useGT } from "gt-react";
 

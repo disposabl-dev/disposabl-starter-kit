@@ -20,12 +20,12 @@ import { RootProvider } from "fumadocs-ui/provider/tanstack";
 import { i18nProvider } from "fumadocs-ui/i18n";
 import { i18n } from "../lib/i18n";
 import { useFumadocsTranslations } from "../lib/layout.shared";
-import { TooltipProvider } from "@disposabl/disposabl-kit/client/components/ui/tooltip";
-import { Toaster } from "@disposabl/disposabl-kit/client/components/ui/sonner";
+import { TooltipProvider } from "../components/ui/tooltip";
+import { Toaster } from "../components/ui/sonner";
 import { AuthKitProvider, useAuth } from "@workos-inc/authkit-react";
 import { ConvexProviderWithAuthKit } from "@convex-dev/workos";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
-import { CookieConsentBanner } from "@disposabl/disposabl-kit/client/components/cookie-consent";
+import { CookieConsentBanner } from "../components/cookie-consent";
 import { UpdateBanner } from "@convex-dev/static-hosting/react";
 import { DirectionProvider } from "../components/ui/direction";
 

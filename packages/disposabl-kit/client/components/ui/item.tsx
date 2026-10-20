@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import { Slot } from "radix-ui";
 
-import { Separator } from "@disposabl/disposabl-kit/client/components/ui/separator";
+import { Separator } from "./separator";
 
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (

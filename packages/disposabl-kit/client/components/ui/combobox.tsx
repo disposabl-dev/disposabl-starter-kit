@@ -5,19 +5,15 @@ import { ChevronDownIcon } from "lucide-react";
 import { useGT } from "gt-react";
 import { cn } from "cn";
 
-import { Button } from "@disposabl/disposabl-kit/client/components/ui/button";
+import { Button } from "./button";
 import {
   Command,
   CommandEmpty,
   CommandInput,
   CommandItem,
   CommandList,
-} from "@disposabl/disposabl-kit/client/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@disposabl/disposabl-kit/client/components/ui/popover";
+} from "./command";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 type ComboboxOption = {
   value: string;

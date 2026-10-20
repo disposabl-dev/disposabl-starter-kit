@@ -8,7 +8,7 @@ import {
   rootRoute,
   route,
 } from "@tanstack/virtual-file-routes";
-import { i18n } from "./lib/i18n.ts";
+import { i18n } from "@disposabl/disposabl-kit/client/lib/i18n";
 
 const docs = true;
 const docsSearch = "/docs-search";

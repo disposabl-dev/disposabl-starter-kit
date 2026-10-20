@@ -8,7 +8,7 @@ import {
 import { useAuth } from "@workos-inc/authkit-react";
 import { useEffect, useRef, useState } from "react";
 import { T } from "gt-react";
-import { Skeleton } from "@disposabl/disposabl-kit/client/components/ui/skeleton";
+import { Skeleton } from "../../components/ui/skeleton";
 
 const signup = ["/signup", "/sign-up"];
 const signin = ["/signin", "/sign-in", "/login"];

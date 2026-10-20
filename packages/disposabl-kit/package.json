@@ -13,11 +13,21 @@
     "./client/styles/*": "./client/styles/*",
     "./client/vite.config": "./client/vite.config.ts",
     "./server": "./server/index.ts",
+    "./server/files": "./server/files/index.ts",
+    "./server/files/internal": "./server/files/internal.ts",
     "./server/account/validators": "./server/account/validators.ts",
+    "./server/account/internal": "./server/account/internal.ts",
     "./server/lib": "./server/lib/index.ts",
-    "./server/http": "./server/http.ts"
+    "./server/http": "./server/http.ts",
+    "./client/lib/layout.shared": "./client/lib/layout.shared.tsx",
+    "./client/assets/*": "./client/assets/*",
+    "./client/.source/*": "./client/.source/*.ts",
+    "./server/*": "./server/*.ts"
   },
   "dependencies": {
+    "@unpic/react": "catalog:",
+    "tinify": "catalog:",
+    "@convex-dev/r2": "catalog:",
     "@shadcn/react": "catalog:",
     "class-variance-authority": "catalog:",
     "cmdk": "catalog:",
@@ -46,6 +56,7 @@
     "fumadocs-ui": "catalog:",
     "@convex-dev/workos": "catalog:",
     "@convex-dev/workos-authkit": "catalog:",
+    "@convex-dev/workflow": "catalog:",
     "convex": "catalog:",
     "convex-helpers": "catalog:",
     "@convex-dev/static-hosting": "catalog:",
@@ -66,6 +77,8 @@
   },
   "peerDependencies": {
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "@disposabl/backend": "workspace:*",
+    "@disposabl/web": "workspace:*"
   }
 }

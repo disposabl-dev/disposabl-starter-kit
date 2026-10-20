@@ -3,23 +3,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import { Slot } from "radix-ui";
 
-import { useIsMobile } from "@disposabl/disposabl-kit/client/hooks/use-mobile";
-import { Button } from "@disposabl/disposabl-kit/client/components/ui/button";
-import { Input } from "@disposabl/disposabl-kit/client/components/ui/input";
-import { Separator } from "@disposabl/disposabl-kit/client/components/ui/separator";
+import { useIsMobile } from "../../hooks/use-mobile";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Separator } from "./separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@disposabl/disposabl-kit/client/components/ui/sheet";
-import { Skeleton } from "@disposabl/disposabl-kit/client/components/ui/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@disposabl/disposabl-kit/client/components/ui/tooltip";
+} from "./sheet";
+import { Skeleton } from "./skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 import { PanelLeftIcon } from "lucide-react";
 import { useGT } from "gt-react";
 

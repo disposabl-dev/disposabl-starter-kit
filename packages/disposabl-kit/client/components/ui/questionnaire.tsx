@@ -4,10 +4,7 @@ import * as React from "react";
 import { Questionnaire as QuestionnairePrimitive } from "@shadcn/react/questionnaire";
 import { cn } from "cn";
 
-import {
-  buttonVariants,
-  type Button,
-} from "@disposabl/disposabl-kit/client/components/ui/button";
+import { buttonVariants, type Button } from "./button";
 import { CheckIcon } from "lucide-react";
 
 function Questionnaire({

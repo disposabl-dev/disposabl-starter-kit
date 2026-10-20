@@ -8,11 +8,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@disposabl/disposabl-kit/client/components/ui/dialog";
-import {
-  InputGroup,
-  InputGroupAddon,
-} from "@disposabl/disposabl-kit/client/components/ui/input-group";
+} from "./dialog";
+import { InputGroup, InputGroupAddon } from "./input-group";
 import { SearchIcon, CheckIcon } from "lucide-react";
 
 function Command({

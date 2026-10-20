@@ -5,6 +5,7 @@ import { routeTree } from "./routeTree.gen";
 
 initializeGT({
   ...gtConfig,
+  // Vite needs a relative pattern to discover these generated translations.
   loadTranslations: async (locale) =>
     (await import(`./_gt/${locale}.json`)).default,
   cacheUrl: null,

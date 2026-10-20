@@ -1,5 +1,5 @@
 import { defineI18n } from "fumadocs-core/i18n";
-import gtConfig from "../../../../apps/web/gt.config.json" with { type: "json" };
+import gtConfig from "@disposabl/web/gt.config" with { type: "json" };
 
 export const i18n = defineI18n({
   defaultLanguage: gtConfig.defaultLocale,
