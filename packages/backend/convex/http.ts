@@ -1,4 +1,4 @@
-import { http } from "@disposabl/disposabl-kit/server";
+import { http } from "@disposabl/disposabl-kit/server/http";
 import { httpActionGeneric } from "convex/server";
 
 http.route({
