@@ -11,8 +11,8 @@ import { Logo } from "./logo";
 export const Header = ({ authEnabled = false }: { authEnabled?: boolean }) => {
   const gt = useGT();
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
-      <div className="mx-auto flex h-28 max-w-screen-2xl flex-col justify-center gap-3 px-4 sm:h-16 sm:flex-row sm:items-center sm:justify-between">
+    <header className="sticky top-0 z-40 bg-background">
+      <div className="mx-auto flex min-h-24 w-full max-w-[1440px] flex-col justify-center gap-2 px-5 py-3 sm:h-14 sm:min-h-0 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-0 xl:px-10">
         <nav
           aria-label={gt("Main navigation")}
           className="flex items-center gap-4 sm:gap-6"
@@ -28,7 +28,7 @@ export const Header = ({ authEnabled = false }: { authEnabled?: boolean }) => {
             <T>Docs</T>
           </Link>
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
           <LocaleToggle />
           <ModeToggle />
           {authEnabled && <AuthButtons />}

@@ -8,7 +8,7 @@ export function LocaleToggle() {
   return (
     <LocaleSelector
       aria-label={gt("Choose a language")}
-      className="rounded-md border bg-background px-2 py-1 text-sm"
+      className="border bg-background py-1 ps-2 pe-4 text-sm"
     />
   );
 }
