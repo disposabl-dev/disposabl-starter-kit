@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { v, type GenericValidator } from "convex/values";
 import {
   internalQuery as nativeQuery,
   internalMutation as nativeMutation,
@@ -15,7 +15,11 @@ export const identityFields = {
 
 const withPlatforms = <A, R extends object>(builder: (definition: A) => R) => {
   return (
-    definition: A & { args: typeof identityFields; platforms?: Platforms },
+    definition: A & {
+      args: typeof identityFields;
+      returns: GenericValidator;
+      platforms?: Platforms;
+    },
   ): R => {
     for (const field of ["orgId", "userId", "role"] as const) {
       if (definition.args?.[field]?.isOptional !== "required") {
@@ -26,6 +30,8 @@ const withPlatforms = <A, R extends object>(builder: (definition: A) => R) => {
     }
     return Object.assign(builder(definition), {
       platforms: definition.platforms,
+      args: definition.args,
+      returns: definition.returns,
     });
   };
 };

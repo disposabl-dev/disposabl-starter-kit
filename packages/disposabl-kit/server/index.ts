@@ -5,4 +5,4 @@ export {
   requireUser,
 } from "@disposabl/disposabl-kit/server/auth";
 export * from "@disposabl/disposabl-kit/server/lib";
-export { http } from "@disposabl/disposabl-kit/server/http";
+// Import the router from /server/http to keep function imports free of routing.

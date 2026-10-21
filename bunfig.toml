@@ -6,4 +6,5 @@ ignorePatterns = [
   "**/routeTree.gen.ts",
   "**/convex/_generated/**",
   "apps/web/src/_gt/**",
+  "generated/**",
 ]

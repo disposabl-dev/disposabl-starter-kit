@@ -62,7 +62,12 @@
     "@convex-dev/static-hosting": "catalog:",
     "fumadocs-core": "catalog:",
     "fumadocs-mdx": "catalog:",
-    "@tanstack/react-start": "catalog:"
+    "@tanstack/react-start": "catalog:",
+    "@modelcontextprotocol/server": "catalog:",
+    "hono": "catalog:",
+    "hono-openapi": "catalog:",
+    "jose": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@disposabl/typescript-config": "workspace:*",
@@ -73,7 +78,8 @@
     "react-dom": "catalog:",
     "vite": "catalog:",
     "@tanstack/virtual-file-routes": "catalog:",
-    "@types/mdx": "catalog:"
+    "@types/mdx": "catalog:",
+    "@types/bun": "catalog:"
   },
   "peerDependencies": {
     "react": "catalog:",

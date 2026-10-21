@@ -71,6 +71,22 @@ bun run validate        # Auto-fix lint, format, and check types
 bun run validate:check  # Read-only checks
 ```
 
+## API and MCP
+
+```sh
+bun run generate:platforms
+```
+
+This runs `convex dev --once`, then
+`packages/disposabl-kit/server/generate-platforms.ts` from the backend workspace.
+It refreshes `convex/platforms.generated.ts` and `generated/openapi.json`.
+
+Expose internal functions with `platforms: ["api", "mcp"]`, argument validators,
+and a return validator. The kit's `server/http.ts` builds API routes, MCP tools,
+and OpenAPI from those functions. Trusted identity is supplied after authentication.
+
+CLI and SDK generation are deferred.
+
 ## Pre-commit hook
 
 Auto-fixes staged lint and formatting, then checks types.
