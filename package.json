@@ -10,7 +10,8 @@
     "prepare": "git config --local core.hooksPath .githooks",
     "dev": "turbo dev",
     "build": "turbo build",
-    "generate:platforms": "bun run --filter @disposabl/backend generate:platforms"
+    "generate:platforms": "bun run --filter @disposabl/backend generate:platforms",
+    "plugins:release": "bun packages/disposabl-kit/server/release-plugins.ts"
   },
   "workspaces": [
     "apps/*",

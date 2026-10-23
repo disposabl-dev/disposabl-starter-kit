@@ -10,6 +10,7 @@ import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { runOasdiffBreakingFromSpecs } from "@oasdiff-js/oasdiff-js";
 import { createHttp } from "./http";
+import { buildPlugins, writePlugins } from "./generate-plugins";
 
 const output = "platforms.generated.ts";
 const extensions = [
@@ -131,6 +132,7 @@ function mcpSpec(spec: PlatformSpec) {
 export async function generatePlatforms(
   dir = resolve("convex"),
   acceptBreaking = false,
+  { check = false }: { check?: boolean } = {},
 ) {
   const registry = await generateRegistry(dir);
   const spec = await createHttp({ modules: registry.modules }).openapi();
@@ -190,32 +192,56 @@ export async function generatePlatforms(
       );
     }
   }
-  for (const [path, value] of [
+  const root = resolve(dir, "../../..");
+  const plugins = buildPlugins({ root, contract: spec });
+  const artifacts = [
     [registry.target, registry.content],
     [target, content],
-  ] as const) {
+  ] as const;
+  if (check) {
+    for (const [path, value] of artifacts)
+      if (!existsSync(path) || readFileSync(path, "utf8") !== value)
+        throw new Error(`Generated platform artifact is out of date: ${path}`);
+    writePlugins(root, plugins, true);
+    console.info("Generated platform artifacts are up to date.");
+    return;
+  }
+  for (const [path, value] of artifacts) {
     if (existsSync(path) && readFileSync(path, "utf8") === value) continue;
     mkdirSync(dirname(path), { recursive: true });
     writeFileSync(`${path}.tmp`, value);
     renameSync(`${path}.tmp`, path);
   }
-  console.info("Generated platform registry and OpenAPI specification.");
+  writePlugins(root, plugins);
+  console.info(
+    "Generated platform registry, OpenAPI specification, and enabled plugins.",
+  );
 }
 
 if (import.meta.main) {
   const args = process.argv.slice(2);
-  if (args.some((arg) => arg !== "--accept-breaking"))
-    throw new Error("Usage: bun run generate:platforms [--accept-breaking]");
+  if (
+    args.some(
+      (arg) => !["--accept-breaking", "--no-deploy", "--check"].includes(arg),
+    )
+  )
+    throw new Error(
+      "Usage: bun run generate:platforms [--accept-breaking] [--no-deploy | --check]",
+    );
+  if (args.includes("--check") && args.includes("--accept-breaking"))
+    throw new Error("--check cannot accept breaking changes.");
   try {
     await generatePlatforms(
       resolve("convex"),
       args.includes("--accept-breaking"),
+      { check: args.includes("--check") },
     );
   } catch (error) {
     if (!(error instanceof BreakingChangeApprovalRequired)) throw error;
     console.error(JSON.stringify(error.report));
     process.exit(2);
   }
+  if (args.includes("--check") || args.includes("--no-deploy")) process.exit(0);
   // Do not deploy changed functions before the compatibility check passes.
   const deployment = Bun.spawn(["bun", "run", "convex", "dev", "--once"], {
     stdout: "inherit",

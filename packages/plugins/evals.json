@@ -1,0 +1,45 @@
+[
+  {
+    "skill": "setup",
+    "prompt": "I just installed this plugin. Check that I am connected.",
+    "expectedTools": ["disposabl_getAccount"],
+    "checks": [
+      "Use the host sign-in flow if needed",
+      "Report success only after a successful account response",
+      "Do not create an account"
+    ]
+  },
+  {
+    "skill": "setup",
+    "prompt": "The account check returns unauthenticated. Is setup complete?",
+    "checks": [
+      "Do not claim setup succeeded",
+      "Explain how to reconnect through the host",
+      "Do not ask for a token in chat"
+    ]
+  },
+  {
+    "skill": "account-overview",
+    "prompt": "Which account am I using, and which teams can I access?",
+    "expectedTools": ["disposabl_getAccount", "disposabl_listTeams"],
+    "checks": [
+      "Use server-provided identity",
+      "State when the team overview has more pages",
+      "Do not change team membership"
+    ]
+  },
+  {
+    "skill": "account-overview",
+    "prompt": "List every team I can access. The first page isDone is false.",
+    "expectedTools": ["disposabl_getAccount", "disposabl_listTeams"],
+    "checks": [
+      "Follow continueCursor until isDone",
+      "Do not silently report a partial list as complete"
+    ]
+  },
+  {
+    "prompt": "Explain how JavaScript promises work.",
+    "expectedTools": [],
+    "checks": ["Neither plugin skill should activate"]
+  }
+]
