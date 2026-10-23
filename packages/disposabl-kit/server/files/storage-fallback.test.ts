@@ -63,6 +63,14 @@ const save = handler<
   null
 >(files.saveConvexFile);
 
+const store = handler<
+  Identity & {
+    bytes: ArrayBuffer;
+    contentType: string;
+  },
+  Infer<typeof uploadedFileResult>
+>(files.storeConvexFile);
+
 type Row = {
   _id: string;
   _creationTime: number;
@@ -137,6 +145,8 @@ function context() {
         return generate(ctx, args as Identity);
       if (name === getFunctionName(internal.disposabl.saveConvexFileInternal))
         return save(ctx, args as Parameters<typeof save>[1]);
+      if (name === getFunctionName(internal.disposabl.storeConvexFileInternal))
+        return store(ctx, args as Parameters<typeof store>[1]);
       throw new Error(`Unexpected mutation ${name}`);
     },
     runQuery: async (_ref: unknown, args: Parameters<typeof lookup>[1]) =>
@@ -149,6 +159,11 @@ describe("storage provider fallback", () => {
   test("uploads binary data in one call without R2 credentials", async () => {
     configure();
     const { ctx, rows, blobs } = context();
+    ctx.storage.generateUploadUrl = async () => {
+      throw new Error(
+        "One-call uploads must not generate an unused upload URL",
+      );
+    };
     const bytes = new Uint8Array([0, 255, 128, 13, 10, 42]);
     const result = await upload(ctx, {
       ...identity,
