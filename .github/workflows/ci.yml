@@ -36,3 +36,6 @@ jobs:
 
       - name: Validate
         run: bun run validate:check
+
+      - name: Test server and plugin generation
+        run: bun test packages/disposabl-kit/server

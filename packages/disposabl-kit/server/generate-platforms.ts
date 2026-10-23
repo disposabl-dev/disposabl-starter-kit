@@ -1,15 +1,19 @@
 #!/usr/bin/env bun
 import {
   existsSync,
+  lstatSync,
   mkdirSync,
   readFileSync,
   renameSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { runOasdiffBreakingFromSpecs } from "@oasdiff-js/oasdiff-js";
 import { createHttp } from "./http";
+import { z } from "zod";
+import { getPlatforms } from "./lib/platforms";
 
 const output = "platforms.generated.ts";
 const extensions = [
@@ -127,10 +131,116 @@ function mcpSpec(spec: PlatformSpec) {
   };
 }
 
-/** Check compatibility before replacing either generated artifact. */
+type Files = Map<string, Buffer>;
+
+function readFiles(dir: string): Files {
+  if (!existsSync(dir)) return new Map();
+  return new Map(
+    [
+      ...new Bun.Glob("**/*").scanSync({
+        cwd: dir,
+        onlyFiles: true,
+        dot: true,
+        followSymlinks: false,
+      }),
+    ]
+      .sort()
+      .map((path) => {
+        const file = join(dir, path);
+        if (lstatSync(file).isSymbolicLink())
+          throw new Error(`Plugin resources cannot be symlinks: ${path}`);
+        return [path, readFileSync(file)];
+      }),
+  );
+}
+
+/** Build both host formats from one manifest and shared skill folders. */
+function buildPlugins(root: string): Files {
+  const enabled = getPlatforms();
+  const files: Files = new Map();
+  if (!enabled.isOpenaiPluginEnabled && !enabled.isClaudePluginEnabled)
+    return files;
+  const siteUrl = process.env.CONVEX_SITE_URL;
+  if (!siteUrl) throw new Error("Set CONVEX_SITE_URL when generating plugins.");
+  const url = new URL(siteUrl);
+  const local = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  if (
+    url.username ||
+    url.password ||
+    url.search ||
+    url.hash ||
+    url.pathname !== "/" ||
+    (url.protocol !== "https:" && !(local && url.protocol === "http:"))
+  )
+    throw new Error(
+      "CONVEX_SITE_URL must be an HTTPS origin, or HTTP localhost for development.",
+    );
+  const manifest = z
+    .object({
+      name: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+      version: z.string().regex(/^\d+\.\d+\.\d+$/),
+      description: z.string().min(1),
+      author: z.object({ name: z.string().min(1) }).passthrough(),
+    })
+    .passthrough()
+    .parse(
+      JSON.parse(
+        readFileSync(join(root, "packages/plugins/plugin.json"), "utf8"),
+      ),
+    );
+  const skills = readFiles(join(root, "packages/plugins/skills"));
+  const put = (path: string, value: unknown) =>
+    files.set(path, Buffer.from(JSON.stringify(value, null, 2) + "\n"));
+  const mcpUrl = new URL("/mcp", url).href;
+  if (enabled.isOpenaiPluginEnabled) {
+    put("codex/plugin.json", manifest);
+    put("codex/mcp.json", {
+      $schema: "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+      mcpServers: { [manifest.name]: { type: "streamable-http", url: mcpUrl } },
+    });
+    put(".agents/plugins/marketplace.json", {
+      name: `${manifest.name}-plugins`,
+      interface: { displayName: manifest.author.name },
+      plugins: [
+        {
+          name: manifest.name,
+          source: { source: "local", path: "./codex" },
+          policy: { installation: "AVAILABLE", authentication: "ON_INSTALL" },
+          category: "Productivity",
+        },
+      ],
+    });
+    for (const [path, data] of skills) files.set(`codex/skills/${path}`, data);
+  }
+  if (enabled.isClaudePluginEnabled) {
+    const { $schema: _schema, extensions: _extensions, ...claude } = manifest;
+    put("claude-code/.claude-plugin/plugin.json", claude);
+    put("claude-code/.mcp.json", {
+      mcpServers: { [manifest.name]: { type: "http", url: mcpUrl } },
+    });
+    put(".claude-plugin/marketplace.json", {
+      name: `${manifest.name}-plugins`,
+      description: manifest.description,
+      owner: manifest.author,
+      plugins: [
+        {
+          name: manifest.name,
+          source: "./claude-code",
+          description: manifest.description,
+        },
+      ],
+    });
+    for (const [path, data] of skills)
+      files.set(`claude-code/skills/${path}`, data);
+  }
+  return files;
+}
+
+/** Validate every candidate before checking or replacing generated artifacts. */
 export async function generatePlatforms(
   dir = resolve("convex"),
   acceptBreaking = false,
+  { check = false }: { check?: boolean } = {},
 ) {
   const registry = await generateRegistry(dir);
   const spec = await createHttp({ modules: registry.modules }).openapi();
@@ -190,32 +300,67 @@ export async function generatePlatforms(
       );
     }
   }
-  for (const [path, value] of [
-    [registry.target, registry.content],
-    [target, content],
-  ] as const) {
-    if (existsSync(path) && readFileSync(path, "utf8") === value) continue;
+  const root = resolve(dir, "../../..");
+  const pluginDir = join(root, "generated/plugins");
+  const plugins = buildPlugins(root);
+  const artifacts: Files = new Map([
+    [registry.target, Buffer.from(registry.content)],
+    [target, Buffer.from(content)],
+    ...[...plugins].map(([path, data]): [string, Buffer] => [
+      join(pluginDir, path),
+      data,
+    ]),
+  ]);
+  const stalePlugins = [...readFiles(pluginDir).keys()].some(
+    (path) => !plugins.has(path),
+  );
+  const changed = [...artifacts].filter(
+    ([path, data]) => !existsSync(path) || !readFileSync(path).equals(data),
+  );
+  if (check) {
+    if (stalePlugins || changed.length)
+      throw new Error(
+        "Generated platform artifacts are out of date. Run generate:platforms --no-deploy.",
+      );
+    console.info("Generated platform artifacts are up to date.");
+    return;
+  }
+  if (stalePlugins) rmSync(pluginDir, { recursive: true, force: true });
+  for (const [path, data] of artifacts) {
+    if (existsSync(path) && readFileSync(path).equals(data)) continue;
     mkdirSync(dirname(path), { recursive: true });
-    writeFileSync(`${path}.tmp`, value);
+    writeFileSync(`${path}.tmp`, data);
     renameSync(`${path}.tmp`, path);
   }
-  console.info("Generated platform registry and OpenAPI specification.");
+  console.info(
+    "Generated platform registry, OpenAPI specification, and enabled plugins.",
+  );
 }
 
 if (import.meta.main) {
   const args = process.argv.slice(2);
-  if (args.some((arg) => arg !== "--accept-breaking"))
-    throw new Error("Usage: bun run generate:platforms [--accept-breaking]");
+  if (
+    args.some(
+      (arg) => !["--accept-breaking", "--no-deploy", "--check"].includes(arg),
+    )
+  )
+    throw new Error(
+      "Usage: bun run generate:platforms [--accept-breaking] [--no-deploy | --check]",
+    );
+  if (args.includes("--check") && args.includes("--accept-breaking"))
+    throw new Error("--check cannot accept breaking changes.");
   try {
     await generatePlatforms(
       resolve("convex"),
       args.includes("--accept-breaking"),
+      { check: args.includes("--check") },
     );
   } catch (error) {
     if (!(error instanceof BreakingChangeApprovalRequired)) throw error;
     console.error(JSON.stringify(error.report));
     process.exit(2);
   }
+  if (args.includes("--check") || args.includes("--no-deploy")) process.exit(0);
   // Do not deploy changed functions before the compatibility check passes.
   const deployment = Bun.spawn(["bun", "run", "convex", "dev", "--once"], {
     stdout: "inherit",

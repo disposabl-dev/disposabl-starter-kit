@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "disposabl",
+  "version": "0.1.0",
+  "description": "Connect to your application and inspect your account and teams.",
+  "author": { "name": "Disposabl" },
+  "homepage": "https://disposabl.dev",
+  "repository": "https://github.com/disposabl-dev/disposabl-starter-kit",
+  "license": "MIT"
+}
