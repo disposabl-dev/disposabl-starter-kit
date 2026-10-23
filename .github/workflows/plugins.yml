@@ -1,0 +1,117 @@
+name: Plugin artifacts
+
+on:
+  pull_request:
+    paths:
+      - "packages/plugins/**"
+      - "packages/disposabl-kit/server/**"
+      - "packages/backend/convex/**"
+      - "packages/cli/**"
+      - "scripts/**"
+      - "generated/openapi.json"
+      - ".github/workflows/plugins.yml"
+      - "**/package.json"
+      - "bun.lock"
+      - "bun.lockb"
+  push:
+    branches: [main]
+    tags: ["plugins-v*"]
+    paths:
+      - "packages/plugins/**"
+      - "packages/disposabl-kit/server/**"
+      - "packages/backend/convex/**"
+      - "packages/cli/**"
+      - "scripts/**"
+      - "generated/openapi.json"
+      - ".github/workflows/plugins.yml"
+      - "**/package.json"
+      - "bun.lock"
+      - "bun.lockb"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    env:
+      DISPOSABL_PLATFORMS: api,cli,mcp,openai-plugin,claude-plugin
+    steps:
+      - name: Check out repository and plugin contract history
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.com/install | bash -s -- canary
+          echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
+
+      - name: Select packaging endpoint
+        env:
+          PLUGIN_SITE_URL: ${{ vars.PLUGIN_SITE_URL }}
+        run: |
+          bun --eval '
+            const { appendFileSync } = await import("node:fs");
+            const release = process.env.GITHUB_EVENT_NAME === "workflow_dispatch" ||
+              process.env.GITHUB_REF?.startsWith("refs/tags/plugins-v");
+            const endpoint = release ? process.env.PLUGIN_SITE_URL?.trim() : "https://example.invalid";
+            if (!endpoint) {
+              console.error("::error::PLUGIN_SITE_URL repository variable is required for manual and plugins-v* artifact runs. Configure the deployment endpoint before rerunning.");
+              process.exit(1);
+            }
+            if (/[\r\n]/.test(endpoint)) throw new Error("PLUGIN_SITE_URL must be a single line");
+            appendFileSync(process.env.GITHUB_ENV, `CONVEX_SITE_URL=${endpoint}\n`);
+          '
+
+      - name: Check plugin manifest and release tag
+        id: manifest
+        run: |
+          bun --eval '
+            const { appendFileSync } = await import("node:fs");
+            const { version } = await Bun.file("packages/plugins/plugin.json").json();
+            if (typeof version !== "string" || !version || /[\r\n]/.test(version)) {
+              throw new Error("Plugin manifest must contain a single-line version");
+            }
+            if (process.env.GITHUB_REF?.startsWith("refs/tags/plugins-v") &&
+                process.env.GITHUB_REF_NAME !== `plugins-v${version}`) {
+              throw new Error("Plugin release tag must match packages/plugins/plugin.json version");
+            }
+            appendFileSync(process.env.GITHUB_OUTPUT, `version=${version}\n`);
+          '
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate
+        run: bun run validate:check
+
+      - name: Test server and plugin tooling
+        run: bun test packages/disposabl-kit/server
+
+      # Builds from the accepted local contract without calling the endpoint.
+      - name: Build plugin packages
+        run: bun run plugins:release --output dist/plugins
+
+      # Candidate artifacts still require installation and real host testing.
+      - name: Upload candidate plugin artifacts
+        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/plugins-v')
+        uses: actions/upload-artifact@v7
+        with:
+          name: plugins-${{ steps.manifest.outputs.version }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            dist/plugins/release.json
+            dist/plugins/codex.zip
+            dist/plugins/claude-code.zip
+          if-no-files-found: error
+          overwrite: false
