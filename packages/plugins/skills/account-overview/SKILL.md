@@ -1,8 +1,6 @@
 ---
 name: account-overview
 description: Summarize the connected application's current account and available teams when the user asks which account or teams they can access.
-metadata:
-  required-tools: disposabl_getAccount disposabl_listTeams
 ---
 
 Call `disposabl_getAccount` without arguments to identify the current organization, user, and role. Use the connection's server-selected identity rather than inferring it from previous conversation.

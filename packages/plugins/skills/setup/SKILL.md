@@ -1,8 +1,6 @@
 ---
 name: setup
 description: Check this application's MCP connection, complete sign-in, and verify the connected account when the user installs the plugin or asks to connect it.
-metadata:
-  required-tools: disposabl_getAccount
 ---
 
 Use the MCP server bundled with this plugin. If the client offers sign-in or reconnect, guide the user through that client flow. Credentials belong in the client's authentication flow.

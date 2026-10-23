@@ -193,7 +193,7 @@ export async function generatePlatforms(
     }
   }
   const root = resolve(dir, "../../..");
-  const plugins = buildPlugins({ root, contract: spec });
+  const plugins = buildPlugins({ root });
   const artifacts = [
     [registry.target, registry.content],
     [target, content],
