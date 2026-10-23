@@ -1,7 +1,29 @@
-import { useUploadFile as useR2UploadFile } from "@convex-dev/r2/react";
 import { api } from "@disposabl/backend/_generated/api";
+import { useAction, useMutation } from "convex/react";
+import { useCallback } from "react";
+import { uploadToStorage } from "@disposabl/disposabl-kit/client/lib/upload-to-storage";
 
-/** Upload directly to R2 and return the durable object key. */
+/** Upload, finish image compression, and return the durable file key. */
 export function useUploadFile() {
-  return useR2UploadFile(api.disposabl);
+  const generateUploadUrl = useMutation(api.disposabl.generateUploadUrl);
+  const completeUpload = useAction(api.disposabl.completeUpload);
+  return useCallback(
+    async (
+      file: File,
+      options?: {
+        onProgress?: (progress: { loaded: number; total: number }) => void;
+      },
+    ) => {
+      const target = await generateUploadUrl({});
+      const storageId = await uploadToStorage(
+        file,
+        target,
+        options?.onProgress,
+      );
+      const { key } = target;
+      await completeUpload({ key, ...(storageId ? { storageId } : {}) });
+      return key;
+    },
+    [generateUploadUrl, completeUpload],
+  );
 }

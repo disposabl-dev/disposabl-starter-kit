@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createFromSource } from "fumadocs-core/search/server";
-import { source } from "../../lib/source";
+import { searchSource } from "../../lib/source";
 
-const server = createFromSource(source);
+const server = createFromSource(searchSource);
 
 export const Route = createFileRoute("/docs-search")({
   server: {

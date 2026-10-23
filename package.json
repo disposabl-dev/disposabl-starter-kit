@@ -30,9 +30,10 @@
     "typescript": "catalog:"
   },
   "catalog": {
+    "@oasdiff-js/oasdiff-js": "1.0.0",
     "@unpic/react": "1.0.2",
     "@convex-dev/r2": "0.10.4",
-    "tinify": "1.8.3",
+    "file-type": "21.3.4",
     "@types/bun": "1.4.3",
     "turbo": "2.11.9",
     "typescript": "7.0.2",
@@ -69,6 +70,9 @@
     "gt": "2.26.5",
     "generaltranslation": "9.5.7",
     "fumadocs-ui": "16.17.6",
+    "fumadocs-openapi": "12.5.4",
+    "shiki": "4.5.0",
+    "@shikijs/core": "4.5.0",
     "fumadocs-core": "16.17.6",
     "@workos-inc/authkit-react": "0.16.3",
     "@workos-inc/node": "10.14.0",

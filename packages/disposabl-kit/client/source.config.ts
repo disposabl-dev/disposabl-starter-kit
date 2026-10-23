@@ -3,5 +3,9 @@ import { defineDocs } from "fumadocs-mdx/config";
 
 export const docs = defineDocs({
   dir: fileURLToPath(new URL("../../../apps/docs/", import.meta.url)),
-  docs: { files: ["**/*.md"] },
+  docs: {
+    files: ["**/*.md"],
+    lastModified: true,
+    postprocess: { includeProcessedMarkdown: true },
+  },
 });
