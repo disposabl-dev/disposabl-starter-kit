@@ -34,7 +34,10 @@ function isConvexKey(key: string) {
   return key.split("/")[1] === "convex";
 }
 
-async function convexUrl(ctx: ActionCtx, storageId: Id<"_storage">) {
+async function convexUrl(
+  ctx: Pick<ActionCtx, "storage">,
+  storageId: Id<"_storage">,
+) {
   const url = await ctx.storage.getUrl(storageId);
   if (!url) throw new ConvexError({ code: "file_not_found", status: 404 });
   return url;
@@ -123,6 +126,24 @@ export const saveConvexFile = internalMutation({
   },
 });
 
+// Store the blob and its owning record in one transaction.
+export const storeConvexFile = internalMutation({
+  args: {
+    ...identityFields,
+    bytes: v.bytes(),
+    contentType: v.string(),
+  },
+  returns: uploadedFileResult,
+  handler: async (ctx, { orgId, bytes, contentType }) => {
+    const key = `${encodeURIComponent(orgId)}/convex/${crypto.randomUUID()}`;
+    const storageId = await ctx.storage.store(
+      new Blob([bytes], { type: contentType }),
+    );
+    await ctx.db.insert("files", { key, orgId, storageId });
+    return { key, url: await convexUrl(ctx, storageId) };
+  },
+});
+
 export const syncMetadata = internalMutation({
   args: { ...identityFields, ...fileKeyArgs },
   returns: v.null(),
@@ -167,25 +188,12 @@ export const uploadFile = internalAction({
       mediaType: contentType || "application/octet-stream",
     });
     if (!hasR2Config()) {
-      const user = { ...identity, orgId };
-      const { key } = await ctx.runMutation(
-        internal.disposabl.generateUploadUrlInternal,
-        user,
-      );
-      const storageId = await ctx.storage.store(
-        new Blob([processed.bytes], { type: processed.mediaType }),
-      );
-      try {
-        await ctx.runMutation(internal.disposabl.saveConvexFileInternal, {
-          ...user,
-          key,
-          storageId,
-        });
-      } catch (error) {
-        await ctx.storage.delete(storageId);
-        throw error;
-      }
-      return { key, url: await convexUrl(ctx, storageId) };
+      return ctx.runMutation(internal.disposabl.storeConvexFileInternal, {
+        ...identity,
+        orgId,
+        bytes: processed.bytes,
+        contentType: processed.mediaType,
+      });
     }
     const r2 = new R2(components.r2);
     const key = await r2.store(ctx, new Uint8Array(processed.bytes), {

@@ -21,5 +21,6 @@ export {
   getUrl as getUrlInternal,
   getConvexFile as getConvexFileInternal,
   saveConvexFile as saveConvexFileInternal,
+  storeConvexFile as storeConvexFileInternal,
 } from "@disposabl/disposabl-kit/server/files/internal";
 // Import the router from /server/http to keep function imports free of routing.
