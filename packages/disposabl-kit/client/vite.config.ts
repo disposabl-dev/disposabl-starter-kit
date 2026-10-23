@@ -2,6 +2,7 @@ import { createFilter, type PluginOption } from "vite";
 import { fumadocsMdx } from "fumadocs-mdx/vite";
 import { fileURLToPath } from "node:url";
 import { relative } from "node:path";
+import { globSync } from "node:fs";
 import {
   layout,
   physical,
@@ -9,6 +10,7 @@ import {
   route,
 } from "@tanstack/virtual-file-routes";
 import { i18n } from "@disposabl/disposabl-kit/client/lib/i18n";
+import { apiSource } from "./lib/openapi.ts";
 
 const docs = true;
 const docsSearch = "/docs-search";
@@ -35,6 +37,17 @@ export function createKitConfig(appRoutes: URL) {
   const canPrerender = createFilter(undefined, clientOnlyPaths, {
     resolve: false,
   });
+  const markdownFiles = docs
+    ? [
+        ...new Set(
+          [
+            ...globSync("**/*.md", {
+              cwd: clientPath("../../../apps/docs/"),
+            }),
+          ].map((file) => file.split("/").slice(1).join("/")),
+        ),
+      ]
+    : [];
   const plugins: PluginOption[] = [
     docs &&
       fumadocsMdx({
@@ -44,7 +57,11 @@ export function createKitConfig(appRoutes: URL) {
       }),
     {
       name: "disposabl-kit",
-      config: () => ({ define: { __DOCS_ENABLED__: docs } }),
+      config: () => ({
+        define: { __DOCS_ENABLED__: docs },
+        // Nitro's unwasm condition changes this entry; the core API needs no WASM.
+        resolve: { alias: { "shiki/core": "@shikijs/core" } },
+      }),
       configureServer(server) {
         const content = clientPath("../../../apps/docs/");
         server.watcher.add([
@@ -89,6 +106,21 @@ export function createKitConfig(appRoutes: URL) {
           ...i18n.languages.map((lang) => ({
             path: lang === i18n.defaultLanguage ? "/docs" : `/${lang}/docs`,
           })),
+          ...i18n.languages.flatMap((lang) =>
+            markdownFiles.map((file) => {
+              const path = `${lang === i18n.defaultLanguage ? "" : `/${lang}`}/docs/${file}`;
+              return { path, prerender: { enabled: true, outputPath: path } };
+            }),
+          ),
+          ...i18n.languages.flatMap((lang) =>
+            apiSource.getPages(lang).flatMap(({ url }) => [
+              { path: url },
+              {
+                path: `${url}.md`,
+                prerender: { enabled: true, outputPath: `${url}.md` },
+              },
+            ]),
+          ),
           {
             path: docsSearch,
             prerender: { enabled: true, outputPath: docsSearch },

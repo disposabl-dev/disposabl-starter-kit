@@ -31,3 +31,8 @@ bun run check           # TypeScript checks across workspaces
 - Use package exports for cross-package imports and shared components. Relative imports are fine within the same package; leave generated imports alone.
 - Use Radix UI for UI primitives. Compose the combobox from the shared Popover and Command components.
 - Keep changes scoped. Run `bun run validate:check` before handing off.
+
+## Breaking platform changes
+
+- If generation emits `PLATFORM_BREAKING_CHANGE_APPROVAL_REQUIRED`, stop and show the reported API/MCP changes to the user. Generated files must stay unchanged.
+- Run `bun run generate:platforms --accept-breaking` only after the user explicitly approves those specific changes. A general request to implement or generate platforms is not approval to accept a breaking change. Do not edit or delete generated contracts to bypass this check.

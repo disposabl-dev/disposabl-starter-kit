@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@unpic/react": "catalog:",
-    "tinify": "catalog:",
+    "file-type": "catalog:",
     "@convex-dev/r2": "catalog:",
     "@shadcn/react": "catalog:",
     "class-variance-authority": "catalog:",
@@ -54,6 +54,9 @@
     "gt-tanstack-start": "catalog:",
     "generaltranslation": "catalog:",
     "fumadocs-ui": "catalog:",
+    "fumadocs-openapi": "catalog:",
+    "shiki": "catalog:",
+    "@shikijs/core": "catalog:",
     "@convex-dev/workos": "catalog:",
     "@convex-dev/workos-authkit": "catalog:",
     "@convex-dev/workflow": "catalog:",
@@ -70,6 +73,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@oasdiff-js/oasdiff-js": "catalog:",
     "@disposabl/typescript-config": "workspace:*",
     "typescript": "catalog:",
     "@types/react": "catalog:",

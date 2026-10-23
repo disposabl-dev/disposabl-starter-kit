@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "convex dev"
+    "dev": "convex dev",
+    "generate:platforms": "bun ../disposabl-kit/server/generate-platforms.ts"
   },
   "dependencies": {
     "@convex-dev/r2": "catalog:",

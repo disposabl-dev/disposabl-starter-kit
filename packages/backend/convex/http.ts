@@ -1,12 +1,13 @@
-import { http } from "@disposabl/disposabl-kit/server/http";
-import { httpActionGeneric } from "convex/server";
+import { createHttp } from "@disposabl/disposabl-kit/server/http";
+import { httpAction } from "./_generated/server";
+import { modules } from "./platforms.generated";
+
+const http = createHttp({ modules }).router;
 
 http.route({
   path: "/ping",
   method: "GET",
-  handler: httpActionGeneric(async () => {
-    return new Response("OK");
-  }),
+  handler: httpAction(async () => new Response("OK")),
 });
 
 export default http;

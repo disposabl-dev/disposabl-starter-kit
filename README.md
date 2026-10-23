@@ -77,9 +77,26 @@ bun run validate:check  # Read-only checks
 bun run generate:platforms
 ```
 
-This runs `convex dev --once`, then
-`packages/disposabl-kit/server/generate-platforms.ts` from the backend workspace.
-It refreshes `convex/platforms.generated.ts` and `generated/openapi.json`.
+This checks candidate API and MCP schemas against the last generated contracts
+before replacing `convex/platforms.generated.ts` and `generated/openapi.json`.
+Breaking changes stop generation and leave both files unchanged. After the check
+passes, it runs `convex dev --once` to update the backend.
+
+On a breaking change, the command exits with code `2` and emits a JSON report
+with `code: "PLATFORM_BREAKING_CHANGE_APPROVAL_REQUIRED"`, the affected files,
+the changes, and the explicit override command. No generated files are replaced
+and no deployment runs. Automation can use this signal to request approval.
+
+Commit generated files so the next run has an accepted compatibility baseline.
+For an intentional versioned breaking change, run
+`bun run generate:platforms --accept-breaking` and review the reported changes.
+The override emits `PLATFORM_BREAKING_CHANGES_ACCEPTED` with the accepted changes.
+It records explicit developer intent; it does not authenticate an approver or
+automatically configure a harness's approval hooks. Agents must obtain approval
+for the specific reported changes before using the override. Checker failures
+cannot be overridden.
+The first run creates the baseline. Existing API-only specs gain an MCP baseline
+on their first successful regeneration.
 
 Expose internal functions with `platforms: ["api", "mcp"]`, argument validators,
 and a return validator. The kit's `server/http.ts` builds API routes, MCP tools,

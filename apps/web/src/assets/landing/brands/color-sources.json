@@ -1,0 +1,33 @@
+{
+  "bun": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/bun.svg",
+  "cloudflare": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/cloudflare-icon.svg",
+  "posthog": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/posthog-icon.svg",
+  "hono": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/hono.svg",
+  "opentelemetry": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/opentelemetry-icon.svg",
+  "react": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/react.svg",
+  "typescript": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/typescript-icon.svg",
+  "vite": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/vite-icon.svg",
+  "vite-dark": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/vite-icon-dark.svg",
+  "tailwindcss": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/tailwindcss-icon.svg",
+  "chrome": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/chrome.svg",
+  "android": "https://developer.android.com/static/images/brand/android-head_flat.svg",
+  "python": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/python.svg",
+  "convex": "https://www.convex.dev/resources/logos.zip",
+  "tanstack-mark": "https://tanstack.com/favicon-light.svg",
+  "resend": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/resend-icon.svg",
+  "resend-dark": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/resend-icon-dark.svg",
+  "autumn": "https://www.useautumn.com/images/navbar/autumnlogo.svg (symbol contour)",
+  "expo": "https://cdn.simpleicons.org/expo (symbol)",
+  "electron": "https://www.electronjs.org/assets/img/logo.svg",
+  "reactnative": "https://reactnative.dev/img/header_logo.svg",
+  "vercel": "https://vercel.com/geist/brands#logomark",
+  "windows": "https://www.microsoft.com/content/dam/microsoft/mscle/documents/legal/intellectualproperty/trademarks/Windows_Trademark_guidelines_2023.pdf",
+  "githubactions": "https://brand.github.com/GitHub_Logos.zip (Invertocat Black and White SVG originals)",
+  "claude": {
+    "palette": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md",
+    "color": "#D97757",
+    "logo": "../claude.svg"
+  },
+  "linux": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/linux-tux.svg",
+  "safari": "https://raw.githubusercontent.com/gilbarbara/logos/main/logos/safari.svg"
+}

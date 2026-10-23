@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { useAuth } from "@workos-inc/authkit-react";
 import { T, useGT } from "gt-react";
 import { useState } from "react";
@@ -8,21 +8,30 @@ import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { Logo } from "./logo";
 
-export const Header = ({ authEnabled = false }: { authEnabled?: boolean }) => {
+export const Header = ({
+  authEnabled = false,
+  fullWidth = false,
+}: {
+  authEnabled?: boolean;
+  fullWidth?: boolean;
+}) => {
   const gt = useGT();
+  const { lang } = useParams({ strict: false });
   return (
     <header className="sticky top-0 z-40 bg-background">
-      <div className="mx-auto flex min-h-24 w-full max-w-[1440px] flex-col justify-center gap-2 px-5 py-3 sm:h-14 sm:min-h-0 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-0 xl:px-10">
+      <div
+        className={`mx-auto flex min-h-24 w-full flex-col justify-center gap-2 px-5 py-3 sm:h-14 sm:min-h-0 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-0 xl:px-10 ${fullWidth ? "max-w-none" : "max-w-[1440px]"}`}
+      >
         <nav
           aria-label={gt("Main navigation")}
           className="flex items-center gap-4 sm:gap-6"
         >
-          <Link to="/{-$lang}" params={{}} className="font-semibold">
+          <Link to="/{-$lang}" params={{ lang }} className="font-semibold">
             <Logo />
           </Link>
           <Link
             to="/{-$lang}/docs/$"
-            params={{ _splat: "" }}
+            params={{ lang, _splat: "" }}
             className="text-sm hover:underline"
           >
             <T>Docs</T>
@@ -39,6 +48,7 @@ export const Header = ({ authEnabled = false }: { authEnabled?: boolean }) => {
 };
 
 function AuthButtons() {
+  const { lang } = useParams({ strict: false });
   const { user, isLoading, signOut } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -85,7 +95,7 @@ function AuthButtons() {
   return (
     <>
       <Button variant="ghost" asChild>
-        <Link to="/{-$lang}/dashboard" params={{}}>
+        <Link to="/{-$lang}/dashboard" params={{ lang }}>
           <T>Dashboard</T>
         </Link>
       </Button>

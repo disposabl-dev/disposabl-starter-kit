@@ -1,9 +1,18 @@
 ---
 title: File uploads
-description: Upload files to Cloudflare R2 with one operation.
+description: Upload files with Convex storage or Cloudflare R2.
 ---
 
-## Configure R2
+Files use Convex storage by default. No Cloudflare account or storage credentials
+are required. When all four R2 variables below contain values, new uploads use
+Cloudflare R2 instead. Partial R2 configuration falls back to Convex storage.
+
+Keep the returned file key in your app's records. Convex file keys map to storage
+IDs in the `files` table, which records organization ownership. Existing keys keep
+using their original provider when configuration changes. R2 files still require
+R2 credentials to download; files are not copied between providers.
+
+## Configure R2, optional
 
 Create a private R2 bucket and an R2 API token with Object Read & Write permission
 limited to that bucket. Set these variables on each Convex deployment:
@@ -16,8 +25,15 @@ bun run --cwd packages/backend convex env set R2_SECRET_ACCESS_KEY <secret-acces
 ```
 
 Keep credentials in Convex. Never put them in frontend environment variables.
-Missing R2 configuration only prevents file operations; other app functions can
-still deploy. The account API token value is not needed for these S3 operations.
+The account API token value is not needed for these S3 operations.
+
+For either storage provider, set `TINIFY_API_KEY` on the Convex deployment to
+enable image compression. PNG, JPEG, WebP, AVIF, and JPEG XL uploads keep their
+original format. Unsupported
+formats and other files pass through unchanged. If Tinify is not configured,
+uploads keep their original bytes. With a configured key, compression failures
+fail the upload operation so callers can retry. Larger compression results are
+discarded in favor of the original file.
 
 Add a bucket CORS policy for your frontend origins. Replace these example origins
 with your development and production URLs:
@@ -51,10 +67,11 @@ const key = await uploadFile(file, {
 });
 ```
 
-The shared hook uses the official `@convex-dev/r2/react` hook. It requests an
-authenticated upload URL, sends the file directly to R2 with `PUT`, then requests
-metadata synchronization. The returned key identifies the file; store that key
-in your app's records rather than storing a signed URL.
+The shared hook requests an authenticated upload URL and sends the file directly
+to the selected provider. Convex uploads use `POST`; R2 uploads use `PUT`. It then
+records ownership for Convex files or synchronizes R2 metadata and waits for image
+compression before returning the durable key. File bytes do not pass through
+Convex function arguments. The hook supports upload progress with either provider.
 
 Get a download URL when needed:
 
@@ -68,8 +85,8 @@ const url = await getUrl({ key });
 ```
 
 Import the generated Convex API through `@disposabl/backend/_generated/api`.
-Download URLs expire after 15 minutes. Call `getUrl` again when a fresh URL is
-needed; it is an action so Convex does not cache an expired URL.
+R2 download URLs expire after 15 minutes. Call `getUrl` when you need a URL for
+either provider; it is an action so Convex does not cache an expired R2 URL.
 
 ## API, CLI, and MCP
 
@@ -83,31 +100,32 @@ Call `uploadFile` once with the file's base64 contents:
 }
 ```
 
-It uploads to R2, waits for metadata synchronization, and returns `{ key, url }`.
-The URL is ready to download and expires after 15 minutes. Keep the durable key
-and use `getUrl` when a fresh URL is needed. Filename and content type are optional;
-the default content type is `application/octet-stream`.
+It compresses supported images, uploads to the selected provider, and returns
+`{ key, url }` after the file is ready to download. Keep the durable key and use
+`getUrl` when a URL is needed. R2 URLs expire after 15 minutes. Filename and
+content type are optional; the default content type is `application/octet-stream`.
 
 The public Convex action is `api.disposabl.uploadFile`. The platform entrypoint
 `disposabl:uploadFileInternal` is marked for API/MCP exposure; the upload URL and metadata helpers are frontend
 implementation details and are not exposed to these transports.
 
-The API/MCP transport must authenticate the caller and inject trusted `orgId`,
-`userId`, and `role`. The CLI and SDK packages are currently scaffolds, and the
-API/MCP transport adapters still need registration. Once wired to this operation,
-they require one upload invocation with no follow-up upload or sync calls.
+The API/MCP transport authenticates the caller and injects trusted `orgId`,
+`userId`, and `role`. Enable the required transport through
+`DISPOSABL_PLATFORMS`. These transports use one upload invocation with no
+follow-up upload or sync calls. The CLI and SDK packages are still placeholders.
+See [API, CLI, and MCP](/docs/interfaces) for transport setup.
 
 Base64 payloads count toward Convex's function argument limit. Larger files should
-use the frontend helper, which uploads directly to R2 without passing file bytes
-through a Convex action. See [Convex limits](https://docs.convex.dev/production/state/limits).
+use the frontend helper, which uploads directly to storage without passing file
+bytes through a Convex action. See [Convex limits](https://docs.convex.dev/production/state/limits).
 
 Files are shared within the authenticated organization, including its members.
 The server generates an organization prefix and a random UUID for each key and
-rejects access through another organization's functions. Signed upload and
-download URLs are bearer credentials: anyone holding one can use it until it
-expires. Upload URLs can be reused until expiry; they are not single-use grants.
+rejects access through another organization's functions. Upload and download URLs
+are bearer credentials: anyone holding one can use it while it remains valid. Upload URLs can be reused until expiry; they are not
+single-use grants.
 This initial flow has no application-specific size/type limits, multipart upload,
 or cleanup of abandoned uploads. Existing Convex `_storage` files are not migrated.
 
-See the [R2 component](https://github.com/get-convex/r2) and
+See [Convex file storage](https://docs.convex.dev/file-storage), the [R2 component](https://github.com/get-convex/r2) and
 [Cloudflare presigned URL documentation](https://developers.cloudflare.com/r2/api/s3/presigned-urls/).

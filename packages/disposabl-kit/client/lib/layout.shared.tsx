@@ -1,4 +1,5 @@
 import { uiTranslations } from "fumadocs-ui/i18n";
+import { openapiTranslations } from "fumadocs-openapi/i18n";
 import { useGT, useLocale } from "gt-tanstack-start";
 import { i18n } from "./i18n";
 
@@ -20,6 +21,7 @@ export function useFumadocsTranslations() {
   return i18n
     .translations()
     .extend(uiTranslations())
+    .extend(openapiTranslations())
     .add({
       ...languageNames,
       [locale]: {

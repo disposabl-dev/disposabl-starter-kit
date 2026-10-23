@@ -3,7 +3,7 @@
 @source "./";
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -69,4 +69,77 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* Square corners apply to every control, including vendor components. */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-radius: 0 !important;
+  }
+}
+
+@font-face {
+  font-family: "Disposabl Landing Sans";
+  src: url("./assets/landing/general-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Disposabl Landing Sans";
+  src: url("./assets/landing/general-sans-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Disposabl Landing Sans";
+  src: url("./assets/landing/general-sans-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-landing: "Disposabl Landing Sans", sans-serif;
+}
+
+@keyframes technology-flow {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes disposabl-draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes disposabl-idea-in {
+  from {
+    opacity: 0.2;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes disposabl-platform-in {
+  from {
+    opacity: 0.2;
+    transform: translateX(-7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes disposabl-blink {
+  50% {
+    opacity: 0;
+  }
 }

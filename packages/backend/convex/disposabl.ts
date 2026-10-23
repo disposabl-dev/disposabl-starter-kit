@@ -1,1 +1,1 @@
-export * from "@disposabl/disposabl-kit/server/convex";
+export * from "@disposabl/disposabl-kit/server";

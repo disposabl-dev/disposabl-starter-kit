@@ -1,0 +1,17 @@
+{
+  "cloudflare": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/cloudflare.svg",
+  "posthog": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/posthog.svg",
+  "react": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/react.svg",
+  "vite": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",
+  "bun": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/bun.svg",
+  "tailwindcss": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/tailwindcss.svg",
+  "shadcnui": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/shadcnui.svg",
+  "githubactions": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/githubactions.svg",
+  "linux": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/linux.svg",
+  "convex-kit": "https://www.convex.dev/resources/logos.zip",
+  "gt-light": "https://generaltranslation.com/brand/no-bg-gt-logo-light-96.png",
+  "gt-dark": "https://generaltranslation.com/brand/no-bg-gt-logo-dark-96.png",
+  "tanstack": "https://tanstack.com/images/brand/tanstack-landscape-black.svg",
+  "workos": "https://workos.com/ (official navigation logomark)",
+  "fumadocs": "https://www.fumadocs.dev/ (official navigation symbol)"
+}

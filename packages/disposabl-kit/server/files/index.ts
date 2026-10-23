@@ -3,6 +3,7 @@ import { internal } from "@disposabl/backend/_generated/api";
 import { action, env, mutation } from "@disposabl/backend/_generated/server";
 import { requireUser } from "@disposabl/disposabl-kit/server/auth";
 import {
+  completeUploadArgs,
   fileKeyArgs,
   uploadedFileResult,
   uploadFileArgs,
@@ -36,6 +37,18 @@ export const syncMetadata = mutation({
   handler: async (ctx, args): Promise<null> => {
     const user = await requireUser(ctx, env.WORKOS_CLIENT_ID);
     return ctx.runMutation(internal.disposabl.syncMetadataInternal, {
+      ...args,
+      ...user,
+    });
+  },
+});
+
+export const completeUpload = action({
+  args: completeUploadArgs,
+  returns: v.null(),
+  handler: async (ctx, args): Promise<null> => {
+    const user = await requireUser(ctx, env.WORKOS_CLIENT_ID);
+    return ctx.runAction(internal.disposabl.completeUploadInternal, {
       ...args,
       ...user,
     });
